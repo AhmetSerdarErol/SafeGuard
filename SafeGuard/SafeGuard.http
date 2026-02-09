@@ -1,0 +1,6 @@
+@SafeGuard_HostAddress = http://localhost:5161
+
+GET {{SafeGuard_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
