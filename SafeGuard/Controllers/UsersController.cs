@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore; // ToListAsync için gerekli
 using SafeGuard.Data;
 using SafeGuard.Models;
 
@@ -10,23 +11,27 @@ namespace SafeGuard.Controllers
     {
         private readonly AppDbContext _context;
 
-        // "Alet Kutusu"ndan veritabanı bağlantısını istiyoruz (Dependency Injection)
+        // Veritabanı bağlantısını buraya çağırıyoruz (Constructor Injection)
         public UsersController(AppDbContext context)
         {
             _context = context;
         }
 
-        // POST: api/users/register
-        [HttpPost("register")]
-        public IActionResult Register(User user)
+        // GET: api/users (Tüm kullanıcıları getir)
+        [HttpGet]
+        public async Task<ActionResult<IEnumerable<User>>> GetUsers()
         {
-            // 1. Yeni kullanıcıyı veritabanı hafızasına ekle
+            return await _context.Users.ToListAsync();
+        }
+
+        // POST: api/users (Yeni kullanıcı ekle)
+        [HttpPost]
+        public async Task<ActionResult<User>> PostUser(User user)
+        {
             _context.Users.Add(user);
+            await _context.SaveChangesAsync();
 
-            // 2. "Kaydet" butonuna bas (Kalıcı hale getir)
-            _context.SaveChanges();
-
-            return Ok(new { message = "Kayıt Başarılı!", userId = user.Id });
+            return CreatedAtAction(nameof(GetUsers), new { id = user.Id }, user);
         }
     }
 }

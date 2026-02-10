@@ -3,25 +3,22 @@ using SafeGuard.Data;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// --- SERVÝSLER ---
-builder.Services.AddControllers();
+// 1. Veritabaný Baðlantýsýný Yapýlandýr
+builder.Services.AddDbContext<AppDbContext>(options =>
+    options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 
-// Swagger (Mavi Ekran) Servisleri
+// 2. Controller ve Swagger Servislerini Ekle
+builder.Services.AddControllers(); // Sadece bir kere yazýlmalý!
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
-// Veritabaný Baðlantýsý
-builder.Services.AddDbContext<AppDbContext>(options =>
-    options.UseSqlite(builder.Configuration.GetConnectionString("DefaultConnection")));
-
 var app = builder.Build();
 
-// --- AYARLAR ---
-// Geliþtirme modundaysak Swagger'ý aç
+// 3. HTTP Ýstek Hattý (Pipeline) Ayarlarý
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
-    app.UseSwaggerUI(); // Arayüzü aktif et
+    app.UseSwaggerUI();
 }
 
 app.UseHttpsRedirection();

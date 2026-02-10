@@ -1,5 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using SafeGuard.Models;
+using SafeGuard.Models; 
 
 namespace SafeGuard.Data
 {

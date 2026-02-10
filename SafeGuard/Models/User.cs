@@ -2,10 +2,11 @@
 {
     public class User
     {
-        public Guid Id { get; set; } // Benzersiz kimlik
-        public string FullName { get; set; } = string.Empty;
-        public string PhoneNumber { get; set; } = string.Empty;
-        public string? BloodType { get; set; } // Boş bırakılabilir
-        public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
+        public int Id { get; set; } // Birincil Anahtar (Primary Key)
+        public string Username { get; set; } = string.Empty;
+        public string Password { get; set; } = string.Empty;
+        public string Email { get; set; } = string.Empty;
+        public string Role { get; set; } = "User"; // Admin veya User olabilir
+        public DateTime CreatedAt { get; set; } = DateTime.Now;
     }
 }
