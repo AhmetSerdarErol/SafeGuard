@@ -1,3 +1,6 @@
 <Solution>
+  <Project Path="SafeGuard.Mobile/SafeGuard.Mobile.csproj" Id="31ca8f88-e7bd-4cab-a0f3-c73fa6aa6038">
+    <Deploy Solution="Debug|*" />
+  </Project>
   <Project Path="SafeGuard/SafeGuard.csproj" />
 </Solution>
