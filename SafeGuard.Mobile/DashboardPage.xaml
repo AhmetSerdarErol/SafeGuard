@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="SafeGuard.Mobile.DashboardPage"
+             BackgroundColor="#121212"
+             Title="Ana Sayfa"
+             Shell.NavBarIsVisible="False">
+
+    <Grid RowDefinitions="Auto, *, Auto">
+
+        <Border Grid.Row="0" Margin="20,40,20,0" BackgroundColor="#1E1E1E" StrokeShape="RoundRectangle 15" StrokeThickness="0" Padding="15">
+            <Grid ColumnDefinitions="Auto, *, Auto">
+
+                <Border Grid.Column="0" BackgroundColor="#00FF00" CornerRadius="50" HeightRequest="15" WidthRequest="15" VerticalOptions="Center" Margin="0,0,10,0"/>
+
+                <VerticalStackLayout Grid.Column="1" VerticalOptions="Center">
+                    <Label x:Name="WelcomeLabel" 
+                           Text="Hoş Geldiniz" 
+                           TextColor="#512BD4" 
+                           FontAttributes="Bold" 
+                           FontSize="18"/>
+                    <Label Text="SİSTEM AKTİF" TextColor="White" FontAttributes="Bold" FontSize="14"/>
+                    <Label Text="Konumunuz izleniyor..." TextColor="Gray" FontSize="11"/>
+                </VerticalStackLayout>
+
+                <Button Grid.Column="2"
+                        Text="ÇIKIŞ"
+                        TextColor="#FF3333"
+                        BackgroundColor="Transparent"
+                        FontSize="12"
+                        FontAttributes="Bold"
+                        VerticalOptions="Center"
+                        Clicked="OnLogoutClicked"/>
+            </Grid>
+        </Border>
+
+        <VerticalStackLayout Grid.Row="1" VerticalOptions="Center" Spacing="20">
+
+            <Grid HorizontalOptions="Center" VerticalOptions="Center" WidthRequest="250" HeightRequest="250">
+                <Border x:Name="PulsingRing"
+                        Stroke="#FF0000"
+                        StrokeThickness="2"
+                        BackgroundColor="Transparent"
+                        HeightRequest="180"
+                        WidthRequest="180"
+                        StrokeShape="RoundRectangle 90"
+                        HorizontalOptions="Center"
+                        VerticalOptions="Center"
+                        Opacity="1"
+                        Scale="1"/>
+
+                <Border x:Name="SosBtnBorder"
+                        StrokeThickness="0"
+                        BackgroundColor="#D32F2F"
+                        HeightRequest="180"
+                        WidthRequest="180"
+                        StrokeShape="RoundRectangle 90"
+                        HorizontalOptions="Center"
+                        VerticalOptions="Center">
+
+                    <Border.GestureRecognizers>
+                        <TapGestureRecognizer Tapped="OnSosTapped"/>
+                    </Border.GestureRecognizers>
+
+                    <Label x:Name="SosLabel" 
+                           Text="SOS"
+                           TextColor="White"
+                           FontSize="40"
+                           FontAttributes="Bold"
+                           HorizontalOptions="Center"
+                           VerticalOptions="Center"
+                           InputTransparent="True"/>
+                </Border>
+            </Grid>
+
+            <ProgressBar x:Name="SosProgress"
+                         ProgressColor="#FF0000"
+                         Progress="0"
+                         WidthRequest="200"
+                         HeightRequest="10"/>
+
+            <Label x:Name="StatusLabel"
+                   Text="YARDIM İÇİN 3 SN BASILI TUT"
+                   TextColor="#D32F2F"
+                   FontSize="14"
+                   FontAttributes="Bold"
+                   HorizontalOptions="Center"
+                   CharacterSpacing="2"
+                   HorizontalTextAlignment="Center"/>
+        </VerticalStackLayout>
+
+        <Grid Grid.Row="2" ColumnDefinitions="*,*,*,*" Padding="10,15" BackgroundColor="#1E1E1E">
+            <Button Text="🏠" BackgroundColor="Transparent" TextColor="#512BD4" FontSize="24"/>
+            <Button Text="🗺️" BackgroundColor="Transparent" TextColor="Gray" FontSize="24"/>
+            <Button Text="👥" BackgroundColor="Transparent" TextColor="Gray" FontSize="24"/>
+            <Button Text="⚙️" BackgroundColor="Transparent" TextColor="Gray" FontSize="24"/>
+        </Grid>
+
+    </Grid>
+</ContentPage>

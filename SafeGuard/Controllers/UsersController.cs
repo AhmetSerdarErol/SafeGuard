@@ -73,23 +73,33 @@ namespace SafeGuard.Controllers
 
         private string CreateToken(User user)
         {
+            // Kimlik kartının (Token) içine yazılacak bilgiler (Claims)
             List<Claim> claims = new List<Claim>
-            {
-                new Claim(ClaimTypes.NameIdentifier, user.Id.ToString()),
-                new Claim(ClaimTypes.Name, user.Username),
-                new Claim(ClaimTypes.Role, user.Role)
-            };
+    {
+        // Dashboard'da isminin görünmesini sağlayan asıl satırlar bunlar:
+        new Claim(ClaimTypes.Name, user.Username),
+        new Claim("unique_name", user.Username), 
+        
+        // Diğer gerekli teknik bilgiler:
+        new Claim(ClaimTypes.NameIdentifier, user.Id.ToString()),
+        new Claim(System.IdentityModel.Tokens.Jwt.JwtRegisteredClaimNames.Email, user.Email),
+        new Claim(ClaimTypes.Role, user.Role ?? "User") // Role boşsa hata vermemesi için "User" atadık
+    };
 
+            // Şifreleme anahtarını JwtSettings içinden alıyoruz
             var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration.GetSection("JwtSettings:SecretKey").Value!));
 
+            // İmzayı oluşturuyoruz (HmacSha512 en güvenli yöntemlerden biridir)
             var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha512Signature);
 
+            // Kartı (Token) basıyoruz
             var token = new JwtSecurityToken(
                 claims: claims,
-                expires: DateTime.Now.AddDays(1),
+                expires: DateTime.Now.AddDays(1), // 1 gün boyunca geçerli olacak
                 signingCredentials: creds
             );
 
+            // Hazırlanan token'ı uzun bir string metin olarak geri döndürüyoruz
             return new JwtSecurityTokenHandler().WriteToken(token);
         }
     }

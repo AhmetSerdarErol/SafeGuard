@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="SafeGuard.Mobile.RegisterPage"
+             BackgroundColor="#121212"
+             Title="Kayıt Ol">
+
+    <ScrollView>
+        <VerticalStackLayout Spacing="20" Padding="30" VerticalOptions="Center">
+
+            <Border StrokeShape="RoundRectangle 90"
+        StrokeThickness="0"
+        HeightRequest="180"
+        WidthRequest="180"
+        HorizontalOptions="Center"
+        Margin="0,0,0,30">
+
+                <Image Source="app_logo.jpg"
+           Aspect="AspectFill"
+           HeightRequest="180"
+           WidthRequest="180"
+           HorizontalOptions="Center"
+           VerticalOptions="Center"/>
+            </Border>
+
+            <Label Text="Hesap Oluştur"
+                   FontSize="28"
+                   FontAttributes="Bold"
+                   TextColor="White"
+                   HorizontalOptions="Center" />
+
+            <Label Text="SafeGuard'a katılmak için bilgilerinizi girin."
+                   FontSize="14"
+                   TextColor="Gray"
+                   HorizontalOptions="Center"
+                   Margin="0,0,0,20"/>
+
+            <Border Stroke="#512BD4" StrokeThickness="1" StrokeShape="RoundRectangle 10" BackgroundColor="#1E1E1E" Padding="10,0">
+                <Entry x:Name="UsernameEntry"
+                       Placeholder="Kullanıcı Adı"
+                       PlaceholderColor="Gray"
+                       TextColor="White"/>
+            </Border>
+
+            <Border Stroke="#512BD4" StrokeThickness="1" StrokeShape="RoundRectangle 10" BackgroundColor="#1E1E1E" Padding="10,0">
+                <Entry x:Name="EmailEntry"
+                       Placeholder="E-posta Adresi"
+                       PlaceholderColor="Gray"
+                       TextColor="White"
+                       Keyboard="Email"/>
+            </Border>
+
+            <Border Stroke="#512BD4" StrokeThickness="1" StrokeShape="RoundRectangle 10" BackgroundColor="#1E1E1E" Padding="10,0">
+                <Entry x:Name="PasswordEntry"
+                       Placeholder="Şifre"
+                       PlaceholderColor="Gray"
+                       TextColor="White"
+                       IsPassword="True"/>
+            </Border>
+
+            <Button Text="KAYIT OL"
+                    Clicked="OnRegisterClicked"
+                    BackgroundColor="#512BD4"
+                    TextColor="White"
+                    FontAttributes="Bold"
+                    CornerRadius="10"
+                    HeightRequest="50"
+                    Margin="0,10,0,0"/>
+
+            <Label Text="Zaten hesabın var mı? Giriş Yap"
+                   TextColor="#512BD4"
+                   HorizontalOptions="Center"
+                   TextDecorations="Underline">
+                <Label.GestureRecognizers>
+                    <TapGestureRecognizer Tapped="OnLoginTapped"/>
+                </Label.GestureRecognizers>
+            </Label>
+
+            <ActivityIndicator x:Name="LoadingSpinner"
+                               IsRunning="False"
+                               IsVisible="False"
+                               Color="#512BD4"/>
+
+        </VerticalStackLayout>
+    </ScrollView>
+</ContentPage>
