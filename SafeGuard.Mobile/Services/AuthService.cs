@@ -1,92 +1,85 @@
 ﻿using System.Text;
 using System.Text.Json;
-using SafeGuard.Mobile.Models;
+using SafeGuard.Mobile.Models; // Model klasörünü gördüğünden emin ol
 
 namespace SafeGuard.Mobile.Services
 {
     public class AuthService
     {
         private readonly HttpClient _httpClient;
-
-        // Backend adresi (Tek yerden yönetelim)
-        // NOT: Android Emülatör için 10.0.2.2 kullanılır. Gerçek cihazda bilgisayarın IP'si gerekir.
-        private const string BaseUrl = "http://10.0.2.2:5161/api/Users";
+        // Emülatör: 10.0.2.2
+        private const string BaseUrl = "http://10.0.2.2:5161/api";
 
         public AuthService()
         {
-            _httpClient = new HttpClient();
-            _httpClient.Timeout = TimeSpan.FromSeconds(10);
+            var handler = new HttpClientHandler();
+            handler.ServerCertificateCustomValidationCallback = (message, cert, chain, errors) => true;
+            _httpClient = new HttpClient(handler);
         }
 
-        // --- GİRİŞ YAP (LOGIN) ---
-        public async Task<(bool IsSuccess, string ErrorMessage)> LoginAsync(string email, string password)
+        // Metodun dönüş tipini ve içini değiştiriyoruz
+        // Dönüş tipi: (bool, int, string, string) oldu. 3. sıradaki "string" İsim için.
+        public async Task<(bool IsSuccess, int UserId, string FullName, string ErrorMessage)> LoginAsync(string email, string password)
         {
             try
             {
-                var loginData = new LoginRequest { Email = email, Password = password };
+                var loginData = new { Email = email, Password = password };
                 var json = JsonSerializer.Serialize(loginData);
                 var content = new StringContent(json, Encoding.UTF8, "application/json");
 
-                // URL'i dinamik yaptık: BaseUrl + "/login"
-                var response = await _httpClient.PostAsync($"{BaseUrl}/login", content);
+                var response = await _httpClient.PostAsync($"{BaseUrl}/Users/login", content);
 
                 if (response.IsSuccessStatusCode)
                 {
-                    var token = await response.Content.ReadAsStringAsync();
+                    var responseData = await response.Content.ReadAsStringAsync();
+                    // Backend'den gelen User nesnesini açıyoruz
+                    var user = JsonSerializer.Deserialize<SafeGuard.Mobile.Models.User>(responseData, new JsonSerializerOptions { PropertyNameCaseInsensitive = true });
 
-                    // Token ve E-posta'yı güvenli hafızaya atıyoruz
-                    await SecureStorage.Default.SetAsync("auth_token", token);
-                    await SecureStorage.Default.SetAsync("user_email", email);
+                    // BURASI ÖNEMLİ: user.FullName'i paketleyip geri yolluyoruz
+                    return (true, user?.Id ?? 0, user?.FullName ?? "İsimsiz", null);
+                }
 
-                    return (true, null);
-                }
-                else
-                {
-                    var errorContent = await response.Content.ReadAsStringAsync();
-                    return (false, $"Giriş Başarısız: {errorContent}");
-                }
+                var error = await response.Content.ReadAsStringAsync();
+                return (false, 0, null, error);
             }
             catch (Exception ex)
             {
-                return (false, $"Bağlantı Hatası: {ex.Message}");
+                return (false, 0, null, ex.Message);
             }
         }
 
-        // --- KAYIT OL (REGISTER) - YENİ EKLENDİ ---
-        public async Task<(bool IsSuccess, string ErrorMessage)> RegisterAsync(string username, string email, string password)
+        public async Task<(bool IsSuccess, string ErrorMessage)> RegisterAsync(
+            string username, string fullName, string email, string password,
+            string phone, string blood, string diseases, string allergies, bool smoker, bool alcohol)
         {
             try
             {
-                // Backend'in beklediği veri formatı (UserRegisterDto)
                 var registerData = new
                 {
+                    FullName = fullName,
                     Username = username,
                     Email = email,
-                    Password = password
+                    Password = password,
+                    PhoneNumber = phone,
+                    BloodType = blood,
+                    ChronicDiseases = diseases,
+                    Allergies = allergies,
+                    Smoker = smoker,
+                    AlcoholConsumption = alcohol
                 };
 
-                var json = JsonSerializer.Serialize(registerData);
-                var content = new StringContent(json, Encoding.UTF8, "application/json");
+                var content = new StringContent(JsonSerializer.Serialize(registerData), Encoding.UTF8, "application/json");
+                var response = await _httpClient.PostAsync($"{BaseUrl}/Users/register", content);
 
-                // İstek Adresi: http://10.0.2.2:5161/api/Users/register
-                var response = await _httpClient.PostAsync($"{BaseUrl}/register", content);
+                return (response.IsSuccessStatusCode, response.IsSuccessStatusCode ? null : await response.Content.ReadAsStringAsync());
+            }
+            catch (Exception ex) { return (false, ex.Message); }
+        }
 
-                if (response.IsSuccessStatusCode)
-                {
-                    // Kayıt başarılıysa true dön
-                    return (true, null);
-                }
-                else
-                {
-                    // Backend'den gelen hatayı (örn: "Bu e-posta zaten kayıtlı") oku
-                    var errorContent = await response.Content.ReadAsStringAsync();
-                    return (false, $"Kayıt Başarısız: {errorContent}");
-                }
-            }
-            catch (Exception ex)
-            {
-                return (false, $"Bağlantı Hatası: {ex.Message}");
-            }
+        public async Task<bool> SendSosAlertAsync(double latitude, double longitude)
+        {
+            await Task.Delay(500);
+            return true;
         }
     }
 }

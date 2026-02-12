@@ -1,7 +1,8 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using SafeGuard.Models; 
+using SafeGuard.API.Models;
+using SafeGuard.Models; // <-- DİKKAT: SafeGuard.Models kullanıyoruz
 
-namespace SafeGuard.Data
+namespace SafeGuard.Data // <-- DİKKAT: Sadece SafeGuard.Data
 {
     public class AppDbContext : DbContext
     {
@@ -10,5 +11,6 @@ namespace SafeGuard.Data
         }
 
         public DbSet<User> Users { get; set; }
+        public DbSet<Contact> Contacts { get; set; }
     }
 }

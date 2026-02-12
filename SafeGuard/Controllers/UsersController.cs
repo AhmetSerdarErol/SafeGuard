@@ -1,13 +1,8 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.IdentityModel.Tokens;
-using Microsoft.AspNetCore.Authorization; // YENİ: Güvenlik kütüphanesi
 using SafeGuard.Data;
-using SafeGuard.Models;
 using SafeGuard.Dtos;
-using System.IdentityModel.Tokens.Jwt;
-using System.Security.Claims;
-using System.Text;
+using SafeGuard.Models;
 
 namespace SafeGuard.Controllers
 {
@@ -16,91 +11,54 @@ namespace SafeGuard.Controllers
     public class UsersController : ControllerBase
     {
         private readonly AppDbContext _context;
-        private readonly IConfiguration _configuration;
 
-        public UsersController(AppDbContext context, IConfiguration configuration)
+        public UsersController(AppDbContext context)
         {
             _context = context;
-            _configuration = configuration;
         }
 
-        // POST: api/users/register (Kayıt Ol)
+        // --- KAYIT OL ---
         [HttpPost("register")]
-        public async Task<ActionResult<User>> Register(UserRegisterDto request)
+        public async Task<ActionResult<User>> Register(UserDto request)
         {
-            var newUser = new User
+            if (_context.Users.Any(u => u.Email == request.Email))
+                return BadRequest("Bu e-posta adresi zaten kullanılıyor.");
+
+            string passwordHash = BCrypt.Net.BCrypt.HashPassword(request.Password);
+
+            var user = new User
             {
+                FullName = request.FullName,
                 Username = request.Username,
                 Email = request.Email,
-                Password = request.Password,
-                Role = "User"
+                PasswordHash = passwordHash,
+                Role = "User",
+                PhoneNumber = request.PhoneNumber ?? "",
+                BloodType = request.BloodType ?? "",
+                ChronicDiseases = request.ChronicDiseases ?? "",
+                Allergies = request.Allergies ?? "",
+                Smoker = request.Smoker,
+                AlcoholConsumption = request.AlcoholConsumption
             };
 
-            _context.Users.Add(newUser);
+            _context.Users.Add(user);
             await _context.SaveChangesAsync();
-
-            return Ok("Kullanıcı başarıyla oluşturuldu.");
-        }
-
-        // POST: api/users/login (Giriş Yap -> Token Al)
-        [HttpPost("login")]
-        public async Task<ActionResult<string>> Login(UserLoginDto request)
-        {
-            var user = await _context.Users.FirstOrDefaultAsync(u => u.Email == request.Email);
-
-            if (user == null || user.Password != request.Password)
-            {
-                return BadRequest("E-posta veya şifre hatalı.");
-            }
-
-            string token = CreateToken(user);
-            return Ok(token);
-        }
-
-        // GET: api/users/profile (SADECE GİRİŞ YAPAN GÖREBİLİR)
-        [HttpGet("profile")]
-        [Authorize] // <-- DİKKAT: Bu satır "Sadece Token'ı olan girsin" demek!
-        public async Task<ActionResult<User>> GetProfile()
-        {
-            // Token içindeki ID bilgisini oku
-            var userId = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier)?.Value!);
-
-            // Veritabanından o kişiyi bul
-            var user = await _context.Users.FindAsync(userId);
-
             return Ok(user);
         }
 
-        private string CreateToken(User user)
+        // --- GİRİŞ YAP (DÜZELTİLDİ) ---
+        [HttpPost("login")]
+        public async Task<ActionResult<User>> Login(UserLoginDto request)
         {
-            // Kimlik kartının (Token) içine yazılacak bilgiler (Claims)
-            List<Claim> claims = new List<Claim>
-    {
-        // Dashboard'da isminin görünmesini sağlayan asıl satırlar bunlar:
-        new Claim(ClaimTypes.Name, user.Username),
-        new Claim("unique_name", user.Username), 
-        
-        // Diğer gerekli teknik bilgiler:
-        new Claim(ClaimTypes.NameIdentifier, user.Id.ToString()),
-        new Claim(System.IdentityModel.Tokens.Jwt.JwtRegisteredClaimNames.Email, user.Email),
-        new Claim(ClaimTypes.Role, user.Role ?? "User") // Role boşsa hata vermemesi için "User" atadık
-    };
+            var user = await _context.Users.FirstOrDefaultAsync(u => u.Email == request.Email);
 
-            // Şifreleme anahtarını JwtSettings içinden alıyoruz
-            var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration.GetSection("JwtSettings:SecretKey").Value!));
+            if (user == null) return BadRequest("Kullanıcı bulunamadı.");
 
-            // İmzayı oluşturuyoruz (HmacSha512 en güvenli yöntemlerden biridir)
-            var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha512Signature);
+            if (!BCrypt.Net.BCrypt.Verify(request.Password, user.PasswordHash))
+                return BadRequest("Yanlış şifre.");
 
-            // Kartı (Token) basıyoruz
-            var token = new JwtSecurityToken(
-                claims: claims,
-                expires: DateTime.Now.AddDays(1), // 1 gün boyunca geçerli olacak
-                signingCredentials: creds
-            );
-
-            // Hazırlanan token'ı uzun bir string metin olarak geri döndürüyoruz
-            return new JwtSecurityTokenHandler().WriteToken(token);
+            // DÜZELTME: Sadece "Ok(user)" diyoruz. İsmi ve ID'yi böyle alacağız.
+            return Ok(user);
         }
     }
 }

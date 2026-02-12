@@ -16,41 +16,39 @@ namespace SafeGuard.Mobile
         {
             if (string.IsNullOrEmpty(EmailEntry.Text) || string.IsNullOrEmpty(PasswordEntry.Text))
             {
-                await DisplayAlert("Hata", "Lütfen e-posta ve şifrenizi girin.", "Tamam");
+                await DisplayAlert("Hata", "Lütfen bilgilerinizi girin.", "Tamam");
                 return;
             }
 
-            // Yükleniyor...
             LoadingSpinner.IsRunning = true;
             LoginBtn.IsEnabled = false;
-            LoginBtn.Text = "Bağlanılıyor...";
 
-            // --- YENİ KISIM: Hem sonucu hem hatayı alıyoruz ---
-            var sonuc = await _authService.LoginAsync(EmailEntry.Text, PasswordEntry.Text);
+            // Servise bağlanıyoruz
+            // NOT: AuthService'in (bool, int, string, string) döndürdüğünden emin ol!
+            var result = await _authService.LoginAsync(EmailEntry.Text, PasswordEntry.Text);
 
-            // İşlem bitti
             LoadingSpinner.IsRunning = false;
             LoginBtn.IsEnabled = true;
-            LoginBtn.Text = "GİRİŞ YAP";
 
-            if (sonuc.IsSuccess)
+            if (result.IsSuccess)
             {
-                // Başarılıysa geç
+                // --- İŞTE ÇÖZÜM BURASI ---
+                // Backend'den gelen İsmi ve ID'yi telefona kaydediyoruz.
+                Preferences.Set("UserFullName", result.FullName);
+                Preferences.Set("CurrentUserId", result.UserId);
+                // -------------------------
+
                 await Navigation.PushModalAsync(new DashboardPage());
             }
             else
             {
-                // BAŞARISIZSA HATAYI GÖSTER!
-                // Buradaki mesaj bize sorunun ne olduğunu tam olarak söyleyecek.
-                await DisplayAlert("Giriş Yapılamadı", sonuc.ErrorMessage, "Tamam");
+                await DisplayAlert("Giriş Yapılamadı", result.ErrorMessage, "Tamam");
             }
         }
-        // MainPage.xaml.cs içine ekle:
+
         private async void OnRegisterTapped(object sender, EventArgs e)
         {
-            // Kayıt sayfasına git
             await Navigation.PushAsync(new RegisterPage());
         }
-
     }
 }

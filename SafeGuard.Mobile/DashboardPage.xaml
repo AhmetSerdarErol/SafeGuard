@@ -11,7 +11,7 @@
         <Border Grid.Row="0" Margin="20,40,20,0" BackgroundColor="#1E1E1E" StrokeShape="RoundRectangle 15" StrokeThickness="0" Padding="15">
             <Grid ColumnDefinitions="Auto, *, Auto">
 
-                <Border Grid.Column="0" BackgroundColor="#00FF00" CornerRadius="50" HeightRequest="15" WidthRequest="15" VerticalOptions="Center" Margin="0,0,10,0"/>
+                <Border BackgroundColor="#00FF00" StrokeShape="RoundRectangle 15" HeightRequest="15" WidthRequest="15" HorizontalOptions="Center" VerticalOptions="Center"/>
 
                 <VerticalStackLayout Grid.Column="1" VerticalOptions="Center">
                     <Label x:Name="WelcomeLabel" 
@@ -87,6 +87,29 @@
                    HorizontalOptions="Center"
                    CharacterSpacing="2"
                    HorizontalTextAlignment="Center"/>
+            <Label Text="GÜVENİLİR KİŞİLER" 
+                   TextColor="Gray" 
+                   FontSize="12" 
+                   FontAttributes="Bold" 
+                   Margin="25,20,0,5"/>
+
+            <ScrollView Orientation="Horizontal" HorizontalScrollBarVisibility="Never" Margin="20,0">
+            <HorizontalStackLayout x:Name="ContactsList" Spacing="15">
+
+            <VerticalStackLayout Spacing="5">
+            <Frame HeightRequest="65" WidthRequest="65" CornerRadius="32" 
+                   BackgroundColor="#2D2D2D" Padding="0" HasShadow="False">
+            <Frame.GestureRecognizers>
+            <TapGestureRecognizer Tapped="OnAddContactTapped"/>
+            </Frame.GestureRecognizers>
+            <Label Text="+" TextColor="#512BD4" FontSize="35" 
+                   HorizontalOptions="Center" VerticalOptions="Center"/>
+            </Frame>
+            <Label Text="Ekle" TextColor="White" FontSize="11" HorizontalOptions="Center"/>
+            </VerticalStackLayout>
+
+            </HorizontalStackLayout>
+            </ScrollView>
         </VerticalStackLayout>
 
         <Grid Grid.Row="2" ColumnDefinitions="*,*,*,*" Padding="10,15" BackgroundColor="#1E1E1E">

@@ -3,6 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using SafeGuard.Data;
+using SafeGuard.Hubs;
 using System.Text;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -31,6 +32,7 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
 
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
+builder.Services.AddSignalR();
 
 // 3. SWAGGER AYARLARI (YENÝLENDÝ: Artýk Bearer yazmana gerek yok!)
 builder.Services.AddSwaggerGen(c =>
@@ -78,5 +80,6 @@ app.UseAuthentication(); // Kimlik Kontrolü (Sýrasý önemli!)
 app.UseAuthorization();  // Yetki Kontrolü
 
 app.MapControllers();
+app.MapHub<SosHub>("/sosHub");
 
 app.Run();
