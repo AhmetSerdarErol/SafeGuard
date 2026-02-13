@@ -48,32 +48,42 @@ namespace SafeGuard.Mobile.Services
             }
         }
 
-        public async Task<(bool IsSuccess, string ErrorMessage)> RegisterAsync(
-            string username, string fullName, string email, string password,
-            string phone, string blood, string diseases, string allergies, bool smoker, bool alcohol)
+        // RegisterAsync metodunun YENİ ve EKSİKSİZ hali
+        public async Task<(bool IsSuccess, string ErrorMessage)> RegisterAsync(User user)
         {
             try
             {
+                // Backend'in beklediği tüm alanları User nesnesinden dolduruyoruz
                 var registerData = new
                 {
-                    FullName = fullName,
-                    Username = username,
-                    Email = email,
-                    Password = password,
-                    PhoneNumber = phone,
-                    BloodType = blood,
-                    ChronicDiseases = diseases,
-                    Allergies = allergies,
-                    Smoker = smoker,
-                    AlcoholConsumption = alcohol
+                    FullName = user.FullName,
+                    Username = user.Email, // Username yerine Email gönderiyoruz (Backend uyumu için)
+                    Email = user.Email,
+                    Password = user.Password,
+                    PhoneNumber = user.PhoneNumber,
+                    // Arayüzden kaldırdığımız alanlara varsayılan değerler atıyoruz
+                    BloodType = "Bilinmiyor",
+                    ChronicDiseases = "Yok",
+                    Allergies = "Yok",
+                    Smoker = false,
+                    AlcoholConsumption = false
                 };
 
-                var content = new StringContent(JsonSerializer.Serialize(registerData), Encoding.UTF8, "application/json");
+                var json = JsonSerializer.Serialize(registerData);
+                var content = new StringContent(json, Encoding.UTF8, "application/json");
+
                 var response = await _httpClient.PostAsync($"{BaseUrl}/Users/register", content);
 
-                return (response.IsSuccessStatusCode, response.IsSuccessStatusCode ? null : await response.Content.ReadAsStringAsync());
+                if (response.IsSuccessStatusCode)
+                    return (true, null);
+
+                var error = await response.Content.ReadAsStringAsync();
+                return (false, error);
             }
-            catch (Exception ex) { return (false, ex.Message); }
+            catch (Exception ex)
+            {
+                return (false, $"Bağlantı hatası: {ex.Message}");
+            }
         }
 
         public async Task<bool> SendSosAlertAsync(double latitude, double longitude)

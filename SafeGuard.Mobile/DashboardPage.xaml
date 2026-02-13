@@ -31,6 +31,10 @@
                         FontAttributes="Bold"
                         VerticalOptions="Center"
                         Clicked="OnLogoutClicked"/>
+                <Button Text="🧪 TEST: ALARMI GÖR" 
+                        Clicked="OnTestAlarmClicked"
+                        BackgroundColor="Gray" TextColor="White"
+                        Margin="0,10,0,0"/>
             </Grid>
         </Border>
 

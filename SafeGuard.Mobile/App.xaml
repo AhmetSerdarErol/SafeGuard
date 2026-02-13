@@ -1,5 +1,4 @@
-﻿<?xml version = "1.0" encoding = "UTF-8" ?>
-<Application xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+﻿<Application xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:local="clr-namespace:SafeGuard.Mobile"
              x:Class="SafeGuard.Mobile.App">
@@ -9,6 +8,43 @@
                 <ResourceDictionary Source="Resources/Styles/Colors.xaml" />
                 <ResourceDictionary Source="Resources/Styles/Styles.xaml" />
             </ResourceDictionary.MergedDictionaries>
+
+            <Color x:Key="AppBackground">#0A1025</Color>
+            <Color x:Key="EmergencyRed">#FF3B30</Color>
+            <Color x:Key="PoliceBlue">#007AFF</Color>
+            <Color x:Key="PureWhite">#FFFFFF</Color>
+            <Color x:Key="GlassBorder">#40FFFFFF</Color>
+            <Style x:Key="GlassFrame" TargetType="Border">
+                <Setter Property="StrokeShape" Value="RoundRectangle 20"/>
+                <Setter Property="Stroke" Value="{StaticResource GlassBorder}"/>
+                <Setter Property="StrokeThickness" Value="1"/>
+                <Setter Property="BackgroundColor" Value="#200A1025"/>
+                <Setter Property="Padding" Value="25"/>
+            </Style>
+
+            <Style x:Key="KonseptEntry" TargetType="Entry">
+                <Setter Property="TextColor" Value="White"/>
+                <Setter Property="PlaceholderColor" Value="#8E8E93"/>
+                <Setter Property="FontSize" Value="15"/>
+            </Style>
+
+            <Style x:Key="EmergencyButtonStyle" TargetType="Button">
+                <Setter Property="TextColor" Value="White" />
+                <Setter Property="FontAttributes" Value="Bold" />
+                <Setter Property="FontSize" Value="17" />
+                <Setter Property="CornerRadius" Value="25" />
+                <Setter Property="HeightRequest" Value="54" />
+                <Setter Property="Background">
+                    <LinearGradientBrush StartPoint="0,0" EndPoint="1,0">
+                        <GradientStop Color="{StaticResource PoliceBlue}" Offset="0.0" />
+                        <GradientStop Color="{StaticResource EmergencyRed}" Offset="1.0" />
+                    </LinearGradientBrush>
+                </Setter>
+                <Setter Property="Shadow">
+                    <Shadow Brush="{StaticResource PoliceBlue}" Offset="0,4" Radius="12" Opacity="0.5"/>
+                </Setter>
+            </Style>
+
         </ResourceDictionary>
     </Application.Resources>
 </Application>

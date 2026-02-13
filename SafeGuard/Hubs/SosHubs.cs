@@ -11,12 +11,12 @@ namespace SafeGuard.Hubs
         }
 
         // SOS atan kişi, bu metodu tetikleyecek
-        public async Task SendSosToContacts(string senderName, List<string> contactIds)
+        public async Task SendSosToContacts(string senderId, string senderName, List<string> contactIds)
         {
             foreach (var id in contactIds)
             {
-                // Sadece listesindeki "Verified" kişilere anlık fişek atar
-                await Clients.Group(id).SendAsync("ReceiveSosAlert", senderName);
+                // ARTIK HEM ID HEM İSİM GÖNDERİYORUZ
+                await Clients.Group(id).SendAsync("ReceiveSosAlert", senderId, senderName);
             }
         }
 
