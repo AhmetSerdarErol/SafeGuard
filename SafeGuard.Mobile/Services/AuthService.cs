@@ -8,7 +8,7 @@ namespace SafeGuard.Mobile.Services
     {
         private readonly HttpClient _httpClient;
         // Emülatör: 10.0.2.2
-        private const string BaseUrl = "http://10.0.2.2:5161/api";
+        private const string BaseUrl = "http://192.168.0.5:5161/api";
 
         public AuthService()
         {
@@ -48,20 +48,20 @@ namespace SafeGuard.Mobile.Services
             }
         }
 
-        // RegisterAsync metodunun YENİ ve EKSİKSİZ hali
+
         public async Task<(bool IsSuccess, string ErrorMessage)> RegisterAsync(User user)
         {
             try
             {
-                // Backend'in beklediği tüm alanları User nesnesinden dolduruyoruz
+                
                 var registerData = new
                 {
                     FullName = user.FullName,
-                    Username = user.Email, // Username yerine Email gönderiyoruz (Backend uyumu için)
+                    Username = user.Email, 
                     Email = user.Email,
                     Password = user.Password,
                     PhoneNumber = user.PhoneNumber,
-                    // Arayüzden kaldırdığımız alanlara varsayılan değerler atıyoruz
+                    
                     BloodType = "Bilinmiyor",
                     ChronicDiseases = "Yok",
                     Allergies = "Yok",
@@ -90,6 +90,35 @@ namespace SafeGuard.Mobile.Services
         {
             await Task.Delay(500);
             return true;
+        }
+        
+        public async Task<List<RequestModel>> GetPendingRequestsAsync(int myUserId)
+        {
+            try
+            {
+                var response = await _httpClient.GetStringAsync($"{BaseUrl}helpers/requests/{myUserId}");
+                return JsonSerializer.Deserialize<List<RequestModel>>(response, new JsonSerializerOptions { PropertyNameCaseInsensitive = true });
+            }
+            catch
+            {
+                return new List<RequestModel>();
+            }
+        }
+        public async Task<bool> RespondToRequestAsync(int requestId, bool accept)
+        {
+            try
+            {
+                var payload = new { RequestId = requestId, Accept = accept };
+                var json = JsonSerializer.Serialize(payload);
+                var content = new StringContent(json, Encoding.UTF8, "application/json");
+
+                var response = await _httpClient.PostAsync($"{BaseUrl}helpers/respond", content);
+                return response.IsSuccessStatusCode;
+            }
+            catch
+            {
+                return false;
+            }
         }
     }
 }

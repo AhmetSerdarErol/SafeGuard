@@ -11,6 +11,7 @@ namespace SafeGuard.Data // <-- DİKKAT: Sadece SafeGuard.Data
         }
 
         public DbSet<User> Users { get; set; }
+        public DbSet<Helper> Helpers { get; set; }
         public DbSet<Contact> Contacts { get; set; }
     }
 }

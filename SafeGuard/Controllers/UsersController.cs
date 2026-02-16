@@ -17,28 +17,33 @@ namespace SafeGuard.Controllers
             _context = context;
         }
 
-        // --- KAYIT OL ---
         [HttpPost("register")]
         public async Task<ActionResult<User>> Register(UserDto request)
         {
+            // 1. E-posta zaten var mı kontrol et
             if (_context.Users.Any(u => u.Email == request.Email))
                 return BadRequest("Bu e-posta adresi zaten kullanılıyor.");
 
             string passwordHash = BCrypt.Net.BCrypt.HashPassword(request.Password);
 
+            // 2. Yeni kullanıcıyı oluştur
             var user = new User
             {
                 FullName = request.FullName,
-                Username = request.Username,
                 Email = request.Email,
+                Username = request.Email, // KRİTİK DÜZELTME: request.Username yerine Email kullandık
                 PasswordHash = passwordHash,
                 Role = "User",
-                PhoneNumber = request.PhoneNumber ?? "",
-                BloodType = request.BloodType ?? "",
-                ChronicDiseases = request.ChronicDiseases ?? "",
-                Allergies = request.Allergies ?? "",
-                Smoker = request.Smoker,
-                AlcoholConsumption = request.AlcoholConsumption
+                PhoneNumber = request.PhoneNumber, // Dto'da = "" dediğimiz için null gelmez
+
+                BloodType = request.BloodType,
+                ChronicDiseases = request.ChronicDiseases,
+                Allergies = request.Allergies,
+                Surgeries = request.Surgeries,
+                Habits = request.Habits,
+
+                Smoker = false,
+                AlcoholConsumption = false
             };
 
             _context.Users.Add(user);
@@ -46,7 +51,6 @@ namespace SafeGuard.Controllers
             return Ok(user);
         }
 
-        // --- GİRİŞ YAP (DÜZELTİLDİ) ---
         [HttpPost("login")]
         public async Task<ActionResult<User>> Login(UserLoginDto request)
         {
@@ -57,7 +61,6 @@ namespace SafeGuard.Controllers
             if (!BCrypt.Net.BCrypt.Verify(request.Password, user.PasswordHash))
                 return BadRequest("Yanlış şifre.");
 
-            // DÜZELTME: Sadece "Ok(user)" diyoruz. İsmi ve ID'yi böyle alacağız.
             return Ok(user);
         }
     }

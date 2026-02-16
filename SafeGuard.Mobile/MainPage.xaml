@@ -15,67 +15,67 @@
                      HorizontalOptions="End" VerticalOptions="End" TranslationX="200" TranslationY="200"/>
         </Grid>
 
-        <VerticalStackLayout Spacing="30" VerticalOptions="Center" Padding="30">
+        <ScrollView>
+            <VerticalStackLayout Spacing="30" VerticalOptions="Center" Padding="30">
 
-            <VerticalStackLayout Spacing="5">
+                <VerticalStackLayout Spacing="5">
+                    <Frame HeightRequest="240" 
+                           WidthRequest="240" 
+                           CornerRadius="360" 
+                           HorizontalOptions="Center" 
+                           IsClippedToBounds="True" 
+                           Padding="-60"
+                           BackgroundColor="Transparent"
+                           BorderColor="Transparent"
+                           Margin="0,0,0,10">
+                        <Image Source="app_logo.jpg" Aspect="AspectFill"/>
+                    </Frame>
 
-                <Frame HeightRequest="240" 
-                       WidthRequest="240" 
-                       CornerRadius="360" 
-                       HorizontalOptions="Center" 
-                       IsClippedToBounds="True" 
-                       Padding="-60"
-                       BackgroundColor="Transparent"
-                       BorderColor="Transparent"
-                       Margin="0,0,0,10">
-                    <Image Source="app_logo.jpg" Aspect="AspectFill"/>
-                </Frame>
+                    <HorizontalStackLayout HorizontalOptions="Center" Spacing="0">
+                        <Label Text="Safe" FontSize="34" FontAttributes="Bold" TextColor="{StaticResource PoliceBlue}"/>
+                        <Label Text="Gu" FontSize="34" FontAttributes="Bold" TextColor="White"/>
+                        <Label Text="ard" FontSize="34" FontAttributes="Bold" TextColor="{StaticResource EmergencyRed}"/>
+                    </HorizontalStackLayout>
 
-                <HorizontalStackLayout HorizontalOptions="Center" Spacing="0">
-                    <Label Text="Safe" FontSize="34" FontAttributes="Bold" TextColor="{StaticResource PoliceBlue}"/>
-                    <Label Text="Gu" FontSize="34" FontAttributes="Bold" TextColor="White"/>
-                    <Label Text="ard" FontSize="34" FontAttributes="Bold" TextColor="{StaticResource EmergencyRed}"/>
-                </HorizontalStackLayout>
-
-                <Label Text="Acil Durum ve Güvenlik Sistemi" 
-                       FontSize="16" TextColor="#8E8E93" HorizontalOptions="Center"/>
-            </VerticalStackLayout>
-
-            <Border Style="{StaticResource GlassFrame}">
-                <VerticalStackLayout Spacing="20">
-
-                    <VerticalStackLayout Spacing="8">
-                        <Label Text="KİMLİK / E-POSTA" TextColor="#8E8E93" FontSize="12" FontAttributes="Bold"/>
-                        <Entry x:Name="EmailEntry" Placeholder="Giriş yapınız" Style="{StaticResource KonseptEntry}"/>
-                        <BoxView HeightRequest="1" Color="#3A3A3C"/>
-                    </VerticalStackLayout>
-
-                    <VerticalStackLayout Spacing="8">
-                        <Label Text="ŞİFRE" TextColor="#8E8E93" FontSize="12" FontAttributes="Bold"/>
-                        <Entry x:Name="PasswordEntry" Placeholder="******" IsPassword="True" Style="{StaticResource KonseptEntry}"/>
-                        <BoxView HeightRequest="1" Color="#3A3A3C"/>
-                    </VerticalStackLayout>
-
+                    <Label Text="Acil Durum ve Güvenlik Sistemi" 
+                           FontSize="16" TextColor="#8E8E93" HorizontalOptions="Center"/>
                 </VerticalStackLayout>
-            </Border>
 
-            <ActivityIndicator x:Name="LoadingSpinner" IsRunning="False" Color="{StaticResource PoliceBlue}"/>
+                <Border Style="{StaticResource GlassFrame}">
+                    <VerticalStackLayout Spacing="20">
+                        <VerticalStackLayout Spacing="8">
+                            <Label Text="KİMLİK / E-POSTA" TextColor="#8E8E93" FontSize="12" FontAttributes="Bold"/>
+                            <Entry x:Name="EmailEntry" Placeholder="Giriş yapınız" Style="{StaticResource KonseptEntry}"/>
+                            <BoxView HeightRequest="1" Color="#3A3A3C"/>
+                        </VerticalStackLayout>
 
-            <Button x:Name="LoginBtn" 
-                    Text="SİSTEME GİRİŞ YAP" 
-                    Style="{StaticResource EmergencyButtonStyle}" 
-                    Clicked="OnLoginClicked"/>
+                        <VerticalStackLayout Spacing="8">
+                            <Label Text="ŞİFRE" TextColor="#8E8E93" FontSize="12" FontAttributes="Bold"/>
+                            <Entry x:Name="PasswordEntry" Placeholder="******" IsPassword="True" Style="{StaticResource KonseptEntry}"/>
+                            <BoxView HeightRequest="1" Color="#3A3A3C"/>
+                        </VerticalStackLayout>
+                    </VerticalStackLayout>
+                </Border>
 
-            <Label Text="Hesap Oluştur" 
-                   TextColor="{StaticResource PoliceBlue}" 
-                   FontAttributes="Bold"
-                   HorizontalOptions="Center" 
-                   FontSize="15">
-                <Label.GestureRecognizers>
-                    <TapGestureRecognizer Tapped="OnRegisterTapped"/>
-                </Label.GestureRecognizers>
-            </Label>
+                <ActivityIndicator x:Name="LoadingSpinner" IsRunning="False" Color="{StaticResource PoliceBlue}"/>
 
-        </VerticalStackLayout>
+                <Button x:Name="LoginBtn" 
+                        Text="SİSTEME GİRİŞ YAP" 
+                        Style="{StaticResource EmergencyButtonStyle}" 
+                        Clicked="OnLoginClicked"/>
+
+                <Label Text="Hesap Oluştur" 
+                       TextColor="{StaticResource PoliceBlue}" 
+                       FontAttributes="Bold"
+                       HorizontalOptions="Center" 
+                       FontSize="15"
+                       Margin="0,0,0,20">
+                    <Label.GestureRecognizers>
+                        <TapGestureRecognizer Tapped="OnRegisterTapped"/>
+                    </Label.GestureRecognizers>
+                </Label>
+
+            </VerticalStackLayout>
+        </ScrollView>
     </Grid>
 </ContentPage>

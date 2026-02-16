@@ -1,0 +1,53 @@
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="SafeGuard.Mobile.RequestsPage"
+             Title="Gelen İstekler"
+             BackgroundColor="{StaticResource AppBackground}">
+
+    <Grid Padding="20">
+        <VerticalStackLayout Spacing="20">
+            <Label Text="Onay Bekleyen İstekler" FontSize="20" FontAttributes="Bold" TextColor="White"/>
+            <Label Text="Sizi güvenlik yardımcısı olarak eklemek isteyenler:" TextColor="#8E8E93" FontSize="14"/>
+
+            <Label x:Name="NoRequestLabel" Text="Şu an bekleyen istek yok." TextColor="Gray" HorizontalOptions="Center" IsVisible="False" Margin="0,50,0,0"/>
+
+            <CollectionView x:Name="RequestsList">
+                <CollectionView.ItemTemplate>
+                    <DataTemplate>
+                        <Border Stroke="Transparent" BackgroundColor="#1C1C1E" Padding="15" Margin="0,0,0,10">
+                            <Border.StrokeShape>
+                                <RoundRectangle CornerRadius="15"/>
+                            </Border.StrokeShape>
+
+                            <Grid ColumnDefinitions="*, Auto">
+                                <VerticalStackLayout Grid.Column="0" Spacing="5" VerticalOptions="Center">
+                                    <Label Text="{Binding RequesterName}" TextColor="White" FontAttributes="Bold" FontSize="16"/>
+                                    <Label Text="{Binding RequesterEmail}" TextColor="Gray" FontSize="12"/>
+                                    <Label Text="Güvenlik yardımcısı olmak ister misiniz?" TextColor="{StaticResource PoliceBlue}" FontSize="11" Margin="0,5,0,0"/>
+                                </VerticalStackLayout>
+
+                                <HorizontalStackLayout Grid.Column="1" Spacing="10" VerticalOptions="Center">
+                                    <Button Text="✕" 
+                                            TextColor="White" 
+                                            BackgroundColor="#FF3B30" 
+                                            WidthRequest="40" HeightRequest="40" 
+                                            CornerRadius="20"
+                                            CommandParameter="{Binding RequestId}"
+                                            Clicked="OnRejectClicked"/>
+
+                                    <Button Text="✓" 
+                                            TextColor="White" 
+                                            BackgroundColor="#34C759" 
+                                            WidthRequest="40" HeightRequest="40" 
+                                            CornerRadius="20"
+                                            CommandParameter="{Binding RequestId}"
+                                            Clicked="OnAcceptClicked"/>
+                                </HorizontalStackLayout>
+                            </Grid>
+                        </Border>
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+            </CollectionView>
+        </VerticalStackLayout>
+    </Grid>
+</ContentPage>
