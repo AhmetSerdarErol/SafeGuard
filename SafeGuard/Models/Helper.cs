@@ -1,17 +1,24 @@
-﻿namespace SafeGuard.Models
+﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
+
+namespace SafeGuard.Models
 {
     public class Helper
     {
+        [Key]
         public int Id { get; set; }
 
-        public int UserId { get; set; } // İsteği Gönderen Kişi
-        public User User { get; set; }  // İlişki (Adını görmek için lazım)
+        public int UserId { get; set; }
+        [ForeignKey("UserId")]
+        public virtual User User { get; set; } // İsteği Atan
 
-        public int HelperId { get; set; } // İstek Gönderilen (Hedef) Kişinin ID'si
+        public int HelperId { get; set; }
+        [ForeignKey("HelperId")]
+        // HATA BURADAYDI: İsmi 'Helper' yerine 'HelperUser' yaptık
+        public virtual User HelperUser { get; set; }
 
-        public bool IsVerified { get; set; } = false; // Onaylandı mı?
-        public string Status { get; set; } = "Pending"; // Durum: Pending, Accepted, Rejected
-
-        public DateTime CreatedAt { get; set; } = DateTime.Now;
+        public bool IsVerified { get; set; }
+        public string Status { get; set; }
+        public DateTime CreatedAt { get; set; }
     }
 }

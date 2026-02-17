@@ -1,0 +1,23 @@
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="SafeGuard.Mobile.AddFriendPage"
+             Title="Yardımcı Ekle"
+             BackgroundColor="#121212">
+
+    <VerticalStackLayout Padding="30" Spacing="20" VerticalOptions="Center">
+        <Label Text="Güvenlik Yardımcısı Ekle" FontSize="22" FontAttributes="Bold" TextColor="White" HorizontalOptions="Center"/>
+        <Label Text="Eklemek istediğiniz kişinin telefon numarasını girin." TextColor="Gray" HorizontalOptions="Center"/>
+
+        <Border Stroke="#333" StrokeThickness="1" BackgroundColor="#1C1C1E" Padding="10,0" HeightRequest="50">
+            <Border.StrokeShape>
+                <RoundRectangle CornerRadius="10"/>
+            </Border.StrokeShape>
+            <Entry x:Name="PhoneEntry" 
+                   Placeholder="Telefon No (Örn: 0532...)" 
+                   TextColor="White" 
+                   Keyboard="Telephone"/>
+        </Border>
+
+        <Button Text="İSTEK GÖNDER" BackgroundColor="#007AFF" Clicked="OnSendRequestClicked"/>
+    </VerticalStackLayout>
+</ContentPage>

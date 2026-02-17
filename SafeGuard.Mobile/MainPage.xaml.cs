@@ -23,8 +23,6 @@ namespace SafeGuard.Mobile
             LoadingSpinner.IsRunning = true;
             LoginBtn.IsEnabled = false;
 
-            // Servise bağlanıyoruz
-            // NOT: AuthService'in (bool, int, string, string) döndürdüğünden emin ol!
             var result = await _authService.LoginAsync(EmailEntry.Text, PasswordEntry.Text);
 
             LoadingSpinner.IsRunning = false;
@@ -32,13 +30,14 @@ namespace SafeGuard.Mobile
 
             if (result.IsSuccess)
             {
-                // --- İŞTE ÇÖZÜM BURASI ---
-                // Backend'den gelen İsmi ve ID'yi telefona kaydediyoruz.
+                // Kullanıcı bilgilerini telefona kaydet
                 Preferences.Set("UserFullName", result.FullName);
                 Preferences.Set("CurrentUserId", result.UserId);
-                // -------------------------
 
-                await Navigation.PushModalAsync(new DashboardPage());
+                // --- KRİTİK DÜZELTME ---
+                // Eskiden burası PushModalAsync idi, o yüzden Dashboard butonları çalışmıyordu.
+                // Şimdi ana sayfayı tamamen değiştiriyoruz:
+                Application.Current.MainPage = new NavigationPage(new DashboardPage());
             }
             else
             {

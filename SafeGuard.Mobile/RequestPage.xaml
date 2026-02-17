@@ -1,53 +1,56 @@
+<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="SafeGuard.Mobile.RequestsPage"
-             Title="Gelen İstekler"
-             BackgroundColor="{StaticResource AppBackground}">
+             BackgroundColor="#121212"
+             Title="Gelen İstekler">
 
-    <Grid Padding="20">
-        <VerticalStackLayout Spacing="20">
-            <Label Text="Onay Bekleyen İstekler" FontSize="20" FontAttributes="Bold" TextColor="White"/>
-            <Label Text="Sizi güvenlik yardımcısı olarak eklemek isteyenler:" TextColor="#8E8E93" FontSize="14"/>
+    <Grid>
+        <CollectionView x:Name="RequestsCollection" Margin="0,10,0,0">
+            <CollectionView.ItemTemplate>
+                <DataTemplate>
+                    <Border StrokeThickness="0" BackgroundColor="#1E1E1E" Padding="15" Margin="15,5">
+                        <Border.StrokeShape>
+                            <RoundRectangle CornerRadius="15"/>
+                        </Border.StrokeShape>
 
-            <Label x:Name="NoRequestLabel" Text="Şu an bekleyen istek yok." TextColor="Gray" HorizontalOptions="Center" IsVisible="False" Margin="0,50,0,0"/>
+                        <Grid ColumnDefinitions="Auto, *, Auto, Auto" ColumnSpacing="15">
 
-            <CollectionView x:Name="RequestsList">
-                <CollectionView.ItemTemplate>
-                    <DataTemplate>
-                        <Border Stroke="Transparent" BackgroundColor="#1C1C1E" Padding="15" Margin="0,0,0,10">
-                            <Border.StrokeShape>
-                                <RoundRectangle CornerRadius="15"/>
-                            </Border.StrokeShape>
+                            <Border Grid.Column="0" HeightRequest="50" WidthRequest="50" 
+                    StrokeShape="RoundRectangle 25" BackgroundColor="#333">
+                                <Image HorizontalOptions="Center" VerticalOptions="Center">
+                                    <Image.Source>
+                                        <FontImageSource Glyph="👤" Color="White" Size="26"/>
+                                    </Image.Source>
+                                </Image>
+                            </Border>
 
-                            <Grid ColumnDefinitions="*, Auto">
-                                <VerticalStackLayout Grid.Column="0" Spacing="5" VerticalOptions="Center">
-                                    <Label Text="{Binding RequesterName}" TextColor="White" FontAttributes="Bold" FontSize="16"/>
-                                    <Label Text="{Binding RequesterEmail}" TextColor="Gray" FontSize="12"/>
-                                    <Label Text="Güvenlik yardımcısı olmak ister misiniz?" TextColor="{StaticResource PoliceBlue}" FontSize="11" Margin="0,5,0,0"/>
-                                </VerticalStackLayout>
+                            <VerticalStackLayout Grid.Column="1" VerticalOptions="Center" Spacing="2">
 
-                                <HorizontalStackLayout Grid.Column="1" Spacing="10" VerticalOptions="Center">
-                                    <Button Text="✕" 
-                                            TextColor="White" 
-                                            BackgroundColor="#FF3B30" 
-                                            WidthRequest="40" HeightRequest="40" 
-                                            CornerRadius="20"
-                                            CommandParameter="{Binding RequestId}"
-                                            Clicked="OnRejectClicked"/>
+                                <Label Text="{Binding SenderName}" TextColor="White" FontSize="16" FontAttributes="Bold"/>
 
-                                    <Button Text="✓" 
-                                            TextColor="White" 
-                                            BackgroundColor="#34C759" 
-                                            WidthRequest="40" HeightRequest="40" 
-                                            CornerRadius="20"
-                                            CommandParameter="{Binding RequestId}"
-                                            Clicked="OnAcceptClicked"/>
-                                </HorizontalStackLayout>
-                            </Grid>
-                        </Border>
-                    </DataTemplate>
-                </CollectionView.ItemTemplate>
-            </CollectionView>
-        </VerticalStackLayout>
+                                <Label Text="{Binding SenderPhone}" TextColor="#B0B0B0" FontSize="13" FontAttributes="None"/>
+
+                                <Label Text="Sizi yakınlarına eklemek istiyor" TextColor="Gray" FontSize="11"/>
+                            </VerticalStackLayout>
+
+                            <Button Grid.Column="2" Text="✕" TextColor="White" BackgroundColor="#FF3B30" 
+                    HeightRequest="40" WidthRequest="40" CornerRadius="20" Padding="0"
+                    Clicked="OnRejectClicked" CommandParameter="{Binding Id}"/>
+
+                            <Button Grid.Column="3" Text="✓" TextColor="White" BackgroundColor="#34C759" 
+                    HeightRequest="40" WidthRequest="40" CornerRadius="20" Padding="0"
+                    Clicked="OnAcceptClicked" CommandParameter="{Binding Id}"/>
+                        </Grid>
+                    </Border>
+                </DataTemplate>
+            </CollectionView.ItemTemplate>
+        </CollectionView>
+
+        <Label x:Name="EmptyLabel" Text="Bekleyen istek yok." TextColor="Gray" 
+               HorizontalOptions="Center" VerticalOptions="Center" IsVisible="False"/>
+
+        <ActivityIndicator x:Name="LoadingSpinner" IsRunning="False" Color="#2196F3" 
+                           HorizontalOptions="Center" VerticalOptions="Center"/>
     </Grid>
 </ContentPage>

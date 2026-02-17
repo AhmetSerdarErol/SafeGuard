@@ -1,17 +1,13 @@
-﻿using Microsoft.Extensions.DependencyInjection;
-
-namespace SafeGuard.Mobile
+﻿namespace SafeGuard.Mobile
 {
     public partial class App : Application
     {
         public App()
         {
             InitializeComponent();
-        }
 
-        protected override Window CreateWindow(IActivationState? activationState)
-        {
-            return new Window(new AppShell());
+            // UYGULAMA NAVIGATION PAGE İLE BAŞLAMALI (Login Ekranı)
+            MainPage = new NavigationPage(new MainPage());
         }
     }
 }

@@ -17,33 +17,34 @@ namespace SafeGuard.Controllers
             _context = context;
         }
 
-        // 1. YARDIMCI EKLEME İSTEĞİ GÖNDER (Pending Modunda)
+        // 1. TELEFON NUMARASI İLE İSTEK GÖNDER
         [HttpPost("add")]
         public async Task<IActionResult> AddHelper(HelperDto request)
         {
-            // Kullanıcıyı bul (İsteği atan)
+            // İsteği atanı bul
             var user = await _context.Users.FindAsync(request.UserId);
             if (user == null) return NotFound("Kullanıcı bulunamadı.");
 
-            // Yardımcı olacak kişiyi bul (İstek atılan)
-            var helperUser = await _context.Users.FirstOrDefaultAsync(u => u.Email == request.HelperEmail);
-            if (helperUser == null) return NotFound("Bu e-posta adresine sahip bir kullanıcı bulunamadı.");
+            // Hedef kişiyi TELEFON NUMARASINDAN bul
+            var helperUser = await _context.Users.FirstOrDefaultAsync(u => u.PhoneNumber == request.HelperPhoneNumber);
+            if (helperUser == null) return NotFound("Bu numaraya ait kullanıcı bulunamadı.");
 
-            // Kendini ekleyemez
-            if (user.Id == helperUser.Id) return BadRequest("Kendinizi yardımcı olarak ekleyemezsiniz.");
+            // Kendini ekleyemezsin
+            if (user.Id == helperUser.Id) return BadRequest("Kendinizi ekleyemezsiniz.");
 
-            // Zaten ekli mi?
+            // Zaten ekli mi kontrol et
             var existing = await _context.Helpers
                 .FirstOrDefaultAsync(h => h.UserId == user.Id && h.HelperId == helperUser.Id);
 
             if (existing != null) return BadRequest("Bu kişi zaten listenizde veya istek gönderilmiş.");
 
+            // İsteği "BEKLEMEDE" (Pending) olarak kaydet
             var newHelper = new Helper
             {
                 UserId = user.Id,
                 HelperId = helperUser.Id,
-                IsVerified = false, // ARTIK DİREKT ONAYLAMIYORUZ!
-                Status = "Pending", // Beklemede
+                IsVerified = false,      // HENÜZ ONAYLANMADI
+                Status = "Pending",      // DURUM: BEKLEMEDE
                 CreatedAt = DateTime.Now
             };
 
@@ -54,19 +55,17 @@ namespace SafeGuard.Controllers
         }
 
         // 2. BANA GELEN İSTEKLERİ LİSTELE
-        // (Biri beni yardımcı olarak eklemek istiyorsa burada görürüm)
         [HttpGet("requests/{myUserId}")]
         public async Task<IActionResult> GetPendingRequests(int myUserId)
         {
-            // HelperId'si BEN olan ama henüz onaylanmamış (IsVerified=false) kayıtları getir
             var requests = await _context.Helpers
-                .Include(h => h.User) // İsteği atan kişinin adını görmek için
-                .Where(h => h.HelperId == myUserId && h.IsVerified == false)
+                .Include(h => h.User) // İsteği atanın ismini alabilmek için
+                .Where(h => h.HelperId == myUserId && h.Status == "Pending")
                 .Select(h => new
                 {
                     RequestId = h.Id,
                     RequesterName = h.User.FullName,
-                    RequesterEmail = h.User.Email,
+                    RequesterPhone = h.User.PhoneNumber,
                     RequestDate = h.CreatedAt
                 })
                 .ToListAsync();
@@ -83,26 +82,36 @@ namespace SafeGuard.Controllers
 
             if (request.Accept)
             {
-                // Kabul edildiyse
+                // KABUL EDİLDİ: Yeşil yap
                 record.IsVerified = true;
                 record.Status = "Accepted";
                 await _context.SaveChangesAsync();
-                return Ok(new { message = "İstek kabul edildi. Artık güvendesiniz." });
+                return Ok(new { message = "İstek kabul edildi." });
             }
             else
             {
-                // Reddedildiyse kaydı siliyoruz
+                // REDDEDİLDİ: Kaydı sil
                 _context.Helpers.Remove(record);
                 await _context.SaveChangesAsync();
                 return Ok(new { message = "İstek reddedildi ve silindi." });
             }
         }
-    }
+        //KABUL EDİLMİŞ ARKADAŞLARI GETİR 
+        [HttpGet("contacts/{userId}")]
+        public async Task<IActionResult> GetContacts(int userId)
+        {
+            var contacts = await _context.Helpers
+                .Include(h => h.User)
+                .Include(h => h.HelperUser) // ARTIK HelperUser DİYORUZ
+                .Where(h => (h.UserId == userId || h.HelperId == userId) && h.Status == "Accepted")
+                .Select(h => new
+                {
+                    Name = h.UserId == userId ? h.HelperUser.FullName : h.User.FullName,
+                    PhoneNumber = h.UserId == userId ? h.HelperUser.PhoneNumber : h.User.PhoneNumber
+                })
+                .ToListAsync();
 
-    // Küçük bir DTO sınıfı (Dosyanın en altına ekleyebilirsin veya Dtos klasörüne)
-    public class RespondDto
-    {
-        public int RequestId { get; set; }
-        public bool Accept { get; set; }
-    }
+            return Ok(contacts);
+        }
+    } 
 }

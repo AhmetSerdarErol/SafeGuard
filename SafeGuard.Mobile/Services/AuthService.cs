@@ -1,14 +1,15 @@
 ﻿using System.Text;
 using System.Text.Json;
-using SafeGuard.Mobile.Models; // Model klasörünü gördüğünden emin ol
+using SafeGuard.Mobile.Models;
 
 namespace SafeGuard.Mobile.Services
 {
     public class AuthService
     {
         private readonly HttpClient _httpClient;
-        // Emülatör: 10.0.2.2
-        private const string BaseUrl = "http://192.168.0.5:5161/api";
+
+        // 🟢 EMÜLATÖR İÇİN SABİT IP (Değiştirme)
+        private const string BaseUrl = "http://10.0.2.2:5161/api";
 
         public AuthService()
         {
@@ -17,8 +18,6 @@ namespace SafeGuard.Mobile.Services
             _httpClient = new HttpClient(handler);
         }
 
-        // Metodun dönüş tipini ve içini değiştiriyoruz
-        // Dönüş tipi: (bool, int, string, string) oldu. 3. sıradaki "string" İsim için.
         public async Task<(bool IsSuccess, int UserId, string FullName, string ErrorMessage)> LoginAsync(string email, string password)
         {
             try
@@ -32,37 +31,28 @@ namespace SafeGuard.Mobile.Services
                 if (response.IsSuccessStatusCode)
                 {
                     var responseData = await response.Content.ReadAsStringAsync();
-                    // Backend'den gelen User nesnesini açıyoruz
                     var user = JsonSerializer.Deserialize<SafeGuard.Mobile.Models.User>(responseData, new JsonSerializerOptions { PropertyNameCaseInsensitive = true });
-
-                    // BURASI ÖNEMLİ: user.FullName'i paketleyip geri yolluyoruz
                     return (true, user?.Id ?? 0, user?.FullName ?? "İsimsiz", null);
                 }
 
                 var error = await response.Content.ReadAsStringAsync();
                 return (false, 0, null, error);
             }
-            catch (Exception ex)
-            {
-                return (false, 0, null, ex.Message);
-            }
+            catch (Exception ex) { return (false, 0, null, ex.Message); }
         }
-
 
         public async Task<(bool IsSuccess, string ErrorMessage)> RegisterAsync(User user)
         {
             try
             {
-                
                 var registerData = new
                 {
                     FullName = user.FullName,
-                    Username = user.Email, 
+                    Username = user.Email,
                     Email = user.Email,
                     Password = user.Password,
                     PhoneNumber = user.PhoneNumber,
-                    
-                    BloodType = "Bilinmiyor",
+                    BloodType = "Bilinmiyor", // İstersen burayı user.BloodType yapabilirsin
                     ChronicDiseases = "Yok",
                     Allergies = "Yok",
                     Smoker = false,
@@ -74,36 +64,46 @@ namespace SafeGuard.Mobile.Services
 
                 var response = await _httpClient.PostAsync($"{BaseUrl}/Users/register", content);
 
-                if (response.IsSuccessStatusCode)
-                    return (true, null);
+                if (response.IsSuccessStatusCode) return (true, null);
 
                 var error = await response.Content.ReadAsStringAsync();
                 return (false, error);
             }
-            catch (Exception ex)
+            catch (Exception ex) { return (false, $"Bağlantı hatası: {ex.Message}"); }
+        }
+
+        // 🟢 EKSİK OLAN METOD EKLENDİ
+        public async Task<bool> SendFriendRequestAsync(int myUserId, string targetPhone)
+        {
+            try
             {
-                return (false, $"Bağlantı hatası: {ex.Message}");
+                var payload = new { UserId = myUserId, HelperPhoneNumber = targetPhone };
+                var json = JsonSerializer.Serialize(payload);
+                var content = new StringContent(json, Encoding.UTF8, "application/json");
+
+                var response = await _httpClient.PostAsync($"{BaseUrl}/helpers/add", content);
+                return response.IsSuccessStatusCode;
             }
+            catch { return false; }
         }
 
         public async Task<bool> SendSosAlertAsync(double latitude, double longitude)
         {
+            // Backend'e konum göndermek istersen burayı doldurabilirsin
             await Task.Delay(500);
             return true;
         }
-        
+
         public async Task<List<RequestModel>> GetPendingRequestsAsync(int myUserId)
         {
             try
             {
-                var response = await _httpClient.GetStringAsync($"{BaseUrl}helpers/requests/{myUserId}");
+                var response = await _httpClient.GetStringAsync($"{BaseUrl}/helpers/requests/{myUserId}");
                 return JsonSerializer.Deserialize<List<RequestModel>>(response, new JsonSerializerOptions { PropertyNameCaseInsensitive = true });
             }
-            catch
-            {
-                return new List<RequestModel>();
-            }
+            catch { return new List<RequestModel>(); }
         }
+
         public async Task<bool> RespondToRequestAsync(int requestId, bool accept)
         {
             try
@@ -112,13 +112,10 @@ namespace SafeGuard.Mobile.Services
                 var json = JsonSerializer.Serialize(payload);
                 var content = new StringContent(json, Encoding.UTF8, "application/json");
 
-                var response = await _httpClient.PostAsync($"{BaseUrl}helpers/respond", content);
+                var response = await _httpClient.PostAsync($"{BaseUrl}/helpers/respond", content);
                 return response.IsSuccessStatusCode;
             }
-            catch
-            {
-                return false;
-            }
+            catch { return false; }
         }
     }
 }
