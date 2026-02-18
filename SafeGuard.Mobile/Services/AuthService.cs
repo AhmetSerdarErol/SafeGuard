@@ -1,6 +1,7 @@
-﻿using System.Text;
+﻿using SafeGuard.Mobile.Models;
+using System.Net.Http.Json;
+using System.Text;
 using System.Text.Json;
-using SafeGuard.Mobile.Models;
 
 namespace SafeGuard.Mobile.Services
 {
@@ -113,6 +114,31 @@ namespace SafeGuard.Mobile.Services
                 var content = new StringContent(json, Encoding.UTF8, "application/json");
 
                 var response = await _httpClient.PostAsync($"{BaseUrl}/helpers/respond", content);
+                return response.IsSuccessStatusCode;
+            }
+            catch { return false; }
+        }
+        public async Task<string> UploadProfilePhotoAsync(int userId, FileResult fileResult)
+        {
+            try
+            {
+                var content = new MultipartFormDataContent();
+                content.Add(new StreamContent(await fileResult.OpenReadAsync()), "file", fileResult.FileName);
+
+                var response = await _httpClient.PostAsync($"{BaseUrl}/users/upload-photo/{userId}", content);
+                if (response.IsSuccessStatusCode) return "OK";
+                return null;
+            }
+            catch { return null; }
+        }
+
+        // BİLGİ GÜNCELLEME
+        public async Task<bool> UpdateProfileInfoAsync(int userId, string name, string phone, string blood)
+        {
+            try
+            {
+                var data = new { Id = userId, FullName = name, PhoneNumber = phone, BloodType = blood };
+                var response = await _httpClient.PutAsJsonAsync($"{BaseUrl}/users/update-info/{userId}", data);
                 return response.IsSuccessStatusCode;
             }
             catch { return false; }

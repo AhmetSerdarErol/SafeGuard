@@ -63,5 +63,45 @@ namespace SafeGuard.Controllers
 
             return Ok(user);
         }
+        // 1. FOTOĞRAF YÜKLEME
+        [HttpPost("upload-photo/{userId}")]
+        public async Task<IActionResult> UploadPhoto(int userId, IFormFile file)
+        {
+            var user = await _context.Users.FindAsync(userId);
+            if (user == null) return NotFound("Kullanıcı yok");
+            if (file == null || file.Length == 0) return BadRequest("Dosya yok");
+
+            // Dosya ismini hazırla
+            var fileName = $"User_{userId}_{Guid.NewGuid()}{Path.GetExtension(file.FileName)}";
+            var uploadPath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "uploads");
+            if (!Directory.Exists(uploadPath)) Directory.CreateDirectory(uploadPath);
+
+            // Kaydet
+            using (var stream = new FileStream(Path.Combine(uploadPath, fileName), FileMode.Create))
+            {
+                await file.CopyToAsync(stream);
+            }
+
+            // URL'i güncelle
+            user.ProfilePhotoUrl = $"uploads/{fileName}";
+            await _context.SaveChangesAsync();
+
+            return Ok(new { Path = user.ProfilePhotoUrl });
+        }
+
+        // 2. BİLGİ GÜNCELLEME (Kan Grubu Dahil)
+        [HttpPut("update-info/{id}")]
+        public async Task<IActionResult> UpdateUserInfo(int id, [FromBody] User updatedData)
+        {
+            var user = await _context.Users.FindAsync(id);
+            if (user == null) return NotFound();
+
+            user.FullName = updatedData.FullName;
+            user.PhoneNumber = updatedData.PhoneNumber;
+            user.BloodType = updatedData.BloodType;
+
+            await _context.SaveChangesAsync();
+            return Ok(user);
+        }
     }
 }

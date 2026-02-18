@@ -1,4 +1,4 @@
-using SafeGuard.Mobile.RealTime;
+using SafeGuard.Mobile.Services;
 
 namespace SafeGuard.Mobile
 {

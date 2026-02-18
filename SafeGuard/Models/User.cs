@@ -21,5 +21,6 @@
 
         public bool IsSosActive { get; set; } = false;
         public string? HelperName { get; set; } = null;
+        public string? ProfilePhotoUrl { get; set; }
     }
 }

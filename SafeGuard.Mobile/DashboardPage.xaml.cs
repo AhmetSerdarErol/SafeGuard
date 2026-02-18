@@ -2,7 +2,7 @@ using System.Diagnostics;
 using System.Globalization;
 using SafeGuard.Mobile.Models;
 using SafeGuard.Mobile.Services;
-using SafeGuard.Mobile.RealTime;
+
 #if ANDROID
 using Android.Telephony;
 using Android.Content;
@@ -18,7 +18,7 @@ namespace SafeGuard.Mobile
         private readonly AuthService _authService = new AuthService();
         private readonly ContactService _contactService = new ContactService();
         private readonly SignalRService _signalRService;
-
+        private readonly LocationService _locationService = new LocationService();
         private int currentUserId;
         private bool isCountingDown = false;
         private bool isCooldown = false;
@@ -38,8 +38,11 @@ namespace SafeGuard.Mobile
 
             // SignalR Başlat
             _signalRService = new SignalRService();
+
+            // --- EVENT ABONELİKLERİ ---
             _signalRService.OnSosReceived += HandleIncomingSos;
             _signalRService.OnHelpConfirmed += HandleHelpConfirmation;
+            _signalRService.OnSafeReceived += HandleIncomingSafe; // <--- YENİ EKLENDİ (Güvendeyim bildirimi için)
 
             StartRedPulse();
         }
@@ -49,11 +52,37 @@ namespace SafeGuard.Mobile
             base.OnAppearing();
             currentUserId = Preferences.Get("CurrentUserId", 0);
 
+            string photoUrl = Preferences.Get("UserPhotoUrl", "");
+            string fullName = Preferences.Get("UserFullName", "U");
+
+            if (!string.IsNullOrEmpty(photoUrl))
+            {
+                BottomProfileImage.Source = $"http://10.0.2.2:5161/{photoUrl}";
+                BottomInitialsLabel.IsVisible = false;
+            }
+            else
+            {
+                BottomProfileImage.Source = null;
+                BottomInitialsLabel.IsVisible = true;
+                BottomInitialsLabel.Text = fullName.Length >= 2 ? fullName.Substring(0, 2).ToUpper() : fullName.Substring(0, 1).ToUpper();
+            }
+
             UpdateWelcomeMessage();
             await LoadContacts(); // Kişileri Yükle
             await UpdateBadge();  // Bildirimleri Güncelle
 
-            await _signalRService.ConnectAsync();
+            if (currentUserId != 0)
+            {
+                // Bağlanırken sunucuya "Ben bu ID'li kullanıcıyım" diyoruz
+                await _signalRService.ConnectAsync(currentUserId);
+            }
+        }
+
+        protected override void OnDisappearing()
+        {
+            base.OnDisappearing();
+            // Sayfadan çıkınca abonelikleri temizlemek iyi bir pratiktir (Opsiyonel ama önerilir)
+            // _signalRService.OnSafeReceived -= HandleIncomingSafe;
         }
 
         // --- 1. YAKINLARI YÜKLEME METODU ---
@@ -130,7 +159,9 @@ namespace SafeGuard.Mobile
         // --- SOS (ACİL DURUM) MANTIĞI ---
         private async void OnSosClicked(object sender, EventArgs e)
         {
+            // Eğer SOS zaten aktifse, butona basınca "Güvendeyim" metoduna gider
             if (isSosActive) { await MarkAsSafe(); return; }
+
             if (isCooldown) return;
             if (isCountingDown) CancelSosProcess(); else await StartSosCountdown();
         }
@@ -185,7 +216,10 @@ namespace SafeGuard.Mobile
 
         private async Task TriggerSos()
         {
-            isCountingDown = false; isCooldown = true; isSosActive = true;
+            isCountingDown = false;
+            isCooldown = true;
+            isSosActive = true;
+
             StartGreenPulse();
             try { HapticFeedback.Perform(HapticFeedbackType.LongPress); } catch { }
 
@@ -193,13 +227,58 @@ namespace SafeGuard.Mobile
             SosLabel.Text = "GÜVENDEYİM";
             SosLabel.FontSize = 20;
 
+            // --- SOS GÖNDERME KISMI ---
+            try
+            {
+                StatusLabel.Text = "KONUM ALINIYOR...";
+
+                // 1. Konumu Bul
+                var location = await _locationService.GetCurrentLocationAsync();
+
+                if (location != null)
+                {
+                    StatusLabel.Text = "SUNUCUYA İLETİLİYOR...";
+                    if (currentUserId != 0)
+                    {
+                        // SignalR ile backend'e konum ve SOS bilgisini atıyoruz
+                        await _signalRService.SendSosAsync(currentUserId, location.Latitude, location.Longitude);
+                        StatusLabel.Text = "YARDIM ÇAĞRISI YAPILDI!";
+                    }
+                }
+                else
+                {
+                    StatusLabel.Text = "KONUM BULUNAMADI!";
+                }
+            }
+            catch (Exception ex)
+            {
+                StatusLabel.Text = "HATA OLUŞTU";
+                Console.WriteLine($"SOS Hatası: {ex.Message}");
+            }
+            // ---------------------------------------
+
+            // Döngü burada devam eder, kullanıcı "Güvendeyim" diyene kadar.
             while (isSosActive) { await Task.Delay(2000); }
         }
 
+        // --- GÜVENDEYİM (SOS İPTAL) MANTIĞI ---
         private async Task MarkAsSafe()
         {
             bool answer = await DisplayAlert("Güvende misin?", "Acil durum modunu kapatmak istiyor musunuz?", "EVET", "HAYIR");
-            if (answer) { isSosActive = false; isCooldown = false; ResetScreen(); }
+            if (answer)
+            {
+                // 1. Backend'e "Ben Güvendeyim" sinyali gönder
+                // Böylece arkadaşlarının telefonuna bildirim gidecek.
+                if (currentUserId != 0)
+                {
+                    await _signalRService.SendSafeAsync(currentUserId);
+                }
+
+                // 2. Ekranı sıfırla
+                isSosActive = false;
+                isCooldown = false;
+                ResetScreen();
+            }
         }
 
         private void ResetScreen()
@@ -256,22 +335,65 @@ namespace SafeGuard.Mobile
             successAnimation.Commit(this, "SuccessEffect", 16, 2000, Easing.SinOut, (v, c) => { PulsingRing.Scale = 1.6; PulsingRing.Opacity = 0; }, () => true);
         }
 
-        private void HandleIncomingSos(string senderIdString, string serverSenderName)
+        // --- SIGNALR DİNLEYİCİLERİ ---
+
+        // 1. SOS ALININCA ÇALIŞIR
+        private void HandleIncomingSos(string senderIdString, string serverSenderName, double lat, double lng)
         {
             MainThread.BeginInvokeOnMainThread(async () =>
             {
                 if (_isAlertActive) return;
-                bool yardimEt = await DisplayAlert("⚠️ ACİL DURUM!", $"{serverSenderName} yardım istedi!", "GİT", "İPTAL");
-                if (yardimEt) await _signalRService.ConfirmHelp("Ben", senderIdString);
+
+                // Telefon titreşsin ve ses çıkarsın (Dikkat çekmek için)
+                try { HapticFeedback.Perform(HapticFeedbackType.LongPress); } catch { }
+
+                // Ekrana ACİL DURUM uyarısı çıkar
+                bool yardimEt = await DisplayAlert("⚠️ ACİL DURUM!",
+                    $"{serverSenderName} yardım istedi!\nKonum: {lat}, {lng}\nOna gitmek istiyor musun?",
+                    "GİT (NAVİGASYON)", "İPTAL");
+
+                if (yardimEt)
+                {
+                    // A. Sunucuya "Tamam, yola çıktım" haberini ver
+                    await _signalRService.ConfirmHelp("Bir Dost", senderIdString);
+
+                    // B. HARİTAYI AÇ VE ROTA ÇİZ 🗺️
+                    try
+                    {
+                        var location = new Location(lat, lng);
+                        var options = new MapLaunchOptions
+                        {
+                            Name = serverSenderName, // Haritada arkadaşının adı yazsın
+                            NavigationMode = NavigationMode.Driving // Araba moduyla aç
+                        };
+
+                        await Map.OpenAsync(location, options);
+                    }
+                    catch (Exception ex)
+                    {
+                        await DisplayAlert("Hata", "Harita açılamadı: " + ex.Message, "Tamam");
+                    }
+                }
             });
         }
 
+        // 2. YARDIM ONAYI GELİNCE ÇALIŞIR (Yardım isteyen kişiye)
         private void HandleHelpConfirmation(string helperName)
         {
             MainThread.BeginInvokeOnMainThread(() =>
             {
                 StatusLabel.Text = $"YARDIM GELİYOR: {helperName}";
                 StatusLabel.TextColor = Colors.Green;
+            });
+        }
+
+        // 3. GÜVENDEYİM BİLDİRİMİ GELİNCE ÇALIŞIR (YENİ)
+        private void HandleIncomingSafe(string senderName)
+        {
+            MainThread.BeginInvokeOnMainThread(async () =>
+            {
+                // Arkadaşın güvende olduğunu bildirir
+                await DisplayAlert("✅ DURUM GÜNCELLEMESİ", $"{senderName} şu an güvende olduğunu bildirdi.", "TAMAM");
             });
         }
     }

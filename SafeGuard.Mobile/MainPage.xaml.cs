@@ -34,9 +34,6 @@ namespace SafeGuard.Mobile
                 Preferences.Set("UserFullName", result.FullName);
                 Preferences.Set("CurrentUserId", result.UserId);
 
-                // --- KRİTİK DÜZELTME ---
-                // Eskiden burası PushModalAsync idi, o yüzden Dashboard butonları çalışmıyordu.
-                // Şimdi ana sayfayı tamamen değiştiriyoruz:
                 Application.Current.MainPage = new NavigationPage(new DashboardPage());
             }
             else

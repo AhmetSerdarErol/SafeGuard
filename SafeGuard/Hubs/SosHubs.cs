@@ -1,29 +1,94 @@
 ﻿using Microsoft.AspNetCore.SignalR;
+using SafeGuard.Data;
+using Microsoft.EntityFrameworkCore;
+using System.Collections.Concurrent; // <-- BU EKSİKTİ
 
 namespace SafeGuard.Hubs
 {
     public class SosHub : Hub
     {
-        // Kullanıcı online olduğunda onu kendi ID'siyle bir odaya alıyoruz
-        public async Task JoinUserGroup(string userId)
+        private readonly AppDbContext _context;
+
+        // --- İŞTE BU EKSİK OLDUĞU İÇİN HATA ALIYORSUN ---
+        private static readonly ConcurrentDictionary<string, string> UserConnections = new();
+        // -------------------------------------------------
+
+        public SosHub(AppDbContext context)
         {
-            await Groups.AddToGroupAsync(Context.ConnectionId, userId);
+            _context = context;
         }
 
-        // SOS atan kişi, bu metodu tetikleyecek
-        public async Task SendSosToContacts(string senderId, string senderName, List<string> contactIds)
+        public override Task OnConnectedAsync()
         {
-            foreach (var id in contactIds)
+            var httpContext = Context.GetHttpContext();
+            var userId = httpContext?.Request.Query["userId"];
+            if (!string.IsNullOrEmpty(userId))
             {
-                // ARTIK HEM ID HEM İSİM GÖNDERİYORUZ
-                await Clients.Group(id).SendAsync("ReceiveSosAlert", senderId, senderName);
+                UserConnections[userId] = Context.ConnectionId;
+                Console.WriteLine($"KULLANICI BAĞLANDI: {userId}");
+            }
+            return base.OnConnectedAsync();
+        }
+
+        public override Task OnDisconnectedAsync(Exception? exception)
+        {
+            var item = UserConnections.FirstOrDefault(x => x.Value == Context.ConnectionId);
+            if (!string.IsNullOrEmpty(item.Key))
+            {
+                UserConnections.TryRemove(item.Key, out _);
+            }
+            return base.OnDisconnectedAsync(exception);
+        }
+
+        public async Task SendSosData(int userId, double lat, double lng)
+        {
+            var senderUser = await _context.Users.FindAsync(userId);
+            if (senderUser == null) return;
+
+            var friends = _context.Helpers
+                .Where(h => (h.UserId == userId || h.HelperId == userId) && h.Status == "Accepted")
+                .ToList();
+
+            foreach (var relation in friends)
+            {
+                int friendId = (relation.UserId == userId) ? relation.HelperId : relation.UserId;
+                if (UserConnections.TryGetValue(friendId.ToString(), out string? connectionId))
+                {
+                    await Clients.Client(connectionId).SendAsync("ReceiveSos", userId.ToString(), senderUser.FullName, lat, lng);
+                }
+            }
+            // Test için sana geri bildirim
+            await Clients.Caller.SendAsync("ReceiveSos", userId.ToString(), senderUser.FullName, lat, lng);
+        }
+
+        public async Task ConfirmHelp(string helperName, string targetUserId)
+        {
+            if (UserConnections.TryGetValue(targetUserId, out string? connectionId))
+            {
+                await Clients.Client(connectionId).SendAsync("HelpConfirmed", helperName);
             }
         }
 
-        // Yardım yolda onayı
-        public async Task SendHelpOnTheWay(string helperName, string targetUserId)
+        // --- GÜVENDEYİM METODU ---
+        public async Task SendSafeAlert(int userId)
         {
-            await Clients.Group(targetUserId).SendAsync("ReceiveHelpConfirmation", helperName);
+            var senderUser = await _context.Users.FindAsync(userId);
+            if (senderUser == null) return;
+
+            var friends = _context.Helpers
+                .Where(h => (h.UserId == userId || h.HelperId == userId) && h.Status == "Accepted")
+                .ToList();
+
+            foreach (var relation in friends)
+            {
+                int friendId = (relation.UserId == userId) ? relation.HelperId : relation.UserId;
+                if (UserConnections.TryGetValue(friendId.ToString(), out string? connectionId))
+                {
+                    await Clients.Client(connectionId).SendAsync("ReceiveSafe", senderUser.FullName);
+                }
+            }
+            // Test için sana da gönder
+            await Clients.Caller.SendAsync("ReceiveSafe", senderUser.FullName);
         }
     }
 }

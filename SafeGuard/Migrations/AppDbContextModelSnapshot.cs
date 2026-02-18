@@ -76,6 +76,8 @@ namespace SafeGuard.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("HelperId");
+
                     b.HasIndex("UserId");
 
                     b.ToTable("Helpers");
@@ -130,6 +132,9 @@ namespace SafeGuard.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("ProfilePhotoUrl")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("Role")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -152,11 +157,19 @@ namespace SafeGuard.Migrations
 
             modelBuilder.Entity("SafeGuard.Models.Helper", b =>
                 {
+                    b.HasOne("SafeGuard.Models.User", "HelperUser")
+                        .WithMany()
+                        .HasForeignKey("HelperId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
                     b.HasOne("SafeGuard.Models.User", "User")
                         .WithMany()
                         .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
+
+                    b.Navigation("HelperUser");
 
                     b.Navigation("User");
                 });

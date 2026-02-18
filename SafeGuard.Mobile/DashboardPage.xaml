@@ -9,6 +9,7 @@
     <Grid RowDefinitions="Auto, *, Auto">
 
         <Grid Grid.Row="0" ColumnDefinitions="*, Auto" Padding="25,25,25,10" VerticalOptions="Center">
+
             <VerticalStackLayout Grid.Column="0" Spacing="0" VerticalOptions="Center">
                 <Label Text="Merhaba," TextColor="#B0B0B0" FontSize="20" FontAttributes="None"/>
                 <Label x:Name="WelcomeLabel" Text="Kullanıcı" TextColor="#2196F3" 
@@ -24,26 +25,31 @@
                     <Button BackgroundColor="Transparent" Clicked="OnLogoutClicked"/>
                 </Grid>
             </Border>
+
         </Grid>
 
         <Grid Grid.Row="1">
             <ScrollView x:Name="SosView" IsVisible="True" VerticalOptions="Center">
                 <VerticalStackLayout Spacing="30" Padding="30">
                     <Grid HeightRequest="240" WidthRequest="240" HorizontalOptions="Center">
-                        <shapes:Ellipse x:Name="PulsingRing" Stroke="Red" StrokeThickness="2" WidthRequest="220" HeightRequest="220" Opacity="0" HorizontalOptions="Center" VerticalOptions="Center"/>
+                        <shapes:Ellipse x:Name="PulsingRing" Stroke="Red" StrokeThickness="2" WidthRequest="220" HeightRequest="220" Opacity="0" 
+                                        HorizontalOptions="Center" VerticalOptions="Center"/>
                         <Border x:Name="SosBtnBorder" BackgroundColor="#D32F2F" HeightRequest="200" WidthRequest="200" StrokeShape="RoundRectangle 100" HorizontalOptions="Center" VerticalOptions="Center">
                             <Label x:Name="SosLabel" Text="SOS" TextColor="White" FontSize="45" FontAttributes="Bold" HorizontalOptions="Center" VerticalOptions="Center"/>
                         </Border>
+
                         <Button BackgroundColor="Transparent" HeightRequest="200" WidthRequest="200" CornerRadius="100" Clicked="OnSosClicked" HorizontalOptions="Center" VerticalOptions="Center"/>
                     </Grid>
                     <ProgressBar x:Name="SosProgress" ProgressColor="#FF3B30" ScaleY="3" WidthRequest="220" Progress="0"/>
                     <Label x:Name="StatusLabel" Text="YARDIM ÇAĞIRMAK İÇİN DOKUN" TextColor="Gray" FontSize="16" FontAttributes="Bold" HorizontalOptions="Center" HorizontalTextAlignment="Center"/>
+
                 </VerticalStackLayout>
             </ScrollView>
 
             <Grid x:Name="ContactsView" IsVisible="False" Padding="20">
                 <VerticalStackLayout Spacing="15">
                     <Label Text="Yakınlarım" FontSize="24" FontAttributes="Bold" TextColor="White"/>
+
                     <CollectionView x:Name="ContactsCollection" SelectionMode="Single" SelectionChanged="OnContactSelected">
                         <CollectionView.ItemTemplate>
                             <DataTemplate>
@@ -55,13 +61,16 @@
                                         <Border Grid.Column="0" HeightRequest="50" WidthRequest="50" StrokeShape="RoundRectangle 25" BackgroundColor="#333">
                                             <Label Text="{Binding Name, Converter={StaticResource InitialsConverter}}" TextColor="White" FontSize="18" FontAttributes="Bold" HorizontalOptions="Center" VerticalOptions="Center"/>
                                         </Border>
+
                                         <VerticalStackLayout Grid.Column="1" VerticalOptions="Center">
                                             <Label Text="{Binding Name}" TextColor="White" FontSize="16" FontAttributes="Bold"/>
                                             <Label Text="{Binding PhoneNumber}" TextColor="Gray" FontSize="12"/>
                                         </VerticalStackLayout>
+
                                         <Label Grid.Column="2" Text="❯" TextColor="Gray" VerticalOptions="Center"/>
                                     </Grid>
                                 </Border>
+
                             </DataTemplate>
                         </CollectionView.ItemTemplate>
                     </CollectionView>
@@ -73,19 +82,22 @@
             <Border.StrokeShape>
                 <RoundRectangle CornerRadius="35"/>
             </Border.StrokeShape>
-            <Border BackgroundColor="#1E1E1E" StrokeThickness="0" Padding="5,20">
+            <Border BackgroundColor="#1E1E1E" StrokeThickness="0" Padding="5,15">
                 <Border.StrokeShape>
                     <RoundRectangle CornerRadius="35"/>
                 </Border.StrokeShape>
+
                 <Grid ColumnDefinitions="*, *, *, *, *">
                     <Grid Grid.Column="0" HorizontalOptions="Center" VerticalOptions="Center">
                         <shapes:Path Data="M10,20V14H14V20H19V12H22L12,3L2,12H5V20H10Z" Fill="White" HeightRequest="24" WidthRequest="24" Aspect="Uniform" InputTransparent="True"/>
                         <Button BackgroundColor="Transparent" Clicked="OnHomeClicked" HeightRequest="50" WidthRequest="50"/>
                     </Grid>
+
                     <Grid Grid.Column="1" HorizontalOptions="Center" VerticalOptions="Center">
                         <shapes:Path Data="M16 11c1.66 0 2.99-1.34 2.99-3S17.66 5 16 5c-1.66 0-3 1.34-3 3s1.34 3 3 3zm-8 0c1.66 0 2.99-1.34 2.99-3S9.66 5 8 5C6.34 5 5 6.34 5 8s1.34 3 3 3zm0 2c-2.33 0-7 1.17-7 3.5V19h14v-2.5c0-2.33-4.67-3.5-7-3.5zm8 0c-.29 0-.62.02-.97.05 1.16.84 1.97 1.97 1.97 3.45V19h6v-2.5c0-2.33-4.67-3.5-7-3.5z" Fill="White" HeightRequest="26" WidthRequest="26" Aspect="Uniform" InputTransparent="True"/>
                         <Button BackgroundColor="Transparent" Clicked="OnMyContactsClicked" HeightRequest="50" WidthRequest="50"/>
                     </Grid>
+
                     <Grid Grid.Column="2" HorizontalOptions="Center" VerticalOptions="Center">
                         <shapes:Path Data="M15,14C12.33,14 7,15.33 7,18V20H23V18C23,15.33 17.67,14 15,14M6,10V7H4V10H1V12H4V15H6V12H9V10M15,12A4,4 0 0,0 19,8A4,4 0 0,0 15,4A4,4 0 0,0 11,8A4,4 0 0,0 15,12Z" Fill="White" HeightRequest="28" WidthRequest="28" Aspect="Uniform" InputTransparent="True"/>
                         <Button BackgroundColor="Transparent" Clicked="OnAddFriendClicked" HeightRequest="50" WidthRequest="50"/>
@@ -108,10 +120,27 @@
                         <Button BackgroundColor="Transparent" Clicked="OnRequestsClicked" HeightRequest="50" WidthRequest="50"/>
                     </Grid>
 
-                    <Grid Grid.Column="4" HorizontalOptions="Center" VerticalOptions="Center">
-                        <shapes:Path Data="M3,17V19H9V17H3M3,5V7H13V5H3M13,21V19H21V17H13V15H11V21H13M7,9V11H3V13H7V15H9V9H7M21,13V11H11V13H21M15,9H17V7H21V5H17V3H15V9Z" Fill="White" HeightRequest="26" WidthRequest="26" Aspect="Uniform" InputTransparent="True"/>
-                        <Button BackgroundColor="Transparent" Clicked="OnSettingsClicked" HeightRequest="50" WidthRequest="50"/>
-                    </Grid>
+                    <VerticalStackLayout Grid.Column="4" Spacing="2" VerticalOptions="Center">
+                        <VerticalStackLayout.GestureRecognizers>
+                            <TapGestureRecognizer Tapped="OnSettingsClicked"/>
+                        </VerticalStackLayout.GestureRecognizers>
+
+                        <Border Stroke="#2196F3" StrokeThickness="2" 
+                                HeightRequest="30" WidthRequest="30" 
+                                StrokeShape="RoundRectangle 15"
+                                HorizontalOptions="Center"
+                                BackgroundColor="Transparent">
+                            <Grid>
+                                <Image x:Name="BottomProfileImage" Aspect="AspectFill"/>
+
+                                <Label x:Name="BottomInitialsLabel" Text="BEN" 
+                                       FontSize="9" FontAttributes="Bold" TextColor="#2196F3"
+                                       HorizontalOptions="Center" VerticalOptions="Center"/>
+                            </Grid>
+                        </Border>
+
+                        <Label Text="Ben" FontSize="10" TextColor="Gray" HorizontalOptions="Center"/>
+                    </VerticalStackLayout>
                 </Grid>
             </Border>
         </Border>

@@ -77,6 +77,7 @@ if (app.Environment.IsDevelopment())
 //app.UseHttpsRedirection();
 
 app.UseAuthentication(); // Kimlik Kontrolü (Sýrasý önemli!)
+app.UseStaticFiles();
 app.UseAuthorization();  // Yetki Kontrolü
 
 app.MapControllers();
