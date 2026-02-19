@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using SafeGuard.Backend.DTOs;
 using SafeGuard.Data;
 using SafeGuard.Dtos;
 using SafeGuard.Models;
@@ -18,50 +19,94 @@ namespace SafeGuard.Controllers
         }
 
         [HttpPost("register")]
-        public async Task<ActionResult<User>> Register(UserDto request)
+        public async Task<IActionResult> Register([FromBody] UserRegisterDto request)
         {
             // 1. E-posta zaten var mı kontrol et
             if (_context.Users.Any(u => u.Email == request.Email))
                 return BadRequest("Bu e-posta adresi zaten kullanılıyor.");
 
+            // Şifreyi güvenlik için kriptoluyoruz
             string passwordHash = BCrypt.Net.BCrypt.HashPassword(request.Password);
 
             // 2. Yeni kullanıcıyı oluştur
-            var user = new User
+            var newUser = new User
             {
                 FullName = request.FullName,
                 Email = request.Email,
-                Username = request.Email, // KRİTİK DÜZELTME: request.Username yerine Email kullandık
-                PasswordHash = passwordHash,
-                Role = "User",
-                PhoneNumber = request.PhoneNumber, // Dto'da = "" dediğimiz için null gelmez
-
+                Password = passwordHash,
+                PhoneNumber = request.PhoneNumber,
                 BloodType = request.BloodType,
-                ChronicDiseases = request.ChronicDiseases,
+                Height = request.Height,
+                Weight = request.Weight,
                 Allergies = request.Allergies,
-                Surgeries = request.Surgeries,
-                Habits = request.Habits,
-
-                Smoker = false,
-                AlcoholConsumption = false
+                MedicalConditions = request.MedicalConditions,
+                Medications = request.Medications,
+                OrganStatus = request.OrganStatus,
+                OrganDetails = request.OrganDetails,
+                AlcoholUse = request.AlcoholUse,
+                SmokingHabit = request.SmokingHabit
             };
 
-            _context.Users.Add(user);
+            _context.Users.Add(newUser);
             await _context.SaveChangesAsync();
-            return Ok(user);
+            return Ok(new { message = "Kayıt başarılı!" });
         }
 
         [HttpPost("login")]
-        public async Task<ActionResult<User>> Login(UserLoginDto request)
+        public async Task<IActionResult> Login([FromBody] UserLoginDto request)
         {
-            var user = await _context.Users.FirstOrDefaultAsync(u => u.Email == request.Email);
+            var user = _context.Users.FirstOrDefault(u => u.Email == request.Email);
 
-            if (user == null) return BadRequest("Kullanıcı bulunamadı.");
+            // 1. Kullanıcı var mı kontrolü
+            if (user == null)
+                return BadRequest("Geçersiz e-posta veya şifre.");
 
-            if (!BCrypt.Net.BCrypt.Verify(request.Password, user.PasswordHash))
-                return BadRequest("Yanlış şifre.");
+            // 2. Veritabanındaki şifre boş mu kontrolü (Eski hesaplar için)
+            if (string.IsNullOrEmpty(user.Password))
+                return BadRequest("Bu hesabın şifresi geçersiz. Lütfen yeni bir hesap oluşturun.");
 
+            // 3. Şifre doğrulama (Hata verirse çökmesini engellemek için Try-Catch içinde)
+            try
+            {
+                bool isPasswordValid = BCrypt.Net.BCrypt.Verify(request.Password, user.Password);
+                if (!isPasswordValid)
+                    return BadRequest("Geçersiz e-posta veya şifre.");
+            }
+            catch (System.ArgumentException)
+            {
+                // Eğer veritabanındaki şifre şifrelenmemiş (eski) ise buraya düşer
+                return BadRequest("Eski/Güvensiz bir hesapla giriş yapmaya çalışıyorsunuz. Lütfen yeni hesap açın.");
+            }
+
+            // Giriş başarılıysa
             return Ok(user);
+        }
+
+        [HttpPut("update-info/{id}")]
+        public async Task<IActionResult> UpdateProfileInfo(int id, [FromBody] UserProfileUpdateDto request)
+        {
+            // 1. Kullanıcıyı veritabanında bul
+            var user = await _context.Users.FindAsync(id);
+            if (user == null)
+                return NotFound("Kullanıcı bulunamadı.");
+
+            // 2. Gelen yeni verilerle eski verileri değiştir
+            user.FullName = request.FullName;
+            user.PhoneNumber = request.PhoneNumber;
+            user.Height = request.Height;
+            user.Weight = request.Weight;
+            user.BloodType = request.BloodType;
+            user.MedicalConditions = request.MedicalConditions;
+            user.Allergies = request.Allergies;
+            user.Medications = request.Medications;
+            user.OrganStatus = request.OrganStatus;
+            user.OrganDetails = request.OrganDetails;
+            user.AlcoholUse = request.AlcoholUse;
+            user.SmokingHabit = request.SmokingHabit;
+
+            // 3. Kaydet
+            await _context.SaveChangesAsync();
+            return Ok(new { message = "Profil başarıyla güncellendi!" });
         }
         // 1. FOTOĞRAF YÜKLEME
         [HttpPost("upload-photo/{userId}")]
@@ -89,19 +134,6 @@ namespace SafeGuard.Controllers
             return Ok(new { Path = user.ProfilePhotoUrl });
         }
 
-        // 2. BİLGİ GÜNCELLEME (Kan Grubu Dahil)
-        [HttpPut("update-info/{id}")]
-        public async Task<IActionResult> UpdateUserInfo(int id, [FromBody] User updatedData)
-        {
-            var user = await _context.Users.FindAsync(id);
-            if (user == null) return NotFound();
 
-            user.FullName = updatedData.FullName;
-            user.PhoneNumber = updatedData.PhoneNumber;
-            user.BloodType = updatedData.BloodType;
-
-            await _context.SaveChangesAsync();
-            return Ok(user);
-        }
     }
 }

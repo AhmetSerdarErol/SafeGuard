@@ -2,7 +2,7 @@ using System.Diagnostics;
 using System.Globalization;
 using SafeGuard.Mobile.Models;
 using SafeGuard.Mobile.Services;
-
+using SafeGuard.Mobile.Views;
 #if ANDROID
 using Android.Telephony;
 using Android.Content;
@@ -143,7 +143,7 @@ namespace SafeGuard.Mobile
 
         private async void OnSettingsClicked(object sender, EventArgs e)
         {
-            await DisplayAlert("Ayarlar", "Uygulama Sürümü: 1.0.0", "Tamam");
+            await Navigation.PushAsync(new ProfilePage());
         }
 
         private async void OnLogoutClicked(object sender, EventArgs e)

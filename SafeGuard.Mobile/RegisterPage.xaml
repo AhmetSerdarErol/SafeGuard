@@ -74,7 +74,7 @@
                             <Label Text="SAĞLIK BİLGİLERİ" TextColor="{StaticResource EmergencyRed}" FontAttributes="Bold" FontSize="12" Margin="0,0,0,10"/>
 
                             <VerticalStackLayout Spacing="5">
-                                <Label Text="KAN GRUBU" TextColor="#607080" FontSize="11" FontAttributes="Bold"/>
+                                <Label Text="KAN GRUBU" TextColor="White" FontSize="11" FontAttributes="Bold"/>
 
                                 <Border Stroke="#3A3A3C" StrokeThickness="1" BackgroundColor="Transparent" Padding="10,0" HeightRequest="50">
                                     <Border.StrokeShape>
@@ -102,7 +102,7 @@
                             </VerticalStackLayout>
 
                             <VerticalStackLayout Spacing="10">
-                                <Label Text="ALIŞKANLIKLAR" TextColor="#607080" FontSize="11" FontAttributes="Bold"/>
+                                <Label Text="ALIŞKANLIKLAR" TextColor="White" FontSize="11" FontAttributes="Bold"/>
 
                                 <HorizontalStackLayout Spacing="20">
                                     <Label Text="Sigara:" TextColor="White" VerticalOptions="Center" WidthRequest="60"/>
@@ -116,21 +116,37 @@
                                     <RadioButton x:Name="AlcoholNo" Content="Yok" GroupName="Alcohol" IsChecked="True" TextColor="White"/>
                                 </HorizontalStackLayout>
                             </VerticalStackLayout>
+                            <Label Text="Organ Nakli / Bağışı Durumu" TextColor="White" FontSize="12" Margin="0,10,0,0"/>
+                            <Picker x:Name="OrganStatusPicker" 
+        Title="Seçiniz" 
+        TitleColor="#607080"
+        TextColor="White" 
+        SelectedIndexChanged="OnOrganStatusChanged">
+                                <Picker.Items>
+                                    <x:String>Yok</x:String>
+                                    <x:String>Nakil Aldım (Alıcı)</x:String>
+                                    <x:String>Organ Bağışladım (Verici)</x:String>
+                                </Picker.Items>
+                            </Picker>
 
+                            <Entry x:Name="OrganDetailsEntry" 
+       Placeholder="Hangi organ? (Örn: Böbrek)" 
+       TextColor="White" 
+       IsVisible="False"/>
                             <VerticalStackLayout Spacing="5">
-                                <Label Text="ALERJENLER" TextColor="#607080" FontSize="11" FontAttributes="Bold"/>
+                                <Label Text="ALERJENLER" TextColor="White" FontSize="11" FontAttributes="Bold"/>
                                 <Entry x:Name="AllergiesEntry" Placeholder="İlaç veya Gıda Alerjileri" Style="{StaticResource KonseptEntry}"/>
                                 <BoxView HeightRequest="1" Color="#304050"/>
                             </VerticalStackLayout>
 
                             <VerticalStackLayout Spacing="5">
-                                <Label Text="GEÇİRİLEN HASTALIKLAR" TextColor="#607080" FontSize="11" FontAttributes="Bold"/>
+                                <Label Text="GEÇİRİLEN HASTALIKLAR" TextColor="White" FontSize="11" FontAttributes="Bold"/>
                                 <Entry x:Name="DiseasesEntry" Placeholder="Kronik Rahatsızlıklar" Style="{StaticResource KonseptEntry}"/>
                                 <BoxView HeightRequest="1" Color="#304050"/>
                             </VerticalStackLayout>
 
                             <VerticalStackLayout Spacing="5">
-                                <Label Text="GEÇİRİLEN AMELİYATLAR" TextColor="#607080" FontSize="11" FontAttributes="Bold"/>
+                                <Label Text="GEÇİRİLEN AMELİYATLAR" TextColor="White" FontSize="11" FontAttributes="Bold"/>
                                 <Entry x:Name="SurgeriesEntry" Placeholder="Önemli Operasyonlar" Style="{StaticResource KonseptEntry}"/>
                                 <BoxView HeightRequest="1" Color="#304050"/>
                             </VerticalStackLayout>

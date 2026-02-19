@@ -33,6 +33,22 @@ namespace SafeGuard.Mobile.Services
                 {
                     var responseData = await response.Content.ReadAsStringAsync();
                     var user = JsonSerializer.Deserialize<SafeGuard.Mobile.Models.User>(responseData, new JsonSerializerOptions { PropertyNameCaseInsensitive = true });
+
+                    // 🌟 İŞTE KRİTİK KISIM: Profil sayfanın aradığı İSİMLERLE BİREBİR AYNI şekilde kaydediyoruz!
+                    Preferences.Set("CurrentUserId", user?.Id ?? 0);
+                    Preferences.Set("UserFullName", user?.FullName ?? "");
+                    Preferences.Set("UserPhone", user?.PhoneNumber ?? "");
+                    Preferences.Set("UserHeight", user?.Height?.ToString() ?? "");
+                    Preferences.Set("UserWeight", user?.Weight?.ToString() ?? "");
+                    Preferences.Set("UserBlood", user?.BloodType ?? "");
+                    Preferences.Set("UserConditions", user?.MedicalConditions ?? "");
+                    Preferences.Set("UserAllergies", user?.Allergies ?? "");
+                    Preferences.Set("UserMedications", user?.Medications ?? "");
+                    Preferences.Set("UserOrganStatus", string.IsNullOrEmpty(user?.OrganStatus) ? "Yok" : user?.OrganStatus);
+                    Preferences.Set("UserOrganDetails", user?.OrganDetails ?? "");
+                    Preferences.Set("UserAlcohol", user?.AlcoholUse ?? "");
+                    Preferences.Set("UserSmoking", user?.SmokingHabit ?? "");
+
                     return (true, user?.Id ?? 0, user?.FullName ?? "İsimsiz", null);
                 }
 
@@ -42,38 +58,17 @@ namespace SafeGuard.Mobile.Services
             catch (Exception ex) { return (false, 0, null, ex.Message); }
         }
 
-        public async Task<(bool IsSuccess, string ErrorMessage)> RegisterAsync(User user)
+        // 🟢 YENİ VE DÜZELTİLMİŞ REGISTER METODU (DTO kullanıyor)
+        public async Task<bool> RegisterAsync(UserRegisterDto userDto)
         {
             try
             {
-                var registerData = new
-                {
-                    FullName = user.FullName,
-                    Username = user.Email,
-                    Email = user.Email,
-                    Password = user.Password,
-                    PhoneNumber = user.PhoneNumber,
-                    BloodType = "Bilinmiyor", // İstersen burayı user.BloodType yapabilirsin
-                    ChronicDiseases = "Yok",
-                    Allergies = "Yok",
-                    Smoker = false,
-                    AlcoholConsumption = false
-                };
-
-                var json = JsonSerializer.Serialize(registerData);
-                var content = new StringContent(json, Encoding.UTF8, "application/json");
-
-                var response = await _httpClient.PostAsync($"{BaseUrl}/Users/register", content);
-
-                if (response.IsSuccessStatusCode) return (true, null);
-
-                var error = await response.Content.ReadAsStringAsync();
-                return (false, error);
+                var response = await _httpClient.PostAsJsonAsync($"{BaseUrl}/users/register", userDto);
+                return response.IsSuccessStatusCode;
             }
-            catch (Exception ex) { return (false, $"Bağlantı hatası: {ex.Message}"); }
+            catch { return false; }
         }
 
-        // 🟢 EKSİK OLAN METOD EKLENDİ
         public async Task<bool> SendFriendRequestAsync(int myUserId, string targetPhone)
         {
             try
@@ -118,6 +113,7 @@ namespace SafeGuard.Mobile.Services
             }
             catch { return false; }
         }
+
         public async Task<string> UploadProfilePhotoAsync(int userId, FileResult fileResult)
         {
             try
@@ -132,12 +128,30 @@ namespace SafeGuard.Mobile.Services
             catch { return null; }
         }
 
-        // BİLGİ GÜNCELLEME
-        public async Task<bool> UpdateProfileInfoAsync(int userId, string name, string phone, string blood)
+        public async Task<bool> UpdateFullProfileInfoAsync(
+            int userId, string name, string phone, string height, string weight,
+            string blood, string conditions, string allergies, string meds,
+            string organStatus, string organDetails, string alcohol, string smoking)
         {
             try
             {
-                var data = new { Id = userId, FullName = name, PhoneNumber = phone, BloodType = blood };
+                var data = new
+                {
+                    Id = userId,
+                    FullName = name,
+                    PhoneNumber = phone,
+                    Height = string.IsNullOrEmpty(height) ? (int?)null : int.Parse(height),
+                    Weight = string.IsNullOrEmpty(weight) ? (int?)null : int.Parse(weight),
+                    BloodType = blood,
+                    MedicalConditions = conditions,
+                    Allergies = allergies,
+                    Medications = meds,
+                    OrganStatus = organStatus,
+                    OrganDetails = organDetails,
+                    AlcoholUse = alcohol,
+                    SmokingHabit = smoking
+                };
+
                 var response = await _httpClient.PutAsJsonAsync($"{BaseUrl}/users/update-info/{userId}", data);
                 return response.IsSuccessStatusCode;
             }

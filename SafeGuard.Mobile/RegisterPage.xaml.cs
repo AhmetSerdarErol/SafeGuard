@@ -13,10 +13,9 @@ namespace SafeGuard.Mobile
             _authService = new AuthService();
         }
 
-        // --- 1. EKSİK OLAN GEÇİŞ KODLARI (BURAYI EKLEMEZSEN SAYFA DEĞİŞMEZ) ---
+        // --- SENİN 2 AŞAMALI GEÇİŞ KODLARIN (KORUNDU) ---
         private void OnNextStepClicked(object sender, EventArgs e)
         {
-            // Temel alanlar boş mu kontrol et
             if (string.IsNullOrWhiteSpace(NameEntry.Text) ||
                 string.IsNullOrWhiteSpace(EmailEntry.Text) ||
                 string.IsNullOrWhiteSpace(PasswordEntry.Text))
@@ -25,19 +24,27 @@ namespace SafeGuard.Mobile
                 return;
             }
 
-            // 1. Ekranı Kapat, 2. Ekranı Aç
             Step1Layout.IsVisible = false;
             Step2Layout.IsVisible = true;
         }
 
         private void OnBackStepClicked(object sender, EventArgs e)
         {
-            // Geri dönünce 2. Ekranı Kapat, 1. Ekranı Aç
             Step2Layout.IsVisible = false;
             Step1Layout.IsVisible = true;
         }
-        // -------------------------------------------------------------------
-
+        private void OnOrganStatusChanged(object sender, EventArgs e)
+        {
+            if (OrganStatusPicker.SelectedIndex > 0) // "Yok" harici bir şey seçilirse
+            {
+                OrganDetailsEntry.IsVisible = true;
+            }
+            else
+            {
+                OrganDetailsEntry.IsVisible = false;
+                OrganDetailsEntry.Text = "";
+            }
+        }
         private async void OnRegisterClicked(object sender, EventArgs e)
         {
             LoadingSpinner.IsRunning = true;
@@ -45,37 +52,35 @@ namespace SafeGuard.Mobile
 
             try
             {
-                // 1. Kan Grubunu Picker'dan al (Seçilmediyse boş string olsun)
+                // UI verilerini toparla
                 string selectedBloodType = BloodTypePicker.SelectedItem?.ToString() ?? "";
+                string smokeStatus = SmokeYes.IsChecked ? "Kullanıyorum" : "Kullanmıyorum";
+                string alcoholStatus = AlcoholYes.IsChecked ? "Düzenli" : "Kullanmıyorum";
 
-                // 2. Alışkanlıkları RadioButton'lardan birleştir
-                // Backend tek bir string beklediği için biz bunları birleştirip gönderiyoruz.
-                List<string> habitList = new List<string>();
-
-                if (SmokeYes.IsChecked) habitList.Add("Sigara");
-                if (AlcoholYes.IsChecked) habitList.Add("Alkol");
-
-                string habitsString = habitList.Count > 0 ? string.Join(", ", habitList) : "Yok";
-
-                // 3. Kullanıcı Nesnesini Oluştur
-                var newUser = new User
+                // YENİ DTO KUTUMUZU EKRANDAKİ VERİLERLE DOLDURUYORUZ
+                var registerDto = new UserRegisterDto
                 {
                     FullName = NameEntry.Text,
                     Email = EmailEntry.Text,
                     PhoneNumber = PhoneEntry.Text ?? "",
                     Password = PasswordEntry.Text,
 
-                    // YENİ UI VERİLERİ:
                     BloodType = selectedBloodType,
-                    Habits = habitsString,
-
-                    // DİĞERLERİ:
+                    MedicalConditions = DiseasesEntry?.Text ?? "",
                     Allergies = AllergiesEntry?.Text ?? "",
-                    ChronicDiseases = DiseasesEntry?.Text ?? "",
-                    Surgeries = SurgeriesEntry?.Text ?? ""
+
+                    SmokingHabit = smokeStatus,
+                    AlcoholUse = alcoholStatus,
+
+                    // Eğer ekranda boy/kilo girdisi yoksa null bırakıyoruz
+                    Height = null,
+                    Weight = null,
+                    OrganStatus = "Yok",
+                    OrganDetails = ""
                 };
 
-                var (isSuccess, errorMessage) = await _authService.RegisterAsync(newUser);
+                // Servise gönder (Artık sadece true/false dönüyor)
+                bool isSuccess = await _authService.RegisterAsync(registerDto);
 
                 if (isSuccess)
                 {
@@ -84,7 +89,7 @@ namespace SafeGuard.Mobile
                 }
                 else
                 {
-                    await DisplayAlert("Kayıt Hatası", errorMessage ?? "İşlem başarısız.", "Tamam");
+                    await DisplayAlert("Kayıt Hatası", "İşlem başarısız. Bu e-posta kullanımda olabilir.", "Tamam");
                 }
             }
             catch (Exception ex)

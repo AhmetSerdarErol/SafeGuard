@@ -1,30 +1,135 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             x:Class="SafeGuard.Mobile.ProfilePage"
-             Title="Profilim" BackgroundColor="#F5F5F5">
-    <ScrollView>
-        <VerticalStackLayout Spacing="20" Padding="20">
-            <VerticalStackLayout Spacing="10" HorizontalOptions="Center">
-                <Border Stroke="#2196F3" StrokeThickness="3" HeightRequest="120" WidthRequest="120" StrokeShape="RoundRectangle 60">
-                    <Grid>
-                        <Image x:Name="ProfileImage" Aspect="AspectFill"/>
-                        <Label x:Name="InitialsLabel" Text="AD" FontSize="40" FontAttributes="Bold" TextColor="#2196F3" 
-                               HorizontalOptions="Center" VerticalOptions="Center"/>
-                    </Grid>
-                    <Border.GestureRecognizers>
-                        <TapGestureRecognizer Tapped="OnChangePhotoClicked"/>
-                    </Border.GestureRecognizers>
+             x:Class="SafeGuard.Mobile.Views.ProfilePage"
+             Title="Tıbbi Kimlik ve Profil" 
+             BackgroundColor="#F2F2F7">
+
+    <Grid>
+        <ScrollView>
+            <VerticalStackLayout Spacing="20" Padding="20,20,20,100">
+
+                <Grid ColumnDefinitions="*, Auto">
+                    <VerticalStackLayout Grid.Column="0" HorizontalOptions="Center" Margin="30,0,0,0">
+                        <Border Stroke="#2196F3" StrokeThickness="3" HeightRequest="120" WidthRequest="120" StrokeShape="RoundRectangle 60">
+                            <Grid>
+                                <Image x:Name="ProfileImage" Aspect="AspectFill" BackgroundColor="White"/>
+                                <Label x:Name="InitialsLabel" Text="AD" FontSize="40" FontAttributes="Bold" TextColor="#2196F3" HorizontalOptions="Center" VerticalOptions="Center"/>
+                            </Grid>
+                            <Border.GestureRecognizers>
+                                <TapGestureRecognizer Tapped="OnChangePhotoClicked"/>
+                            </Border.GestureRecognizers>
+                        </Border>
+                        <Label x:Name="PhotoChangeHint" Text="Fotoğrafı Değiştir" TextColor="#2196F3" HorizontalOptions="Center" IsVisible="False" Margin="0,5,0,0"/>
+                    </VerticalStackLayout>
+
+                    <Button Grid.Column="1" x:Name="EditButton" Text="Düzenle ✎" BackgroundColor="Transparent" TextColor="#FF3B30" FontAttributes="Bold" Clicked="OnEditClicked" VerticalOptions="Start"/>
+                </Grid>
+
+                <Label Text="TEMEL VE FİZİKSEL BİLGİLER" TextColor="Gray" FontSize="13" FontAttributes="Bold" Margin="10,10,0,-10"/>
+                <Border StrokeThickness="0" BackgroundColor="White" Padding="15">
+                    <Border.StrokeShape>
+                        <RoundRectangle CornerRadius="15"/>
+                    </Border.StrokeShape>
+                    <VerticalStackLayout Spacing="10">
+                        <Label Text="Ad Soyad" TextColor="Gray" FontSize="12"/>
+                        <Entry x:Name="NameEntry" TextColor="Black" IsReadOnly="True" BackgroundColor="Transparent"/>
+
+                        <Label Text="Telefon Numarası" TextColor="Gray" FontSize="12"/>
+                        <Entry x:Name="PhoneEntry" Keyboard="Telephone" TextColor="Black" IsReadOnly="True" BackgroundColor="Transparent"/>
+
+                        <Grid ColumnDefinitions="*,*">
+                            <VerticalStackLayout Grid.Column="0">
+                                <Label Text="Boy (cm)" TextColor="Gray" FontSize="12"/>
+                                <Entry x:Name="HeightEntry" Keyboard="Numeric" TextColor="Black" IsReadOnly="True" BackgroundColor="Transparent"/>
+                            </VerticalStackLayout>
+                            <VerticalStackLayout Grid.Column="1">
+                                <Label Text="Kilo (kg)" TextColor="Gray" FontSize="12"/>
+                                <Entry x:Name="WeightEntry" Keyboard="Numeric" TextColor="Black" IsReadOnly="True" BackgroundColor="Transparent"/>
+                            </VerticalStackLayout>
+                        </Grid>
+
+                        <Label Text="Kan Grubu" TextColor="Gray" FontSize="12"/>
+                        <Picker x:Name="BloodPicker" Title="Kan Grubu Seçin" IsEnabled="False" TextColor="Red" FontAttributes="Bold">
+                            <Picker.Items>
+                                <x:String>A Rh+</x:String>
+                                <x:String>A Rh-</x:String>
+                                <x:String>B Rh+</x:String>
+                                <x:String>B Rh-</x:String>
+                                <x:String>AB Rh+</x:String>
+                                <x:String>AB Rh-</x:String>
+                                <x:String>0 Rh+</x:String>
+                                <x:String>0 Rh-</x:String>
+                            </Picker.Items>
+                        </Picker>
+                    </VerticalStackLayout>
                 </Border>
-                <Label Text="Fotoğrafı Değiştir" TextColor="#2196F3" HorizontalOptions="Center"/>
+
+                <Label Text="TIBBİ BİLGİLER" TextColor="Gray" FontSize="13" FontAttributes="Bold" Margin="10,10,0,-10"/>
+                <Border StrokeThickness="0" BackgroundColor="White" Padding="15">
+                    <Border.StrokeShape>
+                        <RoundRectangle CornerRadius="15"/>
+                    </Border.StrokeShape>
+                    <VerticalStackLayout Spacing="10">
+                        <Label Text="Tıbbi Durumlar / Hastalıklar" TextColor="Gray" FontSize="12"/>
+                        <Entry x:Name="ConditionsEntry" Placeholder="Örn: Astım, Tansiyon (Yoksa boş bırakın)" TextColor="Black" IsReadOnly="True"/>
+
+                        <Label Text="Alerjiler ve Reaksiyonlar" TextColor="Gray" FontSize="12"/>
+                        <Entry x:Name="AllergiesEntry" Placeholder="Örn: Penisilin, Fıstık" TextColor="Black" IsReadOnly="True"/>
+
+                        <Label Text="Kullandığı İlaçlar" TextColor="Gray" FontSize="12"/>
+                        <Entry x:Name="MedicationsEntry" Placeholder="Düzenli alınan ilaçlar" TextColor="Black" IsReadOnly="True"/>
+
+                        <Label Text="Organ Nakli / Bağışı Durumu" TextColor="Gray" FontSize="12"/>
+                        <Picker x:Name="OrganStatusPicker" Title="Seçiniz" IsEnabled="False" TextColor="Black" SelectedIndexChanged="OnOrganStatusChanged">
+                            <Picker.Items>
+                                <x:String>Yok</x:String>
+                                <x:String>Nakil Aldım (Alıcı)</x:String>
+                                <x:String>Organ Bağışladım (Verici)</x:String>
+                            </Picker.Items>
+                        </Picker>
+
+                        <Entry x:Name="OrganDetailsEntry" Placeholder="Hangi organ? (Örn: Böbrek)" TextColor="Black" IsReadOnly="True" IsVisible="False"/>
+                    </VerticalStackLayout>
+                </Border>
+
+                <Label Text="ALIŞKANLIKLAR" TextColor="Gray" FontSize="13" FontAttributes="Bold" Margin="10,10,0,-10"/>
+                <Border StrokeThickness="0" BackgroundColor="White" Padding="15">
+                    <Border.StrokeShape>
+                        <RoundRectangle CornerRadius="15"/>
+                    </Border.StrokeShape>
+                    <VerticalStackLayout Spacing="10">
+                        <Label Text="Alkol Kullanımı" TextColor="Gray" FontSize="12"/>
+                        <Picker x:Name="AlcoholPicker" Title="Seçiniz" IsEnabled="False" TextColor="Black">
+                            <Picker.Items>
+                                <x:String>Kullanmıyorum</x:String>
+                                <x:String>Ara Sıra</x:String>
+                                <x:String>Düzenli</x:String>
+                            </Picker.Items>
+                        </Picker>
+
+                        <Label Text="Sigara Kullanımı" TextColor="Gray" FontSize="12"/>
+                        <Picker x:Name="SmokingPicker" Title="Seçiniz" IsEnabled="False" TextColor="Black">
+                            <Picker.Items>
+                                <x:String>Kullanmıyorum</x:String>
+                                <x:String>Bıraktım</x:String>
+                                <x:String>Kullanıyorum</x:String>
+                            </Picker.Items>
+                        </Picker>
+                    </VerticalStackLayout>
+                </Border>
+
+                <Button x:Name="LogoutButton" Text="Sistemden Çıkış Yap" BackgroundColor="Transparent" TextColor="Red" Clicked="OnLogoutClicked"/>
+
             </VerticalStackLayout>
+        </ScrollView>
 
-            <Entry x:Name="NameEntry" Placeholder="Ad Soyad" BackgroundColor="White" TextColor="Black"/>
-            <Entry x:Name="PhoneEntry" Placeholder="Telefon" Keyboard="Telephone" BackgroundColor="White" TextColor="Black"/>
-            <Entry x:Name="BloodEntry" Placeholder="Kan Grubu (Örn: A Rh+)" BackgroundColor="White" TextColor="Red" FontAttributes="Bold"/>
+        <Border x:Name="SaveContainer" BackgroundColor="White" VerticalOptions="End" Padding="20" IsVisible="False">
+            <Border.Shadow>
+                <Shadow Brush="Black" Opacity="0.1" Radius="10" Offset="0,-5"/>
+            </Border.Shadow>
+            <Button Text="BİLGİLERİ KAYDET" BackgroundColor="#2196F3" TextColor="White" HeightRequest="50" CornerRadius="10" FontAttributes="Bold" Clicked="OnSaveClicked"/>
+        </Border>
 
-            <Button Text="KAYDET" BackgroundColor="#2196F3" Clicked="OnSaveClicked" CornerRadius="20"/>
-            <Button Text="ÇIKIŞ YAP" BackgroundColor="Transparent" TextColor="Red" Clicked="OnLogoutClicked"/>
-        </VerticalStackLayout>
-    </ScrollView>
+    </Grid>
 </ContentPage>
