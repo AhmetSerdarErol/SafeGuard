@@ -9,5 +9,7 @@ namespace SafeGuard.Mobile.Models
 
         [JsonPropertyName("phoneNumber")]
         public string PhoneNumber { get; set; }
+        public string BloodType { get; set; }
+        public string BirthDate { get; set; }
     }
 }

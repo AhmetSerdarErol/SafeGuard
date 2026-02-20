@@ -7,8 +7,8 @@ namespace SafeGuard.Mobile.Services
     {
         private readonly HttpClient _httpClient;
 
-        // Emülatör IP adresi (Backend ile aynı port olduğundan emin ol)
-        private const string BaseUrl = "http://10.0.2.2:5161/api/helpers";
+        // ESKİ HALİNE GERİ DÖNDÜRDÜK
+        private const string BaseUrl = "http://172.16.0.78:5161/api/helpers";
 
         public ContactService()
         {
@@ -17,11 +17,11 @@ namespace SafeGuard.Mobile.Services
             _httpClient = new HttpClient(handler);
         }
 
-        // Metodun 'List<ContactModel>' döndürdüğüne dikkat et
         public async Task<List<ContactModel>> GetContactsAsync(int userId)
         {
             try
             {
+                // ESKİ HALİNE GERİ DÖNDÜRDÜK
                 var response = await _httpClient.GetStringAsync($"{BaseUrl}/contacts/{userId}");
 
                 return JsonSerializer.Deserialize<List<ContactModel>>(response,

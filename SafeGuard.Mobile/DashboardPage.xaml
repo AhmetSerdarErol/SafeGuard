@@ -57,20 +57,21 @@
                                     <Border.StrokeShape>
                                         <RoundRectangle CornerRadius="15"/>
                                     </Border.StrokeShape>
+
                                     <Grid ColumnDefinitions="Auto, *, Auto" ColumnSpacing="15">
-                                        <Border Grid.Column="0" HeightRequest="50" WidthRequest="50" StrokeShape="RoundRectangle 25" BackgroundColor="#333">
+
+                                        <Border Grid.Column="0" HeightRequest="50" WidthRequest="50" StrokeShape="RoundRectangle 25" BackgroundColor="#333" HorizontalOptions="Center" VerticalOptions="Center">
                                             <Label Text="{Binding Name, Converter={StaticResource InitialsConverter}}" TextColor="White" FontSize="18" FontAttributes="Bold" HorizontalOptions="Center" VerticalOptions="Center"/>
                                         </Border>
 
                                         <VerticalStackLayout Grid.Column="1" VerticalOptions="Center">
                                             <Label Text="{Binding Name}" TextColor="White" FontSize="16" FontAttributes="Bold"/>
-                                            <Label Text="{Binding PhoneNumber}" TextColor="Gray" FontSize="12"/>
                                         </VerticalStackLayout>
 
-                                        <Label Grid.Column="2" Text="❯" TextColor="Gray" VerticalOptions="Center"/>
+                                        <Label Grid.Column="2" Text="❯" TextColor="#555" FontSize="20" FontAttributes="Bold" VerticalOptions="Center"/>
+
                                     </Grid>
                                 </Border>
-
                             </DataTemplate>
                         </CollectionView.ItemTemplate>
                     </CollectionView>

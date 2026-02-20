@@ -32,6 +32,6 @@
         public string? AlcoholUse { get; set; }  
         public string? SmokingHabit { get; set; }
         public string Password { get; set; }
-
+        public string? BirthDate { get; set; }
     }
 }

@@ -10,7 +10,7 @@ namespace SafeGuard.Mobile.Services
         private readonly HttpClient _httpClient;
 
         // 🟢 EMÜLATÖR İÇİN SABİT IP (Değiştirme)
-        private const string BaseUrl = "http://10.0.2.2:5161/api";
+        private const string BaseUrl = "http://172.16.0.78:5161/api";
 
         public AuthService()
         {

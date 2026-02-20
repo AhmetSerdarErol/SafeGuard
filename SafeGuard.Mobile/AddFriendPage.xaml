@@ -1,23 +1,41 @@
+<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             x:Class="SafeGuard.Mobile.AddFriendPage"
-             Title="Yardımcı Ekle"
-             BackgroundColor="#121212">
+             x:Class="SafeGuard.Mobile.Views.AddFriendPage"
+             Title="Yakınlarım">
 
-    <VerticalStackLayout Padding="30" Spacing="20" VerticalOptions="Center">
-        <Label Text="Güvenlik Yardımcısı Ekle" FontSize="22" FontAttributes="Bold" TextColor="White" HorizontalOptions="Center"/>
-        <Label Text="Eklemek istediğiniz kişinin telefon numarasını girin." TextColor="Gray" HorizontalOptions="Center"/>
+    <Grid RowDefinitions="Auto, *" BackgroundColor="#F5F7FA">
 
-        <Border Stroke="#333" StrokeThickness="1" BackgroundColor="#1C1C1E" Padding="10,0" HeightRequest="50">
-            <Border.StrokeShape>
-                <RoundRectangle CornerRadius="10"/>
-            </Border.StrokeShape>
-            <Entry x:Name="PhoneEntry" 
-                   Placeholder="Telefon No (Örn: 0532...)" 
-                   TextColor="White" 
-                   Keyboard="Telephone"/>
-        </Border>
+        <Frame Grid.Row="0" Margin="15" Padding="15" CornerRadius="15" HasShadow="True" BorderColor="Transparent" BackgroundColor="White">
+            <VerticalStackLayout Spacing="10">
+                <Label Text="Yeni Acil Durum Kişisi Ekle" FontAttributes="Bold" FontSize="16" TextColor="#333"/>
+                <Entry x:Name="PhoneEntry" Placeholder="Telefon Numarası (Örn: 05...)" Keyboard="Telephone" BackgroundColor="#F0F0F0" TextColor="Black"/>
+                <Button Text="İstek Gönder" BackgroundColor="#007ACC" TextColor="White" CornerRadius="10" Clicked="OnSendRequestClicked" FontAttributes="Bold"/>
+            </VerticalStackLayout>
+        </Frame>
 
-        <Button Text="İSTEK GÖNDER" BackgroundColor="#007AFF" Clicked="OnSendRequestClicked"/>
-    </VerticalStackLayout>
+        <CollectionView x:Name="ContactsList" Grid.Row="1" Margin="15,0,15,15">
+            <CollectionView.ItemTemplate>
+                <DataTemplate>
+                    <Frame Margin="0,0,0,10" Padding="15" CornerRadius="15" HasShadow="True" BorderColor="#E0E0E0" BackgroundColor="White">
+                        <Grid ColumnDefinitions="50, *, Auto" RowDefinitions="Auto, Auto, Auto" ColumnSpacing="15">
+
+                            <Frame Grid.RowSpan="3" Grid.Column="0" WidthRequest="50" HeightRequest="50" CornerRadius="25" BackgroundColor="#E8F4F8" Padding="0" HasShadow="False">
+                                <Label Text="{Binding Initials}" HorizontalOptions="Center" VerticalOptions="Center" FontAttributes="Bold" TextColor="#007ACC" FontSize="20"/>
+                            </Frame>
+
+                            <StackLayout Grid.Column="1" Grid.Row="0" Orientation="Horizontal" Spacing="5">
+                                <Label Text="{Binding Name}" FontAttributes="Bold" FontSize="16" TextColor="Black" />
+                                <Label Text="{Binding StatusText}" FontSize="12" TextColor="{Binding StatusColor}" VerticalOptions="Center" />
+                            </StackLayout>
+
+                            <Label Grid.Column="1" Grid.Row="1" Text="{Binding PhoneNumber}" FontSize="13" TextColor="#555" Margin="0,2,0,0" />
+
+                            <Button Grid.Column="2" Grid.RowSpan="3" Text="📞" BackgroundColor="#E8F4F8" TextColor="#007ACC" WidthRequest="45" HeightRequest="45" CornerRadius="22" VerticalOptions="Center" Clicked="OnCallClicked" CommandParameter="{Binding PhoneNumber}"/>
+                        </Grid>
+                    </Frame>
+                </DataTemplate>
+            </CollectionView.ItemTemplate>
+        </CollectionView>
+    </Grid>
 </ContentPage>

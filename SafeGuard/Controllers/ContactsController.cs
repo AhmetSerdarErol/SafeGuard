@@ -19,9 +19,33 @@ namespace SafeGuard.Controllers
 
         // --- KİŞİLERİ GETİR (api/contacts/1) ---
         [HttpGet("{userId}")]
-        public async Task<ActionResult<IEnumerable<Contact>>> GetContacts(int userId)
+        public async Task<IActionResult> GetContacts(int userId)
         {
-            return await _context.Contacts.Where(c => c.UserId == userId).ToListAsync();
+            // 1. Kullanıcının yakınlar listesini çekiyoruz
+            var contacts = await _context.Contacts.Where(c => c.UserId == userId).ToListAsync();
+
+            // 2. Mobilden beklediğimiz dolu format için yeni bir liste hazırlıyoruz
+            var detailedContacts = new List<object>();
+
+            foreach (var c in contacts)
+            {
+                // 3. Yakının telefon numarasından, sistemdeki asıl Kullanıcı (User) profilini buluyoruz
+                var targetProfile = await _context.Users.FirstOrDefaultAsync(u => u.PhoneNumber == c.PhoneNumber);
+
+                // 4. Bulduğumuz profilden sağlık verilerini çekip pakete (JSON) ekliyoruz
+                detailedContacts.Add(new
+                {
+                    Id = c.Id,
+                    Name = c.Name,
+                    PhoneNumber = c.PhoneNumber,
+                    VerificationStatus = c.VerificationStatus,
+                    // Eğer karşı taraf uygulamaya kendi kan grubunu/doğum tarihini girdiyse onu çek, yoksa boş döndür
+                    BloodType = targetProfile?.BloodType,
+                    BirthDate = targetProfile?.BirthDate
+                });
+            }
+
+            return Ok(detailedContacts);
         }
 
         // --- KİŞİ EKLE (api/contacts/add) ---

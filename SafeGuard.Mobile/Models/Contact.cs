@@ -5,9 +5,7 @@
         public int Id { get; set; }
         public string Name { get; set; }
         public string PhoneNumber { get; set; }
-        public int UserId { get; set; }
-
-        // YENİ: Varsayılan olarak "Pending" (Bekliyor) gelir
+        public int UserId { get; set; } 
         public string VerificationStatus { get; set; } = "Pending";
     }
 }

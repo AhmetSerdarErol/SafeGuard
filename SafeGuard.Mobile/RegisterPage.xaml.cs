@@ -53,10 +53,12 @@ namespace SafeGuard.Mobile
             try
             {
                 // UI verilerini toparla
-                string selectedBloodType = BloodTypePicker.SelectedItem?.ToString() ?? "";
+                
                 string smokeStatus = SmokeYes.IsChecked ? "Kullanıyorum" : "Kullanmıyorum";
                 string alcoholStatus = AlcoholYes.IsChecked ? "Düzenli" : "Kullanmıyorum";
-
+                string birthDate = string.Format("{0:dd/MM/yyyy}", BirthDatePicker.Date);
+                string bloodType = BloodTypePicker.SelectedItem?.ToString() ?? "Belirtilmemiş";
+                
                 // YENİ DTO KUTUMUZU EKRANDAKİ VERİLERLE DOLDURUYORUZ
                 var registerDto = new UserRegisterDto
                 {
@@ -65,7 +67,8 @@ namespace SafeGuard.Mobile
                     PhoneNumber = PhoneEntry.Text ?? "",
                     Password = PasswordEntry.Text,
 
-                    BloodType = selectedBloodType,
+                    BloodType = bloodType,
+                    BirthDate = birthDate,
                     MedicalConditions = DiseasesEntry?.Text ?? "",
                     Allergies = AllergiesEntry?.Text ?? "",
 

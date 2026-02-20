@@ -108,12 +108,20 @@ namespace SafeGuard.Mobile
         // --- 2. LİSTEDEN SEÇİM YAPINCA ---
         private async void OnContactSelected(object sender, SelectionChangedEventArgs e)
         {
-            // Burası ContactModel olmalı
             if (e.CurrentSelection.FirstOrDefault() is ContactModel c)
             {
-                // Tıklayınca numarasını gösteriyoruz, istersen arama kodu ekleyebiliriz
-                await DisplayAlert(c.Name, $"Tel: {c.PhoneNumber}", "Kapat");
+                // Seçimi temizle (aynı kişiye tekrar tıklanabilmesi için)
                 ((CollectionView)sender).SelectedItem = null;
+
+                // Veriler boşsa "Belirtilmemiş" yazsın
+                string kanGrubu = string.IsNullOrEmpty(c.BloodType) ? "Belirtilmemiş" : c.BloodType;
+                string dogumTarihi = string.IsNullOrEmpty(c.BirthDate) ? "Belirtilmemiş" : c.BirthDate;
+
+                string message = $"📞 Telefon: {c.PhoneNumber}\n\n" +
+                                 $"🩸 Kan Grubu: {kanGrubu}\n\n" +
+                                 $"🎂 Doğum Tarihi: {dogumTarihi}";
+
+                await DisplayAlert($"{c.Name} Bilgileri", message, "Kapat");
             }
         }
 
@@ -390,10 +398,10 @@ namespace SafeGuard.Mobile
         // 3. GÜVENDEYİM BİLDİRİMİ GELİNCE ÇALIŞIR (YENİ)
         private void HandleIncomingSafe(string senderName)
         {
-            MainThread.BeginInvokeOnMainThread(async () =>
+            MainThread.BeginInvokeOnMainThread(() =>
             {
                 // Arkadaşın güvende olduğunu bildirir
-                await DisplayAlert("✅ DURUM GÜNCELLEMESİ", $"{senderName} şu an güvende olduğunu bildirdi.", "TAMAM");
+                Application.Current.MainPage.DisplayAlert("✅ DURUM GÜNCELLEMESİ", $"{senderName} şu an güvende olduğunu bildirdi.", "TAMAM");
             });
         }
     }

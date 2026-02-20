@@ -17,5 +17,6 @@
         public string? OrganDetails { get; set; }
         public string? AlcoholUse { get; set; }
         public string? SmokingHabit { get; set; }
+        public string? BirthDate { get; set; }
     }
 }
