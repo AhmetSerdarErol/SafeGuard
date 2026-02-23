@@ -1,0 +1,50 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2013/05/nuspec.xsd">
+  <metadata>
+    <id>Xamarin.Google.Guava</id>
+    <version>32.0.1</version>
+    <title>Xamarin.Google.Guava Google Guava reference library for Xamarin.Android</title>
+    <authors>Microsoft</authors>
+    <requireLicenseAcceptance>true</requireLicenseAcceptance>
+    <license type="expression">MIT AND Apache-2.0</license>
+    <licenseUrl>https://licenses.nuget.org/MIT%20AND%20Apache-2.0</licenseUrl>
+    <projectUrl>https://aka.ms/androidx</projectUrl>
+    <description>.NET for Android (formerly Xamarin.Android) bindings for Google Guava
+
+            NOTE: This package is meant to be used as a reference only for other binding projects that depend on Guava.
+            This package does not expose any useful API's in the .dll itself.
+
+            Guava is a set of core libraries that includes new collection types (such as multimap and multiset), immutable collections, a graph library, functional types, an in-memory cache, and APIs/utilities for concurrency, I/O, hashing, primitives, reflection, string processing, and much more!</description>
+    <copyright>© Microsoft Corporation. All rights reserved.</copyright>
+    <tags>.NET dotnet Xamarin Android artifact=com.google.guava:guava artifact_versioned=com.google.guava:guava:32.0.1-android</tags>
+    <repository type="git" url="https://github.com/xamarin/AndroidX.git" branch="refs/tags/20231028-weekly-stable-updates" commit="6b90d1e072d55e473be4a6246d4fdeb749330293" />
+    <dependencies>
+      <group targetFramework="MonoAndroid12.0">
+        <dependency id="Xamarin.Google.Guava.FailureAccess" version="1.0.2" include="All" />
+        <dependency id="Xamarin.Google.J2Objc.Annotations" version="2.8.0.6" include="All" />
+        <dependency id="Xamarin.CheckerFramework.CheckerQual" version="3.39.0.1" include="All" />
+        <dependency id="Xamarin.Google.Code.FindBugs.JSR305" version="3.0.2.9" exclude="Build,Analyzers" />
+        <dependency id="Xamarin.Google.ErrorProne.Annotations" version="2.21.1" exclude="Build,Analyzers" />
+        <dependency id="Xamarin.Google.Guava.ListenableFuture" version="9999.0.0" exclude="Build,Analyzers" />
+      </group>
+      <group targetFramework="net6.0-android31.0">
+        <dependency id="Xamarin.Google.Guava.FailureAccess" version="1.0.2" include="All" />
+        <dependency id="Xamarin.Google.J2Objc.Annotations" version="2.8.0.6" include="All" />
+        <dependency id="Xamarin.CheckerFramework.CheckerQual" version="3.39.0.1" include="All" />
+        <dependency id="Xamarin.Google.Code.FindBugs.JSR305" version="3.0.2.9" exclude="Build,Analyzers" />
+        <dependency id="Xamarin.Google.ErrorProne.Annotations" version="2.21.1" exclude="Build,Analyzers" />
+        <dependency id="Xamarin.Google.Guava.ListenableFuture" version="9999.0.0" exclude="Build,Analyzers" />
+      </group>
+    </dependencies>
+    <frameworkAssemblies>
+      <frameworkAssembly assemblyName="Java.Interop" targetFramework="MonoAndroid12.0" />
+      <frameworkAssembly assemblyName="Mono.Android" targetFramework="MonoAndroid12.0" />
+      <frameworkAssembly assemblyName="mscorlib" targetFramework="MonoAndroid12.0" />
+      <frameworkAssembly assemblyName="System.Core" targetFramework="MonoAndroid12.0" />
+      <frameworkAssembly assemblyName="System" targetFramework="MonoAndroid12.0" />
+      <frameworkAssembly assemblyName="System.Numerics" targetFramework="MonoAndroid12.0" />
+      <frameworkAssembly assemblyName="System.Numerics.Vectors" targetFramework="MonoAndroid12.0" />
+      <frameworkAssembly assemblyName="System.Xml" targetFramework="MonoAndroid12.0" />
+    </frameworkAssemblies>
+  </metadata>
+</package>

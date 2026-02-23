@@ -1,0 +1,883 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>Plugin.Firebase.Firestore</name>
+    </assembly>
+    <members>
+        <member name="P:Plugin.Firebase.Firestore.CrossFirebaseFirestore.IsSupported">
+            <summary>
+            Gets if the plugin is supported on the current platform.
+            </summary>
+        </member>
+        <member name="P:Plugin.Firebase.Firestore.CrossFirebaseFirestore.Current">
+            <summary>
+            Current plugin implementation to use
+            </summary>
+        </member>
+        <member name="M:Plugin.Firebase.Firestore.CrossFirebaseFirestore.Dispose">
+            <summary>
+            Dispose of everything 
+            </summary>
+        </member>
+        <member name="T:Plugin.Firebase.Firestore.FieldValue">
+            <summary>
+            Sentinel values that can be used when writing document fields with <c>Set()</c> or <c>Update()</c>.
+            </summary>
+            
+        </member>
+        <member name="M:Plugin.Firebase.Firestore.FieldValue.ArrayUnion(System.Object[])">
+            <summary>
+            Returns a special value that can be used with <c>Set()</c> or <c>Update()</c> that tells the server to union the given elements
+            with any array value that already exists on the server. Each specified element that doesn't already exist in the array will be
+            added to the end. If the field being modified is not already an array it will be overwritten with an array containing exactly
+            the specified elements.
+            </summary>
+            <param name="elements">The elements to union into the array.</param>
+        </member>
+        <member name="M:Plugin.Firebase.Firestore.FieldValue.ArrayRemove(System.Object[])">
+            <summary>
+            Returns a special value that can be used with <c>Set()</c> or <c>Update()</c> that tells the server to remove the given elements
+            from any array value that already exists on the server. All instances of each element specified will be removed from the array.
+            If the field being modified is not already an array it will be overwritten with an empty array.
+            </summary>
+            <param name="elements">The elements to union into the array.</param>
+        </member>
+        <member name="M:Plugin.Firebase.Firestore.FieldValue.IntegerIncrement(System.Int64)">
+            <summary>
+            Returns a special value that can be used with <c>Set()</c> or <c>Update()</c> that tells the server to increment the field's current value by
+            the given value.
+            </summary>
+            <param name="incrementValue">The value to increment.</param>
+        </member>
+        <member name="M:Plugin.Firebase.Firestore.FieldValue.DoubleIncrement(System.Double)">
+            <summary>
+            Returns a special value that can be used with <c>Set()</c> or <c>Update()</c> that tells the server to increment the field's current value by
+            the given value.
+            </summary>
+            <param name="incrementValue">The value to increment.</param>
+        </member>
+        <member name="M:Plugin.Firebase.Firestore.FieldValue.Delete">
+            <summary>
+            Returns a sentinel for use with <c>Update()</c> to mark a field for deletion.
+            </summary>
+        </member>
+        <member name="M:Plugin.Firebase.Firestore.FieldValue.ServerTimestamp">
+            <summary>
+            Returns a sentinel for use with <c>Set()</c> or <c>Update()</c> to include a server-generated timestamp in the written data.
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="T:Plugin.Firebase.Firestore.FirestoreSettings">
+            <summary>
+            Settings used to configure a <c>IFirebaseFirestore</c> instance.
+            </summary>
+        </member>
+        <member name="P:Plugin.Firebase.Firestore.FirestoreSettings.Host">
+            <summary>
+            Returns the host of the Cloud Firestore backend.
+            </summary>
+        </member>
+        <member name="P:Plugin.Firebase.Firestore.FirestoreSettings.IsSslEnabled">
+            <summary>
+            Returns whether or not to use SSL for communication.
+            </summary>
+        </member>
+        <member name="T:Plugin.Firebase.Firestore.ICollectionReference">
+            <summary>
+            A <c>ICollectionReference</c> object can be used for adding documents, getting document references, and querying for documents (using
+            the methods inherited from <c>IQuery</c>).
+            </summary>
+        </member>
+        <member name="M:Plugin.Firebase.Firestore.ICollectionReference.GetDocument(System.String)">
+            <summary>
+            Gets a <c>IDocumentReference</c> object referring to the document at the specified path, relative to this collection’s own path.
+            </summary>
+            <param name="documentPath">The slash-separated relative path of the document for which to get a <c>IDocumentReference</c> object.</param>
+            <returns></returns>
+        </member>
+        <member name="M:Plugin.Firebase.Firestore.ICollectionReference.CreateDocument">
+            <summary>
+            Returns a <c>IDocumentReference</c> object pointing to a new document with an auto-generated ID.
+            </summary>
+        </member>
+        <member name="M:Plugin.Firebase.Firestore.ICollectionReference.AddDocumentAsync(System.Object)">
+            <summary>
+            Adds a new document to this collection with the specified data, assigning it a document ID automatically.
+            </summary>
+            <param name="data">An object containing the data for the new document.</param>
+        </member>
+        <member name="P:Plugin.Firebase.Firestore.ICollectionReference.Parent">
+            <summary>
+            A reference to the document to which this <c>ICollectionReference</c> belongs.
+            </summary>
+        </member>
+        <member name="T:Plugin.Firebase.Firestore.IDocumentReference">
+            <summary>
+            A <c>IDocumentReference</c> object refers to a document location in a Firestore database and can be used to write, read, or listen to
+            the location. The document at the referenced location may or may not exist. A <c>IDocumentReference</c> object can also be used to create
+            a FIRCollectionReference to a subcollection.
+            </summary>
+        </member>
+        <member name="M:Plugin.Firebase.Firestore.IDocumentReference.SetDataAsync(System.Object,Plugin.Firebase.Firestore.SetOptions)">
+            <summary>
+            Writes to the document referred to by this <c>IDocumentReference</c>. If the document does not yet exist, it will be created. If you
+            pass <c>SetOptions</c>, the provided data can be merged into an existing document.
+            </summary>
+            <param name="data">The data to write to the document.</param>
+            <param name="options">An object to configure the set behavior.</param>
+        </member>
+        <member name="M:Plugin.Firebase.Firestore.IDocumentReference.SetDataAsync(System.Collections.Generic.Dictionary{System.Object,System.Object},Plugin.Firebase.Firestore.SetOptions)">
+            <summary>
+            Writes to the document referred to by this <c>IDocumentReference</c>. If the document does not yet exist, it will be created. If you
+            pass <c>SetOptions</c>, the provided data can be merged into an existing document.
+            </summary>
+            <param name="data">The data to write to the document.</param>
+            <param name="options">An object to configure the set behavior.</param>
+        </member>
+        <member name="M:Plugin.Firebase.Firestore.IDocumentReference.SetDataAsync(System.ValueTuple{System.Object,System.Object}[])">
+            <summary>
+            Writes to the document referred to by this <c>IDocumentReference</c>. If the document does not yet exist, it will be created. If you
+            pass <c>SetOptions</c>, the provided data can be merged into an existing document.
+            </summary>
+            <param name="data">The data to write to the document.</param>
+        </member>
+        <member name="M:Plugin.Firebase.Firestore.IDocumentReference.SetDataAsync(Plugin.Firebase.Firestore.SetOptions,System.ValueTuple{System.Object,System.Object}[])">
+            <summary>
+            Writes to the document referred to by this <c>IDocumentReference</c>. If the document does not yet exist, it will be created. If you
+            pass <c>SetOptions</c>, the provided data can be merged into an existing document.
+            </summary>
+            <param name="options">An object to configure the set behavior.</param>
+            <param name="data">The data to write to the document.</param>
+        </member>
+        <member name="M:Plugin.Firebase.Firestore.IDocumentReference.UpdateDataAsync(System.Collections.Generic.Dictionary{System.Object,System.Object})">
+            <summary>
+            Updates fields in the document referred to by this <c>IDocumentReference</c> object. If the document does not exist, the update fails.
+            </summary>
+            <param name="data">The data to write to the document.</param>
+        </member>
+        <member name="M:Plugin.Firebase.Firestore.IDocumentReference.UpdateDataAsync(System.ValueTuple{System.String,System.Object}[])">
+            <summary>
+            Updates fields in the document referred to by this <c>IDocumentReference</c> object. If the document does not exist, the update fails.
+            </summary>
+            <param name="data">The data to write to the document.</param>
+        </member>
+        <member name="M:Plugin.Firebase.Firestore.IDocumentReference.DeleteDocumentAsync">
+            <summary>
+            Deletes the document referred to by this <c>IDocumentReference</c>.
+            </summary>
+        </member>
+        <member name="M:Plugin.Firebase.Firestore.IDocumentReference.GetDocumentSnapshotAsync``1(Plugin.Firebase.Firestore.Source)">
+            <summary>
+            Reads the document referenced by this <c>IDocumentReference</c>. This method attempts to provide up-to-date data when possible by
+            waiting for data from the server, but it may return cached data or fail if you are offline and the server cannot be reached.
+            </summary>
+            <param name="source">A value to configure the get behavior.</param>
+            <typeparam name="T">The type of the document item.</typeparam>
+        </member>
+        <member name="M:Plugin.Firebase.Firestore.IDocumentReference.AddSnapshotListener``1(System.Action{Plugin.Firebase.Firestore.IDocumentSnapshot{``0}},System.Action{System.Exception},System.Boolean)">
+            <summary>
+            Attaches a listener for <c>IDocumentSnapshot</c> events.
+            </summary>
+            <param name="onChanged">Gets invoked when the document changed.</param>
+            <param name="onError">Gets invoked when something went wrong.</param>
+            <param name="includeMetaDataChanges">
+            Whether metadata-only changes (i.e. only <c>IDocumentSnapshot.Metadata</c> changed) should trigger snapshot events.
+            </param>
+            <typeparam name="T">The type of the document item.</typeparam>
+        </member>
+        <member name="M:Plugin.Firebase.Firestore.IDocumentReference.GetCollection(System.String)">
+            <summary>
+            Gets a <c>ICollectionReference</c> object referring to the collection at the specified path within this <c>IDocumentReference</c>.
+            </summary>
+            <param name="collectionPath">The slash-separated path of the collection for which to get a <c>ICollectionReference</c>.</param>
+            <returns></returns>
+        </member>
+        <member name="P:Plugin.Firebase.Firestore.IDocumentReference.Id">
+            <summary>
+            The ID of the document referred to.
+            </summary>
+        </member>
+        <member name="P:Plugin.Firebase.Firestore.IDocumentReference.Path">
+            <summary>
+            A string representing the path of the referenced document (relative to the root of the database).
+            </summary>
+        </member>
+        <member name="P:Plugin.Firebase.Firestore.IDocumentReference.Parent">
+            <summary>
+            A reference to the collection to which this <c>IDocumentReference</c> belongs.
+            </summary>
+        </member>
+        <member name="T:Plugin.Firebase.Firestore.IDocumentSnapshot`1">
+            <summary>
+            A <c>IDocumentSnapshot</c> object contains data read from a document in your Firestore database. The data can be extracted with the data
+            property. For a <c>IDocumentSnapshot</c> object that points to a non-existing document, any data access will return null. You can use
+            the exists property to explicitly verify a documents existence.
+            </summary>
+            <typeparam name="T">The type of the document item.</typeparam>
+        </member>
+        <member name="P:Plugin.Firebase.Firestore.IDocumentSnapshot`1.Data">
+            <summary>
+            Retrieves all fields in the document as the given generic type. Returns null if the document doesn't exist.
+            </summary>
+        </member>
+        <member name="P:Plugin.Firebase.Firestore.IDocumentSnapshot`1.Metadata">
+            <summary>
+            Metadata about this snapshot concerning its source and if it has local modifications.
+            </summary>
+        </member>
+        <member name="P:Plugin.Firebase.Firestore.IDocumentSnapshot`1.Reference">
+            <summary>
+            A <c>IDocumentReference</c> object to the document location.
+            </summary>
+        </member>
+        <member name="T:Plugin.Firebase.Firestore.IFirebaseFirestore">
+            <summary>
+            Represents a Firestore Database and is the entry point for all Firestore operations.
+            </summary>
+        </member>
+        <member name="M:Plugin.Firebase.Firestore.IFirebaseFirestore.GetCollectionGroup(System.String)">
+            <summary>
+            Creates and returns a new <c>IQuery</c> object that includes all documents in the database that are contained.
+            </summary>
+            <param name="collectionId">The collectionId of the collection or subcollection.</param>
+            <returns></returns>
+        </member>
+        <member name="M:Plugin.Firebase.Firestore.IFirebaseFirestore.GetCollection(System.String)">
+            <summary>
+            Gets a <c>ICollectionReference</c> object referring to the collection at the specified path within the database.
+            </summary>
+            <param name="collectionPath">The slash-separated path of the collection for which to get a <c>ICollectionReference</c>.</param>
+            <returns></returns>
+        </member>
+        <member name="M:Plugin.Firebase.Firestore.IFirebaseFirestore.GetDocument(System.String)">
+            <summary>
+            Gets a <c>IDocumentReference</c> object referring to the document at the specified path within the database.
+            </summary>
+            <param name="documentPath">The slash-separated path of the document for which to get a <c>IDocumentReference</c>.</param>
+            <returns></returns>
+        </member>
+        <member name="M:Plugin.Firebase.Firestore.IFirebaseFirestore.RunTransactionAsync``1(System.Func{Plugin.Firebase.Firestore.ITransaction,``0})">
+            <summary>
+            Executes the given updateBlock and then attempts to commit the changes applied within an atomic transaction.
+            </summary>
+            <param name="updateFunc">The func to execute within the transaction context.</param>
+            <typeparam name="TResult">The type of the result returned by updateFunc.</typeparam>
+            <returns></returns>
+        </member>
+        <member name="M:Plugin.Firebase.Firestore.IFirebaseFirestore.CreateBatch">
+            <summary>
+            Creates a write batch, used for performing multiple writes as a single atomic operation.
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Plugin.Firebase.Firestore.IFirebaseFirestore.WaitForPendingWritesAsync">
+             <summary>
+             Waits until all currently pending writes for the active user have been acknowledged by the backend.
+            
+             The returned Task completes immediately if there are no outstanding writes. Otherwise, the Task waits for all previously issued
+             writes (including those written in a previous app session), but it does not wait for writes that were added after the method is called.
+             If you wish to wait for additional writes, you have to call <c>WaitForPendingWritesAsync()</c> again.
+            
+             Any outstanding <c>WaitForPendingWritesAsync()</c> Tasks are cancelled during user changes.
+             </summary>
+             <returns></returns>
+        </member>
+        <member name="M:Plugin.Firebase.Firestore.IFirebaseFirestore.DisableNetworkAsync">
+            <summary>
+            Disables network access for this instance. While the network is disabled, any snapshot listeners or get() calls will
+            return results from cache, and any write operations will be queued until network usage is re-enabled via a call to enableNetwork
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Plugin.Firebase.Firestore.IFirebaseFirestore.EnableNetworkAsync">
+            <summary>
+            Re-enables network usage for this instance after a prior call to <c>DisableNetworkAsync</c>.
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Plugin.Firebase.Firestore.IFirebaseFirestore.ClearPersistenceAsync">
+             <summary>
+             Clears the persistent storage, including pending writes and cached documents.
+            
+             Must be called while the <c>IFirebaseFirestore</c> instance is not started (after the app is shutdown or when the app is first initialized).
+             On startup, this method must be called before other methods (other than setting <c>FirestoreSettings</c>). If the <c>IFirebaseFirestore</c>
+             instance is still running, the Task will fail with an error code of FAILED_PRECONDITION.
+            
+             Note: <c>ClearPersistenceAsync()</c> is primarily intended to help write reliable tests that use Cloud Firestore. It uses an efficient
+             mechanism for dropping existing data but does not attempt to securely overwrite or otherwise make cached data unrecoverable. For
+             applications that are sensitive to the disclosure of cached data in between user sessions, we strongly recommend not enabling
+             persistence at all.
+             </summary>
+             <returns></returns>
+        </member>
+        <member name="M:Plugin.Firebase.Firestore.IFirebaseFirestore.TerminateAsync">
+             <summary>
+             Terminates this <c>IFirebaseFirestore</c> instance.
+             
+             After calling <c>TerminateAsync()</c> only the <c>ClearPersistenceAsync()</c> method may be used. Any other method will throw
+             an IllegalStateException.
+             
+             To restart after termination, simply call the <c>Restart()</c> method.
+            
+             <c>TerminateAsync()</c> does not cancel any pending writes and any tasks that are awaiting a response from the server will not be resolved.
+             The next time you start this instance, it will resume attempting to send these writes to the server.
+             
+             Note: Under normal circumstances, calling <c>TerminateAsync()</c> is not required. This method is useful only when you want to force this instance
+             to release all of its resources or in combination with <c>ClearPersistenceAsync()</c> to ensure that all local state is destroyed between test runs.
+             </summary>
+             <returns></returns>
+        </member>
+        <member name="M:Plugin.Firebase.Firestore.IFirebaseFirestore.Restart">
+            <summary>
+            Should be used after <c>TerminateAsync()</c> was called to restart the <c>IFirebaseFirestore</c> instance.
+            </summary>
+        </member>
+        <member name="M:Plugin.Firebase.Firestore.IFirebaseFirestore.UseEmulator(System.String,System.Int32)">
+            <summary>
+            Modifies this FirebaseDatabase instance to communicate with the Cloud Firestore emulator.
+            Note: Call this method before using the instance to do any database operations.
+            </summary>
+            <param name="host">The emulator host (for example, 10.0.2.2 on android and localhost on iOS)</param>
+            <param name="port">The emulator port (for example, 8080)</param>
+        </member>
+        <member name="P:Plugin.Firebase.Firestore.IFirebaseFirestore.Settings">
+            <summary>
+            Custom settings used to configure this <c>IFirebaseFirestore</c> object.
+            </summary>
+        </member>
+        <member name="T:Plugin.Firebase.Firestore.IQuery">
+            <summary>
+            A <c>IQuery</c> object refers to a Query which you can read or listen to. You can also construct refined <c>IQuery</c> object objects by
+            adding filters and ordering.
+            </summary>
+        </member>
+        <member name="M:Plugin.Firebase.Firestore.IQuery.WhereEqualsTo(System.String,System.Object)">
+            <summary>
+            Creates and returns a new <c>IQuery</c> object with the additional filter that documents must contain the specified field and the
+            value must be equal to the specified value.
+            </summary>
+            <param name="field">The name of the field to compare.</param>
+            <param name="value">The value the field must be equal to.</param>
+        </member>
+        <member name="M:Plugin.Firebase.Firestore.IQuery.WhereEqualsTo(Plugin.Firebase.Firestore.FieldPath,System.Object)">
+            <summary>
+            Creates and returns a new <c>IQuery</c> object with the additional filter that documents must contain the specified field and the
+            value must be equal to the specified value.
+            </summary>
+            <param name="path">The path of the field to compare.</param>
+            <param name="value">The value the field must be equal to.</param>
+        </member>
+        <member name="M:Plugin.Firebase.Firestore.IQuery.WhereGreaterThan(System.String,System.Object)">
+            <summary>
+            Creates and returns a new <c>IQuery</c> object with the additional filter that documents must contain the specified field and the
+            value must greater than the specified value.
+            </summary>
+            <param name="field">The name of the field to compare.</param>
+            <param name="value">The value the field must be greater than.</param>
+        </member>
+        <member name="M:Plugin.Firebase.Firestore.IQuery.WhereGreaterThan(Plugin.Firebase.Firestore.FieldPath,System.Object)">
+            <summary>
+            Creates and returns a new <c>IQuery</c> object with the additional filter that documents must contain the specified field and the
+            value must greater than the specified value.
+            </summary>
+            <param name="path">The path of the field to compare.</param>
+            <param name="value">The value the field must be greater than.</param>
+        </member>
+        <member name="M:Plugin.Firebase.Firestore.IQuery.WhereLessThan(System.String,System.Object)">
+            <summary>
+            Creates and returns a new <c>IQuery</c> object with the additional filter that documents must contain the specified field and the
+            value must be less than the specified value.
+            </summary>
+            <param name="field">The name of the field to compare.</param>
+            <param name="value">The value the field must be less than.</param>
+        </member>
+        <member name="M:Plugin.Firebase.Firestore.IQuery.WhereLessThan(Plugin.Firebase.Firestore.FieldPath,System.Object)">
+            <summary>
+            Creates and returns a new <c>IQuery</c> object with the additional filter that documents must contain the specified field and the
+            value must be less than the specified value.
+            </summary>
+            <param name="path">The path of the field to compare.</param>
+            <param name="value">The value the field must be less than.</param>
+        </member>
+        <member name="M:Plugin.Firebase.Firestore.IQuery.WhereGreaterThanOrEqualsTo(System.String,System.Object)">
+            <summary>
+            Creates and returns a new <c>IQuery</c> object with the additional filter that documents must contain the specified field and the
+            value must be greater than or equal to the specified value.
+            </summary>
+            <param name="field">The name of the field to compare.</param>
+            <param name="value">The value the field must be greater than.</param>
+        </member>
+        <member name="M:Plugin.Firebase.Firestore.IQuery.WhereGreaterThanOrEqualsTo(Plugin.Firebase.Firestore.FieldPath,System.Object)">
+            <summary>
+            Creates and returns a new <c>IQuery</c> object with the additional filter that documents must contain the specified field and the
+            value must be greater than or equal to the specified value.
+            </summary>
+            <param name="path">The path of the field to compare.</param>
+            <param name="value">The value the field must be greater than.</param>
+        </member>
+        <member name="M:Plugin.Firebase.Firestore.IQuery.WhereLessThanOrEqualsTo(System.String,System.Object)">
+            <summary>
+            Creates and returns a new <c>IQuery</c> object with the additional filter that documents must contain the specified field and the
+            value must be less than or equal to the specified value.
+            </summary>
+            <param name="field">The name of the field to compare.</param>
+            <param name="value">The value the field must be less than or equal to.</param>
+        </member>
+        <member name="M:Plugin.Firebase.Firestore.IQuery.WhereLessThanOrEqualsTo(Plugin.Firebase.Firestore.FieldPath,System.Object)">
+            <summary>
+            Creates and returns a new <c>IQuery</c> object with the additional filter that documents must contain the specified field and the
+            value must be less than or equal to the specified value.
+            </summary>
+            <param name="path">The path of the field to compare.</param>
+            <param name="value">The value the field must be less than or equal to.</param>
+        </member>
+        <member name="M:Plugin.Firebase.Firestore.IQuery.WhereArrayContains(System.String,System.Object)">
+             <summary>
+             Creates and returns a new <c>IQuery</c> with the additional filter that documents must contain the specified field, it must be an array,
+             and the array must contain the provided value.
+            
+             A query can have only one arrayContains filter.
+             </summary>
+             <param name="field">The name of the field containing an array to search</param>
+             <param name="value">The value that must be contained in the array</param>
+        </member>
+        <member name="M:Plugin.Firebase.Firestore.IQuery.WhereArrayContains(Plugin.Firebase.Firestore.FieldPath,System.Object)">
+             <summary>
+             Creates and returns a new <c>IQuery</c> with the additional filter that documents must contain the specified field, it must be an array,
+             and the array must contain the provided value.
+            
+             A query can have only one arrayContains filter.
+             </summary>
+             <param name="path">The path of the field containing an array to search</param>
+             <param name="value">The value that must be contained in the array</param>
+        </member>
+        <member name="M:Plugin.Firebase.Firestore.IQuery.WhereArrayContainsAny(System.String,System.Object[])">
+             <summary>
+             Creates and returns a new <c>IQuery</c> with the additional filter that documents must contain the specified field, the value must be an array,
+             and that array must contain at least one value from the provided array.
+            
+             A query can have only one ArrayContainsAny filter and it cannot be combined with ArrayContains or in filters.
+             </summary>
+             <param name="field">The name of the field containing an array to search.</param>
+             <param name="values">The array that contains the values to match.</param>
+        </member>
+        <member name="M:Plugin.Firebase.Firestore.IQuery.WhereArrayContainsAny(Plugin.Firebase.Firestore.FieldPath,System.Object[])">
+             <summary>
+             Creates and returns a new <c>IQuery</c> with the additional filter that documents must contain the specified field, the value must be an array,
+             and that array must contain at least one value from the provided array.
+            
+             A query can have only one ArrayContainsAny filter and it cannot be combined with ArrayContains or in filters.
+             </summary>
+             <param name="path">The path of the field containing an array to search.</param>
+             <param name="values">The array that contains the values to match.</param>
+        </member>
+        <member name="M:Plugin.Firebase.Firestore.IQuery.WhereFieldIn(System.String,System.Object[])">
+             <summary>
+             Creates and returns a new <c>IQuery</c> with the additional filter that documents must contain the specified field and the value must equal
+             one of the values from the provided array.
+            
+             A query can have only one in filter, and it cannot be combined with an arrayContainsAny filter.
+             </summary>
+             <param name="field">The name of the field to search.</param>
+             <param name="values">The array that contains the values to match.</param>
+        </member>
+        <member name="M:Plugin.Firebase.Firestore.IQuery.WhereFieldIn(Plugin.Firebase.Firestore.FieldPath,System.Object[])">
+             <summary>
+             Creates and returns a new <c>IQuery</c> with the additional filter that documents must contain the specified field and the value must equal
+             one of the values from the provided array.
+            
+             A query can have only one in filter, and it cannot be combined with an arrayContainsAny filter.
+             </summary>
+             <param name="path">The name of the field to search.</param>
+             <param name="values">The array that contains the values to match.</param>
+        </member>
+        <member name="M:Plugin.Firebase.Firestore.IQuery.OrderBy(System.String,System.Boolean)">
+            <summary>
+            Creates and returns a new <c>IQuery</c> object that’s additionally sorted by the specified field.
+            </summary>
+            <param name="field">The field to sort by.</param>
+            <param name="descending">Whether to sort descending.</param>
+        </member>
+        <member name="M:Plugin.Firebase.Firestore.IQuery.OrderBy(Plugin.Firebase.Firestore.FieldPath,System.Boolean)">
+            <summary>
+            Creates and returns a new <c>IQuery</c> object that’s additionally sorted by the specified field.
+            </summary>
+            <param name="path">The path to sort by.</param>
+            <param name="descending">Whether to sort descending.</param>
+        </member>
+        <member name="M:Plugin.Firebase.Firestore.IQuery.StartingAt(System.Object[])">
+            <summary>
+            Creates and returns a new <c>IQuery</c> object that starts at the provided fields relative to the order of the query. The order of
+            the field values must match the order of the order by clauses of the query.
+            </summary>
+            <param name="fieldValues">The field values to start this query at, in order of the query’s order by.</param>
+        </member>
+        <member name="M:Plugin.Firebase.Firestore.IQuery.StartingAt(Plugin.Firebase.Firestore.IDocumentSnapshot)">
+            <summary>
+            Creates and returns a new <c>IQuery</c> object that starts at the provided document (inclusive). The starting position is relative
+            to the order of the query. The document must contain all of the fields provided in the orderBy of this query.
+            </summary>
+            <param name="snapshot">The snapshot of the document to start at.</param>
+        </member>
+        <member name="M:Plugin.Firebase.Firestore.IQuery.StartingAfter(System.Object[])">
+            <summary>
+            Creates and returns a new <c>IQuery</c> object that starts after the provided fields relative to the order of the query. The order of
+            the field values must match the order of the order by clauses of the query.
+            </summary>
+            <param name="fieldValues">The field values to start this query after, in order of the query’s order by.</param>
+        </member>
+        <member name="M:Plugin.Firebase.Firestore.IQuery.StartingAfter(Plugin.Firebase.Firestore.IDocumentSnapshot)">
+            <summary>
+            Creates and returns a new <c>IQuery</c> object that starts after the provided document (exclusive). The starting position is relative
+            to the order of the query. The document must contain all of the fields provided in the orderBy of this query.
+            </summary>
+            <param name="snapshot">The snapshot of the document to start after.</param>
+        </member>
+        <member name="M:Plugin.Firebase.Firestore.IQuery.EndingAt(System.Object[])">
+            <summary>
+            Creates and returns a new <c>IQuery</c> object that ends at the provided fields relative to the order of the query. The order of the
+            field values must match the order of the order by clauses of the query.
+            </summary>
+            <param name="fieldValues">The field values to end this query at, in order of the query’s order by.</param>
+        </member>
+        <member name="M:Plugin.Firebase.Firestore.IQuery.EndingAt(Plugin.Firebase.Firestore.IDocumentSnapshot)">
+            <summary>
+            Creates and returns a new <c>IQuery</c> object that ends at the provided document (exclusive). The end position is relative to the
+            order of the query. The document must contain all of the fields provided in the orderBy of this query.
+            </summary>
+            <param name="snapshot">The snapshot of the document to end at.</param>
+        </member>
+        <member name="M:Plugin.Firebase.Firestore.IQuery.EndingBefore(System.Object[])">
+            <summary>
+            Creates and returns a new <c>IQuery</c> object that ends before the provided fields relative to the order of the query. The order of
+            the field values must match the order of the order by clauses of the query.
+            </summary>
+            <param name="fieldValues">The field values to end this query before, in order of the query’s order by.</param>
+        </member>
+        <member name="M:Plugin.Firebase.Firestore.IQuery.EndingBefore(Plugin.Firebase.Firestore.IDocumentSnapshot)">
+            <summary>
+            Creates and returns a new <c>IQuery</c> object that ends before the provided document (exclusive). The end position is relative to
+            the order of the query. The document must contain all of the fields provided in the orderBy of this query.
+            </summary>
+            <param name="snapshot">The snapshot of the document to end before.</param>
+        </member>
+        <member name="M:Plugin.Firebase.Firestore.IQuery.LimitedTo(System.Int32)">
+            <summary>
+            Creates and returns a new <c>IQuery</c> object that only returns the first matching documents up to the specified number.
+            </summary>
+            <param name="limit">The maximum number of items to return.</param>
+        </member>
+        <member name="M:Plugin.Firebase.Firestore.IQuery.LimitedToLast(System.Int32)">
+            <summary>
+            Creates and returns a new <c>IQuery</c> object that only returns the last matching documents up to the specified number. A query with a
+            <c>LimitedToLast(limit)</c> clause must have at least one orderBy clause.
+            </summary>
+            <param name="limit">The maximum number of items to return.</param>
+        </member>
+        <member name="M:Plugin.Firebase.Firestore.IQuery.GetDocumentsAsync``1(Plugin.Firebase.Firestore.Source)">
+            <summary>
+            Reads the documents matching this query. This method attempts to provide up-to-date data when possible by waiting for data from
+            the server, but it may return cached data or fail if you are offline and the server cannot be reached. 
+            </summary>
+            <param name="source">A value to configure the get behavior.</param>
+            <typeparam name="T">The type of the document items.</typeparam>
+        </member>
+        <member name="M:Plugin.Firebase.Firestore.IQuery.AddSnapshotListener``1(System.Action{Plugin.Firebase.Firestore.IQuerySnapshot{``0}},System.Action{System.Exception},System.Boolean)">
+            <summary>
+            Attaches a listener for QuerySnapshot events.
+            </summary>
+            <param name="onChanged">Gets invoked when the document changed.</param>
+            <param name="onError">Gets invoked when something went wrong.</param>
+            <param name="includeMetaDataChanges">
+            Whether metadata-only changes (i.e. only <c>IDocumentSnapshot.Metadata</c> changed) should trigger snapshot events.
+            </param>
+            <typeparam name="T">The type of the document item.</typeparam>
+        </member>
+        <member name="T:Plugin.Firebase.Firestore.IQuerySnapshot`1">
+            <summary>
+            A <c>IQuerySnapshot</c> contains zero or more <c>IDocumentSnapshot</c> objects.
+            </summary>
+            <typeparam name="T">The type of the document item.</typeparam>
+        </member>
+        <member name="M:Plugin.Firebase.Firestore.IQuerySnapshot`1.GetDocumentChanges(System.Boolean)">
+            <summary>
+            Returns an enumerable of the documents that changed since the last snapshot. If this is the first snapshot, all documents will be
+            in the list as Added changes.
+            </summary>
+            <param name="includeMetadataChanges">
+            Whether metadata-only changes (i.e. only <c>IDocumentSnapshot.Metadata</c> changed) should be included.
+            </param>
+        </member>
+        <member name="P:Plugin.Firebase.Firestore.IQuerySnapshot`1.Documents">
+            <summary>
+            An enumerable of the <c>IDocumentSnapshots</c> that make up this document set.
+            </summary>
+        </member>
+        <member name="P:Plugin.Firebase.Firestore.IQuerySnapshot`1.Metadata">
+            <summary>
+            Metadata about this snapshot, concerning its source and if it has local modifications.
+            </summary>
+        </member>
+        <member name="P:Plugin.Firebase.Firestore.IQuerySnapshot`1.DocumentChanges">
+            <summary>
+            An enumerable of the documents that changed since the last snapshot. If this is the first snapshot, all documents will be in the
+            list as Added changes.
+            </summary>
+        </member>
+        <member name="P:Plugin.Firebase.Firestore.IQuerySnapshot`1.Query">
+            <summary>
+            The query on which you called in order to get this <c>IQuerySnapshot</c>.
+            </summary>
+        </member>
+        <member name="P:Plugin.Firebase.Firestore.IQuerySnapshot`1.IsEmpty">
+            <summary>
+            Indicates whether this <c>IQuerySnapshot</c> is empty (contains no documents).
+            </summary>
+        </member>
+        <member name="P:Plugin.Firebase.Firestore.IQuerySnapshot`1.Count">
+            <summary>
+            The count of documents in this <c>IQuerySnapshot</c>.
+            </summary>
+        </member>
+        <member name="T:Plugin.Firebase.Firestore.ISnapshotMetadata">
+            <summary>
+            Metadata about a snapshot, describing the state of the snapshot.
+            </summary>
+        </member>
+        <member name="P:Plugin.Firebase.Firestore.ISnapshotMetadata.HasPendingWrites">
+            <summary>
+            Returns <c>true</c> if the snapshot contains the result of local writes (e.g. set() or update() calls) that have not yet been committed
+            to the backend. If your listener has opted into metadata updates (via includeMetadataChanges:true) you will receive another snapshot
+            with hasPendingWrites equal to false once the writes have been committed to the backend.
+            </summary>
+        </member>
+        <member name="P:Plugin.Firebase.Firestore.ISnapshotMetadata.IsFromCache">
+            <summary>
+            Returns <c>true</c> if the snapshot was created from cached data rather than guaranteed up-to-date server data. If your listener has opted
+            into metadata updates you will receive another snapshot with <c>IsFromCache</c> equal to false once the client has received up-to-date data
+            from the backend.
+            </summary>
+        </member>
+        <member name="T:Plugin.Firebase.Firestore.ITransaction">
+            <summary>
+            <c>ITransaction</c> provides methods to read and write data within a transaction.
+            </summary>
+        </member>
+        <member name="M:Plugin.Firebase.Firestore.ITransaction.GetDocument``1(Plugin.Firebase.Firestore.IDocumentReference)">
+            <summary>
+            Reads the document referenced by document.
+            </summary>
+            <param name="document">A reference to the document to be read.</param>
+            <typeparam name="T">The type of the document item.</typeparam>
+            <returns></returns>
+        </member>
+        <member name="M:Plugin.Firebase.Firestore.ITransaction.SetData(Plugin.Firebase.Firestore.IDocumentReference,System.Object,Plugin.Firebase.Firestore.SetOptions)">
+            <summary>
+            Writes to the document referred to by the provided <c>IDocumentReference</c> object. If the document does not yet exist, it will be
+            created. If you pass <c>SetOptions</c>, the provided data can be merged into an existing document.
+            </summary>
+            <param name="document">The <c>IDocumentReference</c> to overwrite.</param>
+            <param name="data">The data to write to the document.</param>
+            <param name="options">An object to configure the set behavior.</param>
+            <returns>This <c>ITransaction</c> instance. Used for chaining method calls.</returns>
+        </member>
+        <member name="M:Plugin.Firebase.Firestore.ITransaction.SetData(Plugin.Firebase.Firestore.IDocumentReference,System.Collections.Generic.Dictionary{System.Object,System.Object},Plugin.Firebase.Firestore.SetOptions)">
+            <summary>
+            Writes to the document referred to by the provided <c>IDocumentReference</c> object. If the document does not yet exist, it will be
+            created. If you pass <c>SetOptions</c>, the provided data can be merged into an existing document.
+            </summary>
+            <param name="document">The <c>IDocumentReference</c> to overwrite.</param>
+            <param name="data">The data to write to the document.</param>
+            <param name="options">An object to configure the set behavior.</param>
+            <returns>This <c>ITransaction</c> instance. Used for chaining method calls.</returns>
+        </member>
+        <member name="M:Plugin.Firebase.Firestore.ITransaction.SetData(Plugin.Firebase.Firestore.IDocumentReference,System.ValueTuple{System.Object,System.Object}[])">
+            <summary>
+            Writes to the document referred to by the provided <c>IDocumentReference</c> object. If the document does not yet exist, it will be
+            created.
+            </summary>
+            <param name="document">The <c>IDocumentReference</c> to overwrite.</param>
+            <param name="data">The data to write to the document.</param>
+            <returns>This <c>ITransaction</c> instance. Used for chaining method calls.</returns>
+        </member>
+        <member name="M:Plugin.Firebase.Firestore.ITransaction.SetData(Plugin.Firebase.Firestore.IDocumentReference,Plugin.Firebase.Firestore.SetOptions,System.ValueTuple{System.Object,System.Object}[])">
+            <summary>
+            Writes to the document referred to by the provided <c>IDocumentReference</c> object. If the document does not yet exist, it will be
+            created. If you pass <c>SetOptions</c>, the provided data can be merged into an existing document.
+            </summary>
+            <param name="document">The <c>IDocumentReference</c> to overwrite.</param>
+            <param name="options">An object to configure the set behavior.</param>
+            <param name="data">The data to write to the document.</param>
+            <returns>This <c>ITransaction</c> instance. Used for chaining method calls.</returns>
+        </member>
+        <member name="M:Plugin.Firebase.Firestore.ITransaction.UpdateData(Plugin.Firebase.Firestore.IDocumentReference,System.Collections.Generic.Dictionary{System.Object,System.Object})">
+            <summary>
+            Updates fields in the document referred to by document. If the document does not exist, the transaction will fail.
+            </summary>
+            <param name="document">The <c>IDocumentReference</c> to overwrite.</param>
+            <param name="data">The data to write to the document.</param>
+            <returns>This <c>ITransaction</c> instance. Used for chaining method calls.</returns>
+        </member>
+        <member name="M:Plugin.Firebase.Firestore.ITransaction.UpdateData(Plugin.Firebase.Firestore.IDocumentReference,System.ValueTuple{System.String,System.Object}[])">
+            <summary>
+            Updates fields in the document referred to by document. If the document does not exist, the transaction will fail.
+            </summary>
+            <param name="document">The <c>IDocumentReference</c> to overwrite.</param>
+            <param name="data">The data to write to the document.</param>
+            <returns>This <c>ITransaction</c> instance. Used for chaining method calls.</returns>
+        </member>
+        <member name="M:Plugin.Firebase.Firestore.ITransaction.DeleteDocument(Plugin.Firebase.Firestore.IDocumentReference)">
+            <summary>
+            Deletes the document referred to by document.
+            </summary>
+            <param name="document">The <c>IDocumentReference</c> to delete.</param>
+            <returns>This <c>ITransaction</c> instance. Used for chaining method calls.</returns>
+        </member>
+        <member name="T:Plugin.Firebase.Firestore.IWriteBatch">
+            <summary>
+            A write batch is used to perform multiple writes as a single atomic unit. A <c>IWriteBatch</c> object can be acquired by calling
+            <c>IFirebaseFirestore.CreateBatch()</c>. It provides methods for adding writes to the write batch. None of the writes will be committed
+            (or visible locally) until <c>IWriteBatch.CommitAsync()</c> is called. Unlike transactions, write batches are persisted offline and
+            therefore are preferable when you don’t need to condition your writes on read data.
+            </summary>
+        </member>
+        <member name="M:Plugin.Firebase.Firestore.IWriteBatch.SetData(Plugin.Firebase.Firestore.IDocumentReference,System.Object,Plugin.Firebase.Firestore.SetOptions)">
+            <summary>
+            Writes to the document referred to by the provided <c>IDocumentReference</c>. If the document does not yet exist, it will be created.
+            If you pass <c>SetOptions</c>, the provided data can be merged into an existing document.
+            </summary>
+            <param name="document">The <c>IDocumentReference</c> to overwrite.</param>
+            <param name="data">The data to write to the document.</param>
+            <param name="options">An object to configure the set behavior.</param>
+            <returns>This <c>IWriteBatch</c> instance. Used for chaining method calls.</returns>
+        </member>
+        <member name="M:Plugin.Firebase.Firestore.IWriteBatch.SetData(Plugin.Firebase.Firestore.IDocumentReference,System.Collections.Generic.Dictionary{System.Object,System.Object},Plugin.Firebase.Firestore.SetOptions)">
+            <summary>
+            Writes to the document referred to by the provided <c>IDocumentReference</c>. If the document does not yet exist, it will be created.
+            If you pass <c>SetOptions</c>, the provided data can be merged into an existing document.
+            </summary>
+            <param name="document">The <c>IDocumentReference</c> to overwrite.</param>
+            <param name="data">The data to write to the document.</param>
+            <param name="options">An object to configure the set behavior.</param>
+            <returns>This <c>IWriteBatch</c> instance. Used for chaining method calls.</returns>
+        </member>
+        <member name="M:Plugin.Firebase.Firestore.IWriteBatch.SetData(Plugin.Firebase.Firestore.IDocumentReference,System.ValueTuple{System.Object,System.Object}[])">
+            <summary>
+            Writes to the document referred to by the provided <c>IDocumentReference</c>. If the document does not yet exist, it will be created.
+            If you pass <c>SetOptions</c>, the provided data can be merged into an existing document.
+            </summary>
+            <param name="document">The <c>IDocumentReference</c> to overwrite.</param>
+            <param name="data">The data to write to the document.</param>
+            <returns>This <c>IWriteBatch</c> instance. Used for chaining method calls.</returns>
+        </member>
+        <member name="M:Plugin.Firebase.Firestore.IWriteBatch.SetData(Plugin.Firebase.Firestore.IDocumentReference,Plugin.Firebase.Firestore.SetOptions,System.ValueTuple{System.Object,System.Object}[])">
+            <summary>
+            Writes to the document referred to by the provided <c>IDocumentReference</c>. If the document does not yet exist, it will be created.
+            If you pass <c>SetOptions</c>, the provided data can be merged into an existing document.
+            </summary>
+            <param name="document">The <c>IDocumentReference</c> to overwrite.</param>
+            <param name="options">An object to configure the set behavior.</param>
+            <param name="data">The data to write to the document.</param>
+            <returns>This <c>IWriteBatch</c> instance. Used for chaining method calls.</returns>
+        </member>
+        <member name="M:Plugin.Firebase.Firestore.IWriteBatch.UpdateData(Plugin.Firebase.Firestore.IDocumentReference,System.Collections.Generic.Dictionary{System.Object,System.Object})">
+            <summary>
+            Updates fields in the document referred to by document. If document does not exist, the write batch will fail.
+            </summary>
+            <param name="document">The <c>IDocumentReference</c> to overwrite.</param>
+            <param name="data">The data to write to the document.</param>
+            <returns>This <c>IWriteBatch</c> instance. Used for chaining method calls.</returns>
+        </member>
+        <member name="M:Plugin.Firebase.Firestore.IWriteBatch.UpdateData(Plugin.Firebase.Firestore.IDocumentReference,System.ValueTuple{System.String,System.Object}[])">
+            <summary>
+            Updates fields in the document referred to by document. If document does not exist, the write batch will fail.
+            </summary>
+            <param name="document">The <c>IDocumentReference</c> to overwrite.</param>
+            <param name="data">The data to write to the document.</param>
+            <returns>This <c>IWriteBatch</c> instance. Used for chaining method calls.</returns>
+        </member>
+        <member name="M:Plugin.Firebase.Firestore.IWriteBatch.DeleteDocument(Plugin.Firebase.Firestore.IDocumentReference)">
+            <summary>
+            Deletes the document referred to by document.
+            </summary>
+            <param name="document">The <c>IDocumentReference</c> to delete.</param>
+            <returns>This <c>IWriteBatch</c> instance. Used for chaining method calls.</returns>
+        </member>
+        <member name="M:Plugin.Firebase.Firestore.IWriteBatch.CommitAsync">
+            <summary>
+            Commits all of the writes in this write batch as a single atomic unit.
+            </summary>
+        </member>
+        <member name="M:Plugin.Firebase.Firestore.IWriteBatch.CommitLocal">
+            <summary>
+            Commits all of the writes in this write batch as a single atomic unit. Returns immediately, without waiting for the commit to complete.
+            </summary>
+        </member>
+        <member name="T:Plugin.Firebase.Firestore.SetOptions">
+            <summary>
+            An options object that configures the behavior of <c>Set()</c> calls. By providing one of the <c>SetOptions</c> objects returned by
+            <c>Merge()</c>, <c>MergeFields(fields)</c> and <c>MergeFieldPaths(fieldPaths)</c>, the <c>Set()</c> calls in <c>IDocumentReference</c>,
+            <c>WriteBatch</c> and <c>Transaction</c> can be configured to perform granular merges instead of overwriting the target documents
+            in their entirety.
+            </summary>
+        </member>
+        <member name="M:Plugin.Firebase.Firestore.SetOptions.Merge">
+            <summary>
+            Changes the behavior of <c>Set()</c> calls to only replace the values specified in its data argument. Fields omitted from the
+            <c>Set()</c> call will remain untouched.
+            </summary>
+        </member>
+        <member name="M:Plugin.Firebase.Firestore.SetOptions.MergeFieldPaths(System.Collections.Generic.IList{System.Collections.Generic.IList{System.String}})">
+            <summary>
+            Changes the behavior of <c>Set()</c> calls to only replace the given fields. Any field that is not specified in fields is ignored
+            and remains untouched. It is an error to pass a <c>SetOptions</c> object to a <c>Set()</c> call that is missing a value for any of
+            the fields specified here in its to data argument.
+            </summary>
+            <param name="fieldPaths">The list of fields to merge.</param>
+        </member>
+        <member name="M:Plugin.Firebase.Firestore.SetOptions.MergeFields(System.String[])">
+            <summary>
+            Changes the behavior of <c>Set()</c> calls to only replace the given fields. Any field that is not specified in fields is ignored
+            and remains untouched. It is an error to pass a SetOptions object to a <c>Set()</c> call that is missing a value for any of the
+            fields specified here.
+            </summary>
+            <param name="fields">The list of fields to merge. Fields can contain dots to reference nested fields within the document.</param>
+        </member>
+        <member name="M:Plugin.Firebase.Firestore.SetOptions.MergeFields(System.Collections.Generic.IList{System.String})">
+            <summary>
+            Changes the behavior of <c>Set()</c> calls to only replace the given fields. Any field that is not specified in fields is ignored
+            and remains untouched. It is an error to pass a SetOptions object to a <c>Set()</c> call that is missing a value for any of the
+            fields specified here.
+            </summary>
+            <param name="fields">The list of fields to merge. Fields can contain dots to reference nested fields within the document.</param>
+        </member>
+        <member name="P:Plugin.Firebase.Firestore.SetOptions.Type">
+            <summary>
+            The type of the merge as integer (TypeMerge = 0, TypeMergeFieldPaths = 1, TypeMergeFields = 2)
+            </summary>
+        </member>
+        <member name="P:Plugin.Firebase.Firestore.SetOptions.FieldPaths">
+            <summary>
+            The list of fields to merge.
+            </summary>
+        </member>
+        <member name="P:Plugin.Firebase.Firestore.SetOptions.Fields">
+            <summary>
+            The list of fields to merge.
+            </summary>
+        </member>
+        <member name="T:Plugin.Firebase.Firestore.Source">
+            <summary>
+            Configures the behavior of <c>Get()</c> calls on <c>IDocumentReference</c> and <c>IQuery</c>. By providing a Source value, these methods
+            can be configured to fetch results only from the server, only from the local cache, or attempt to fetch results from the server and fall
+            back to the cache (which is the default).
+            </summary>
+        </member>
+        <member name="T:Plugin.Firebase.Firestore.Resource">
+            <summary>
+            Android Resource Designer class.
+            Exposes the Android Resource designer assembly into the project Namespace.
+            </summary>
+        </member>
+    </members>
+</doc>

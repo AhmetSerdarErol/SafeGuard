@@ -1,0 +1,72 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>Plugin.Firebase.Core</name>
+    </assembly>
+    <members>
+        <member name="F:Plugin.Firebase.Core.Exceptions.FIRAuthError.Undefined">
+            <summary>
+            Unknown error reason.
+            </summary>
+        </member>
+        <member name="F:Plugin.Firebase.Core.Exceptions.FIRAuthError.InvalidEmail">
+            <summary>
+            Indicates the email address is malformed.
+            </summary>
+        </member>
+        <member name="F:Plugin.Firebase.Core.Exceptions.FIRAuthError.WrongPassword">
+            <summary>
+            Indicates the user attempted sign in with a wrong password.
+            </summary>
+        </member>
+        <member name="F:Plugin.Firebase.Core.Exceptions.FIRAuthError.WeakPassword">
+            <summary>
+            Indicates an attempt to set a password that is considered too weak.
+            </summary>
+        </member>
+        <member name="F:Plugin.Firebase.Core.Exceptions.FIRAuthError.EmailAlreadyInUse">
+            <summary>
+            Indicates the email used to attempt sign up already exists.
+            </summary>
+        </member>
+        <member name="F:Plugin.Firebase.Core.Exceptions.FIRAuthError.UserNotFound">
+            <summary>
+            Indicates the user account was not found.
+            </summary>
+        </member>
+        <member name="F:Plugin.Firebase.Core.Exceptions.FIRAuthError.UserTokenExpired">
+            <summary>
+            Indicates the current user’s token has expired, for example, the user may have changed account password on another device.
+            You must prompt the user to sign in again on this device.
+            </summary>
+        </member>
+        <member name="F:Plugin.Firebase.Core.Exceptions.FIRAuthError.InvalidCredential">
+            <summary>
+            Indicates the supplied credential is invalid. This could happen if it has expired or it is malformed.
+            </summary>
+        </member>
+        <member name="F:Plugin.Firebase.Core.Exceptions.FIRAuthError.UserDisabled">
+            <summary>
+            Indicates the user's account is disabled.
+            </summary>
+        </member>
+        <member name="F:Plugin.Firebase.Core.Exceptions.FIRAuthError.AccountExistsWithDifferentCredential">
+            <summary>
+            Indicates the user already signed in once with a trusted provider and hence, cannot sign in with untrusted provider anymore.
+            List of trusted and untrusted providers: https://firebase.google.com/docs/auth/users#verified_email_addresses
+            </summary>
+        </member>
+        <member name="M:Plugin.Firebase.Core.Platforms.Android.CrossFirebase.Initialize(Android.App.Activity,System.Func{Android.App.Activity},Firebase.FirebaseOptions,System.String)">
+            <param name="activity">The current activity. This will be passed into the platform FirebaseApp.Initialize method.</param>
+            <param name="activityLocator">A delegate that should always return the 'current' activity. This will be invoked whenever the plugin needs to pass an activity into native Firebases SDK methods.</param>
+            <param name="firebaseOptions"></param>
+            <param name="name"></param>
+        </member>
+        <member name="T:Plugin.Firebase.Core.Resource">
+            <summary>
+            Android Resource Designer class.
+            Exposes the Android Resource designer assembly into the project Namespace.
+            </summary>
+        </member>
+    </members>
+</doc>

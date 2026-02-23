@@ -1,0 +1,27 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2013/05/nuspec.xsd">
+  <metadata>
+    <id>Xamarin.Firebase.Common.Ktx</id>
+    <version>121.0.0</version>
+    <title>.NET for Android (formerly Xamarin.Android) Bindings for Google Play Services -  Xamarin.Firebase.Common.Ktx</title>
+    <authors>Microsoft</authors>
+    <requireLicenseAcceptance>true</requireLicenseAcceptance>
+    <licenseUrl>https://github.com/xamarin/GooglePlayServicesComponents/blob/master/LICENSE.md</licenseUrl>
+    <projectUrl>https://github.com/xamarin/GooglePlayServicesComponents</projectUrl>
+    <description>.NET for Android (formerly Xamarin.Android) bindings for Google Play Services library 'com.google.firebase:firebase-common-ktx'.
+        
+        N/A</description>
+    <copyright>© Microsoft Corporation. All rights reserved.</copyright>
+    <tags>.NET for Android Xamarin.Android Bindings Google Play Services artifact=com.google.firebase:firebase-common-ktx:21.0.0 artifact_versioned=com.google.firebase:firebase-common-ktx:21.0.0</tags>
+    <repository type="git" url="https://github.com/xamarin/GooglePlayServicesComponents.git" branch="100.20240618-manual-updates-20240509" commit="5f8adaa0f2223f29da28ba2a4b9395b8fdf345cb" />
+    <dependencies>
+      <group targetFramework="net8.0-android34.0">
+        <dependency id="Xamarin.Firebase.Annotations" version="116.2.0.8" include="All" />
+        <dependency id="Xamarin.Firebase.Common" version="121.0.0" include="All" />
+        <dependency id="Xamarin.Firebase.Components" version="118.0.0" include="All" />
+        <dependency id="Xamarin.Build.Download" version="0.11.4" exclude="Build,Analyzers" />
+        <dependency id="Xamarin.Kotlin.StdLib.Jdk8" version="1.9.23.3" include="All" />
+      </group>
+    </dependencies>
+  </metadata>
+</package>

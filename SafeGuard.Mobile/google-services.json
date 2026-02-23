@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "708404143448",
+    "project_id": "safeguard-390ac",
+    "storage_bucket": "safeguard-390ac.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:708404143448:android:4dbbace3ee62b9ee29712d",
+        "android_client_info": {
+          "package_name": "com.companyname.safeguard.mobile"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA4l_OnVj_iupMe8fg4gUZyLiCFZER3a4s"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

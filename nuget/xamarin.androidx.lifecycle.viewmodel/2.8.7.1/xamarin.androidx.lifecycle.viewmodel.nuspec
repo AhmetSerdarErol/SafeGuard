@@ -1,0 +1,29 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2013/05/nuspec.xsd">
+  <metadata>
+    <id>Xamarin.AndroidX.Lifecycle.ViewModel</id>
+    <version>2.8.7.1</version>
+    <title>.NET for Android bindings for the Android Java library 'androidx.lifecycle:lifecycle-viewmodel'.</title>
+    <authors>Microsoft</authors>
+    <requireLicenseAcceptance>true</requireLicenseAcceptance>
+    <license type="expression">MIT AND Apache-2.0</license>
+    <licenseUrl>https://licenses.nuget.org/MIT%20AND%20Apache-2.0</licenseUrl>
+    <icon>icon.png</icon>
+    <readme>readme.md</readme>
+    <projectUrl>https://aka.ms/androidx</projectUrl>
+    <description>.NET for Android bindings for the Android Java library 'androidx.lifecycle:lifecycle-viewmodel'.
+
+Library description: Android Lifecycle ViewModel</description>
+    <copyright>© Microsoft Corporation. All rights reserved.</copyright>
+    <tags>xamarin artifact=androidx.lifecycle:lifecycle-viewmodel artifact_versioned=androidx.lifecycle:lifecycle-viewmodel:2.8.7</tags>
+    <repository type="git" url="https://github.com/xamarin/AndroidX.git" branch="refs/tags/20241107-weekly-stable-updates-20241107" commit="2d800224bb2f56e2e0a8f5ac775dc51accda4f90" />
+    <dependencies>
+      <group targetFramework="net8.0-android34.0">
+        <dependency id="Xamarin.AndroidX.Annotation" version="1.9.1.1" include="All" />
+        <dependency id="Xamarin.AndroidX.Lifecycle.ViewModel.Android" version="2.8.7.1" include="All" />
+        <dependency id="Xamarin.Kotlin.StdLib" version="2.0.21.1" include="All" />
+        <dependency id="Xamarin.KotlinX.Coroutines.Core" version="1.9.0.1" include="All" />
+      </group>
+    </dependencies>
+  </metadata>
+</package>

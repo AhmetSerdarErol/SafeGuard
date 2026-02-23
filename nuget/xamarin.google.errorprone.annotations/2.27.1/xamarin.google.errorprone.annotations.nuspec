@@ -1,0 +1,20 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2012/06/nuspec.xsd">
+  <metadata>
+    <id>Xamarin.Google.ErrorProne.Annotations</id>
+    <version>2.27.1</version>
+    <title>Xamarin.Google.ErrorProne.Annotations</title>
+    <authors>Microsoft</authors>
+    <requireLicenseAcceptance>true</requireLicenseAcceptance>
+    <license type="expression">MIT AND Apache-2.0</license>
+    <licenseUrl>https://licenses.nuget.org/MIT%20AND%20Apache-2.0</licenseUrl>
+    <projectUrl>https://go.microsoft.com/fwlink/?linkid=865435</projectUrl>
+    <description>.NET for Android (formerly Xamarin.Android) Bindings for com.google.errorprone:error_prone_annotations package</description>
+    <copyright>© Microsoft Corporation. All rights reserved.</copyright>
+    <tags>.NET, dotnet, xamarin, android, bindings, com.google.errorprone, com, google, errorprone, error_prone_annotations, artifact=com.google.errorprone:error_prone_annotations artifact_versioned=com.google.errorprone:error_prone_annotations:2.27.1</tags>
+    <repository type="git" url="https://go.microsoft.com/fwlink/?linkid=865435" branch="100.20240618-manual-updates-20240509" commit="5f8adaa0f2223f29da28ba2a4b9395b8fdf345cb" />
+    <dependencies>
+      <group targetFramework="net8.0-android34.0" />
+    </dependencies>
+  </metadata>
+</package>

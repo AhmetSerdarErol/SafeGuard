@@ -1,0 +1,35 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>Xamarin.AndroidX.DataStore.Android</name>
+    </assembly>
+    <members>
+        <member name="T:AndroidX.DataStore.Core.Internal.ReplaceFileCorruptionHandler">
+            <summary>
+            if AndroidX.DataStore.Core.IDataMigration ever gets removed there will be build error
+            
+            AndroidX.DataStore.Core.IDataMigration is currently removed in androidx.datastore:datastore-core-jvm
+            </summary> <summary>
+            
+            </summary>
+        </member>
+        <member name="T:AndroidX.DataStore.Core.Internal.IDataMigration">
+            <summary>
+            if AndroidX.DataStore.Core.IDataMigration ever gets removed there will be build error
+            
+            AndroidX.DataStore.Core.IDataMigration is currently removed in androidx.datastore:datastore-core-jvm
+            </summary> <summary>
+            
+            </summary>
+        </member>
+        <member name="T:AndroidX.DataStore.Core.Internal.ISerializer">
+            <summary>
+            if AndroidX.DataStore.Core.ISerializer ever gets removed there will be build error
+            
+            AndroidX.DataStore.Core.ISerializer is currently removed in androidx.datastore:datastore-core-jvm
+            </summary> <summary>
+            
+            </summary>
+        </member>
+    </members>
+</doc>

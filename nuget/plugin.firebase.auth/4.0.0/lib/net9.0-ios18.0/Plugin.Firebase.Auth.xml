@@ -1,0 +1,298 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>Plugin.Firebase.Auth</name>
+    </assembly>
+    <members>
+        <member name="P:Plugin.Firebase.Auth.CrossFirebaseAuth.IsSupported">
+            <summary>
+            Gets if the plugin is supported on the current platform.
+            </summary>
+        </member>
+        <member name="P:Plugin.Firebase.Auth.CrossFirebaseAuth.Current">
+            <summary>
+            Current plugin implementation to use
+            </summary>
+        </member>
+        <member name="M:Plugin.Firebase.Auth.CrossFirebaseAuth.Dispose">
+            <summary>
+            Dispose of everything 
+            </summary>
+        </member>
+        <member name="T:Plugin.Firebase.Auth.IAuthTokenResult">
+            <summary>
+            A data class containing the ID token JWT string and other properties associated with the token including the decoded payload claims.
+            </summary>
+        </member>
+        <member name="M:Plugin.Firebase.Auth.IAuthTokenResult.GetClaim``1(System.String)">
+            <summary>
+            Retrieves the claim casted to the generic type param.
+            </summary>
+            <param name="key">Key of the claim</param>
+            <typeparam name="T">Type of the claim</typeparam>
+            <returns></returns>
+        </member>
+        <member name="P:Plugin.Firebase.Auth.IAuthTokenResult.AuthDate">
+            <summary>
+            Stores the ID token’s authentication date. This is the date the user was signed in and NOT the date the token was refreshed.
+            </summary>
+        </member>
+        <member name="P:Plugin.Firebase.Auth.IAuthTokenResult.Claims">
+            <summary>
+            Stores the entire payload of claims found on the ID token. This includes the standard reserved claims as well as custom claims
+            set by the developer via the Admin SDK.
+            </summary>
+        </member>
+        <member name="P:Plugin.Firebase.Auth.IAuthTokenResult.ExpirationDate">
+            <summary>
+            Stores the ID token’s expiration date.
+            </summary>
+        </member>
+        <member name="P:Plugin.Firebase.Auth.IAuthTokenResult.IssuedAtDate">
+            <summary>
+            Stores the date that the ID token was issued. This is the date last refreshed and NOT the last authentication date.
+            </summary>
+        </member>
+        <member name="P:Plugin.Firebase.Auth.IAuthTokenResult.SignInProvider">
+            <summary>
+            Stores sign-in provider through which the token was obtained. This does not necessarily map to provider IDs.
+            </summary>
+        </member>
+        <member name="P:Plugin.Firebase.Auth.IAuthTokenResult.SignInSecondFactor">
+            <summary>
+            Stores sign-in second factor through which the token was obtained.
+            </summary>
+        </member>
+        <member name="P:Plugin.Firebase.Auth.IAuthTokenResult.Token">
+            <summary>
+            Stores the JWT string of the ID token.
+            </summary>
+        </member>
+        <member name="T:Plugin.Firebase.Auth.IFirebaseAuth">
+            <summary>
+            Manages authentication for Firebase apps.
+            </summary>
+        </member>
+        <member name="M:Plugin.Firebase.Auth.IFirebaseAuth.VerifyPhoneNumberAsync(System.String)">
+            <summary>
+            Starts the phone number authentication flow by sending a verification code to the specified phone number.
+            </summary>
+            <param name="phoneNumber">The phone number to be verified.</param>
+        </member>
+        <member name="M:Plugin.Firebase.Auth.IFirebaseAuth.CreateUserAsync(System.String,System.String)">
+            <summary>
+            Tries to create a new user account with the given email address and password. If successful, it also signs the user in into the app.
+            </summary>
+            <param name="email">The user’s email address.</param>
+            <param name="password">The user’s password.</param>
+            <returns>The signed in <c>IFirebaseUser</c> object.</returns>
+        </member>
+        <member name="M:Plugin.Firebase.Auth.IFirebaseAuth.SignInWithCustomTokenAsync(System.String)">
+            <summary>
+            Asynchronously signs in to Firebase with the given Auth token.
+            </summary>
+            <param name="token">A self-signed custom auth token.</param>
+            <returns>The signed in <c>IFirebaseUser</c> object.</returns>
+        </member>
+        <member name="M:Plugin.Firebase.Auth.IFirebaseAuth.SignInWithPhoneNumberVerificationCodeAsync(System.String)">
+            <summary>
+            Signs in using the verification code that was send to the given phone number after calling <c>VerifyPhoneNumberAsync(phoneNumber)</c>.
+            </summary>
+            <param name="verificationCode">The code that was send to the given phone number after calling <c>VerifyPhoneNumberAsync(phoneNumber)</c>.</param>
+            <returns>The signed in <c>IFirebaseUser</c> object.</returns>
+        </member>
+        <member name="M:Plugin.Firebase.Auth.IFirebaseAuth.SignInWithEmailAndPasswordAsync(System.String,System.String,System.Boolean)">
+            <summary>
+            Signs in using an email address and password.
+            </summary>
+            <param name="email">The user’s email address.</param>
+            <param name="password">The user’s password.</param>
+            <param name="createsUserAutomatically">If the user doesn't exist, it will be created automatically and signed in afterwards if the value is true.</param>
+            <returns>The signed in <c>IFirebaseUser</c> object.</returns>
+        </member>
+        <member name="M:Plugin.Firebase.Auth.IFirebaseAuth.SignInWithEmailLinkAsync(System.String,System.String)">
+            <summary>
+            Signs in using an email address and email sign-in link.
+            </summary>
+            <param name="email">The user’s email address.</param>
+            <param name="link">The email sign-in link.</param>
+            <returns>The signed in <c>IFirebaseUser</c> object.</returns>
+        </member>
+        <member name="M:Plugin.Firebase.Auth.IFirebaseAuth.SignInAnonymouslyAsync">
+            <summary>
+            Asynchronously creates and becomes an anonymous user. If there is already an anonymous user signed in, that user will
+            be returned instead. If there is any other existing user signed in, that user will be signed out.
+            </summary>
+            <returns>The signed in <c>IFirebaseUser</c> object.</returns>
+        </member>
+        <member name="M:Plugin.Firebase.Auth.IFirebaseAuth.LinkWithPhoneNumberVerificationCodeAsync(System.String)">
+            <summary>
+            Link the signed in user with a phone number.
+            </summary>
+            <param name="verificationCode">The code that was send to the given phone number after calling <c>VerifyPhoneNumberAsync(phoneNumber)</c>.</param>
+            <returns>The signed in <c>IFirebaseUser</c> object.</returns>
+        </member>
+        <member name="M:Plugin.Firebase.Auth.IFirebaseAuth.LinkWithEmailAndPasswordAsync(System.String,System.String)">
+            <summary>
+            Link the signed in user with the given email address and password.
+            </summary>
+            <param name="email">The user’s email address.</param>
+            <param name="password">The user’s password.</param>
+            <returns>The signed in <c>IFirebaseUser</c> object.</returns>
+        </member>
+        <member name="M:Plugin.Firebase.Auth.IFirebaseAuth.SendSignInLink(System.String,Plugin.Firebase.Auth.ActionCodeSettings)">
+            <summary>
+            Sends a sign in with email link to provided email address.
+            </summary>
+            <param name="toEmail">The email address of the user.</param>
+            <param name="actionCodeSettings">An <c>ActionCodeSettings</c> object containing settings related to handling action codes.</param>
+        </member>
+        <member name="M:Plugin.Firebase.Auth.IFirebaseAuth.SignOutAsync">
+            <summary>
+            Signs out the current user.
+            </summary>
+        </member>
+        <member name="M:Plugin.Firebase.Auth.IFirebaseAuth.IsSignInWithEmailLink(System.String)">
+            <summary>
+            Checks if link is an email sign-in link.
+            </summary>
+            <param name="link">The email sign-in link.</param>
+        </member>
+        <member name="M:Plugin.Firebase.Auth.IFirebaseAuth.SendPasswordResetEmailAsync">
+            <summary>
+            Sends authenticated user an email with a link to reset his password.
+            </summary>
+        </member>
+        <member name="M:Plugin.Firebase.Auth.IFirebaseAuth.SendPasswordResetEmailAsync(System.String)">
+            <summary>
+            Sends registered user an email with a link to reset his password.
+            </summary>
+            <param name="email">The registered user email.</param>
+        </member>
+        <member name="M:Plugin.Firebase.Auth.IFirebaseAuth.UseEmulator(System.String,System.Int32)">
+            <summary>
+            Modify this FirebaseAuth instance to communicate with the Firebase Authentication emulator.
+            Note: this must be called before this instance has been used to do any operations.
+            </summary>
+            <param name="host">The emulator host (for example, 10.0.2.2 on android and localhost on iOS)</param>
+            <param name="port">The emulator port (for example, 9099)</param>
+        </member>
+        <member name="M:Plugin.Firebase.Auth.IFirebaseAuth.AddAuthStateListener(System.Action{Plugin.Firebase.Auth.IFirebaseAuth})">
+            <summary>
+            Registers a listener for authentication state changes.
+            </summary>
+            <param name="listener">Action invoked.</param>
+            <returns>A token that detaches the listener when disposed.</returns>
+        </member>
+        <member name="P:Plugin.Firebase.Auth.IFirebaseAuth.CurrentUser">
+            <summary>
+            The currently signed in <c>IFirebaseUser</c> object or <c>null</c> if the user is signed out.
+            </summary>
+        </member>
+        <member name="T:Plugin.Firebase.Auth.IFirebaseUser">
+            <summary>
+            Represents a user. Firebase Auth does not attempt to validate users when loading them from the keychain. Invalidated users
+            (such as those whose passwords have been changed on another client) are automatically logged out when an auth-dependent operation
+            is attempted or when the ID token is automatically refreshed.
+            </summary>
+        </member>
+        <member name="M:Plugin.Firebase.Auth.IFirebaseUser.UpdateEmailAsync(System.String)">
+            <summary>
+            Updates the email address for the user. On success, the cached user profile data is updated. May fail if there is already
+            an account with this email address that was created using email and password authentication.
+            </summary>
+            <param name="email">The email address for the user.</param>
+        </member>
+        <member name="M:Plugin.Firebase.Auth.IFirebaseUser.UpdatePasswordAsync(System.String)">
+            <summary>
+            Updates the password for the user. On success, the cached user profile data is updated.
+            </summary>
+            <param name="password">The new password for the user.</param>
+        </member>
+        <member name="M:Plugin.Firebase.Auth.IFirebaseUser.UpdatePhoneNumberAsync(System.String,System.String)">
+            <summary>
+            Updates the phone number for the user. On success, the cached user profile data is updated.
+            </summary>
+            <param name="verificationId">A valid verificationId retrieved by calling VerifyPhoneNumber().</param>
+            <param name="smsCode">The 6 digit SMS-code sent to the user.</param>
+        </member>
+        <member name="M:Plugin.Firebase.Auth.IFirebaseUser.UpdateProfileAsync(System.String,System.String)">
+            <summary>
+            Change the user’s profile data.
+            </summary>
+            <param name="displayName">The user’s display name.</param>
+            <param name="photoUrl">The user’s photo URL.</param>
+        </member>
+        <member name="M:Plugin.Firebase.Auth.IFirebaseUser.SendEmailVerificationAsync(Plugin.Firebase.Auth.ActionCodeSettings)">
+            <summary>
+            Initiates email verification for the user.
+            </summary>
+            <param name="actionCodeSettings">An <c>ActionCodeSettings</c> object containing settings related to handling action codes.</param>
+        </member>
+        <member name="M:Plugin.Firebase.Auth.IFirebaseUser.UnlinkAsync(System.String)">
+            <summary>
+            Disassociates a user account from a third-party identity provider with this user.
+            </summary>
+            <param name="providerId">The provider ID of the provider to unlink.</param>
+            <returns></returns>
+        </member>
+        <member name="M:Plugin.Firebase.Auth.IFirebaseUser.DeleteAsync">
+            <summary>
+            Deletes the user account (also signs out the user, if this was the current user).
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Plugin.Firebase.Auth.IFirebaseUser.GetIdTokenResultAsync(System.Boolean)">
+            <summary>
+            Fetches a Firebase Auth ID Token for the user, which also contains custom claim information; useful when authenticating against your own backend.
+            </summary>
+            <param name="forceRefresh">Force refreshes the token. Should only be set to true if the token is invalidated out of band.</param>
+            <returns></returns>
+        </member>
+        <member name="P:Plugin.Firebase.Auth.IFirebaseUser.Uid">
+            <summary>
+            Returns a string used to uniquely identify your user in your Firebase project's user database. 
+            </summary>
+        </member>
+        <member name="P:Plugin.Firebase.Auth.IFirebaseUser.DisplayName">
+            <summary>
+            Returns the main display name of this user from the Firebase project's user database. 
+            </summary>
+        </member>
+        <member name="P:Plugin.Firebase.Auth.IFirebaseUser.Email">
+            <summary>
+            Returns the main email address of the user, as stored in the Firebase project's user database.
+            </summary>
+        </member>
+        <member name="P:Plugin.Firebase.Auth.IFirebaseUser.PhotoUrl">
+            <summary>
+            Returns the URL of this user's main profile picture, as stored in the Firebase project's user database. 
+            </summary>
+        </member>
+        <member name="P:Plugin.Firebase.Auth.IFirebaseUser.ProviderId">
+            <summary>
+            Always returns <c>FirebaseAuthProvider.PROVIDER_ID</c>.
+            </summary>
+        </member>
+        <member name="P:Plugin.Firebase.Auth.IFirebaseUser.IsEmailVerified">
+            <summary>
+            Indicates the email address associated with this user has been verified.
+            </summary>
+        </member>
+        <member name="P:Plugin.Firebase.Auth.IFirebaseUser.IsAnonymous">
+            <summary>
+            Indicates the user represents an anonymous user.
+            </summary>
+        </member>
+        <member name="P:Plugin.Firebase.Auth.IFirebaseUser.ProviderInfos">
+            <summary>
+            Profile data for each identity provider, if any. This data is cached on sign-in and updated when linking or unlinking.
+            </summary>
+        </member>
+        <member name="P:Plugin.Firebase.Auth.IFirebaseUser.Metadata">
+            <summary>
+            Metadata associated with the Firebase user in question.
+            </summary>
+        </member>
+    </members>
+</doc>

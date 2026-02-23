@@ -1,0 +1,364 @@
+{
+  "files": [
+    {
+      "fileName": "./readme.md",
+      "SPDXID": "SPDXRef-File--readme.md-3A24332EEF3ED09070BC3A5A323ABC5389AA78DD",
+      "checksums": [
+        {
+          "algorithm": "SHA256",
+          "checksumValue": "49c2ec6aa4e9e2c7b05b256339545744061913adb066541822a04c95ae759e2f"
+        },
+        {
+          "algorithm": "SHA1",
+          "checksumValue": "3a24332eef3ed09070bc3a5a323abc5389aa78dd"
+        }
+      ],
+      "licenseConcluded": "NOASSERTION",
+      "licenseInfoInFiles": [
+        "NOASSERTION"
+      ],
+      "copyrightText": "NOASSERTION"
+    },
+    {
+      "fileName": "./LICENSE.md",
+      "SPDXID": "SPDXRef-File--LICENSE.md-3B941EC3773572CD471F1DD124D3ABEB19A6437B",
+      "checksums": [
+        {
+          "algorithm": "SHA256",
+          "checksumValue": "7f92be6c840f2584494d4986060fe7dfe8bbf02d6ab122980fa1d43ffb2ecb0f"
+        },
+        {
+          "algorithm": "SHA1",
+          "checksumValue": "3b941ec3773572cd471f1dd124d3abeb19a6437b"
+        }
+      ],
+      "licenseConcluded": "NOASSERTION",
+      "licenseInfoInFiles": [
+        "NOASSERTION"
+      ],
+      "copyrightText": "NOASSERTION"
+    },
+    {
+      "fileName": "./icon.png",
+      "SPDXID": "SPDXRef-File--icon.png-7229B5BECEBBC51925AA2E08341DDB4BFB53F7AD",
+      "checksums": [
+        {
+          "algorithm": "SHA256",
+          "checksumValue": "8fcf6f6cd575c0f8c643691765a7db2a4b3b104bfbff34646555f5ccffdb2895"
+        },
+        {
+          "algorithm": "SHA1",
+          "checksumValue": "7229b5becebbc51925aa2e08341ddb4bfb53f7ad"
+        }
+      ],
+      "licenseConcluded": "NOASSERTION",
+      "licenseInfoInFiles": [
+        "NOASSERTION"
+      ],
+      "copyrightText": "NOASSERTION"
+    },
+    {
+      "fileName": "./[Content_Types].xml",
+      "SPDXID": "SPDXRef-File---Content-Types-.xml-0B958D2E5439DD7A3B45870AA13CC77346C50EB7",
+      "checksums": [
+        {
+          "algorithm": "SHA256",
+          "checksumValue": "4ff0d29eae0d4a36a36915b9f374008b0ee06145abf29932effdbb0cdf5c4507"
+        },
+        {
+          "algorithm": "SHA1",
+          "checksumValue": "0b958d2e5439dd7a3b45870aa13cc77346c50eb7"
+        }
+      ],
+      "licenseConcluded": "NOASSERTION",
+      "licenseInfoInFiles": [
+        "NOASSERTION"
+      ],
+      "copyrightText": "NOASSERTION"
+    },
+    {
+      "fileName": "./THIRD-PARTY-NOTICES.txt",
+      "SPDXID": "SPDXRef-File--THIRD-PARTY-NOTICES.txt-0D8181990DE7D4B6BD0E11E195005CAE3E8DB7E5",
+      "checksums": [
+        {
+          "algorithm": "SHA256",
+          "checksumValue": "872d4dac04f9505fd782be74a4ff099208cdbc23fba6df9c0ac73dfdfc5aa482"
+        },
+        {
+          "algorithm": "SHA1",
+          "checksumValue": "0d8181990de7d4b6bd0e11e195005cae3e8db7e5"
+        }
+      ],
+      "licenseConcluded": "NOASSERTION",
+      "licenseInfoInFiles": [
+        "NOASSERTION"
+      ],
+      "copyrightText": "NOASSERTION"
+    },
+    {
+      "fileName": "./Xamarin.KotlinX.Coroutines.Core.nuspec",
+      "SPDXID": "SPDXRef-File--Xamarin.KotlinX.Coroutines.Core.nuspec-9EDCB3161A1A4519CDB9785BCB51AD86465387D5",
+      "checksums": [
+        {
+          "algorithm": "SHA256",
+          "checksumValue": "ce00182ac5637160577aec3a715f9e16470d1ad13b5f156762e5ff76bdd9bac7"
+        },
+        {
+          "algorithm": "SHA1",
+          "checksumValue": "9edcb3161a1a4519cdb9785bcb51ad86465387d5"
+        }
+      ],
+      "licenseConcluded": "NOASSERTION",
+      "licenseInfoInFiles": [
+        "NOASSERTION"
+      ],
+      "copyrightText": "NOASSERTION"
+    },
+    {
+      "fileName": "./lib/net8.0-android34.0/Xamarin.KotlinX.Coroutines.Core.dll",
+      "SPDXID": "SPDXRef-File--lib-net8.0-android34.0-Xamarin.KotlinX.Coroutines.Core.dll-AD9BA490736379DF59C729E80D2F73D50719AF0D",
+      "checksums": [
+        {
+          "algorithm": "SHA256",
+          "checksumValue": "8dfb88ef9f288c7d53bd3356b4e773dbab152f3193650a342b59f6ad3700e643"
+        },
+        {
+          "algorithm": "SHA1",
+          "checksumValue": "ad9ba490736379df59c729e80d2f73d50719af0d"
+        }
+      ],
+      "licenseConcluded": "NOASSERTION",
+      "licenseInfoInFiles": [
+        "NOASSERTION"
+      ],
+      "copyrightText": "NOASSERTION"
+    },
+    {
+      "fileName": "./lib/net8.0-android34.0/Xamarin.KotlinX.Coroutines.Core.xml",
+      "SPDXID": "SPDXRef-File--lib-net8.0-android34.0-Xamarin.KotlinX.Coroutines.Core.xml-3F79FA0F321CE53BCF6B5B6F2CDEA4D7807BF13E",
+      "checksums": [
+        {
+          "algorithm": "SHA256",
+          "checksumValue": "03351eedbc891ba53fe9790ca873d2f0fbf491bdaf57e68b825f5f0d365a192b"
+        },
+        {
+          "algorithm": "SHA1",
+          "checksumValue": "3f79fa0f321ce53bcf6b5b6f2cdea4d7807bf13e"
+        }
+      ],
+      "licenseConcluded": "NOASSERTION",
+      "licenseInfoInFiles": [
+        "NOASSERTION"
+      ],
+      "copyrightText": "NOASSERTION"
+    },
+    {
+      "fileName": "./lib/net8.0-android34.0/Xamarin.KotlinX.Coroutines.Core.pdb",
+      "SPDXID": "SPDXRef-File--lib-net8.0-android34.0-Xamarin.KotlinX.Coroutines.Core.pdb-CDCED05F1BF50FD5EEB65BA272B9492243BE7F94",
+      "checksums": [
+        {
+          "algorithm": "SHA256",
+          "checksumValue": "b956728d13140b561beb841763b14cfac28c7f30f749138de4f2a7c8f59c8d1e"
+        },
+        {
+          "algorithm": "SHA1",
+          "checksumValue": "cdced05f1bf50fd5eeb65ba272b9492243be7f94"
+        }
+      ],
+      "licenseConcluded": "NOASSERTION",
+      "licenseInfoInFiles": [
+        "NOASSERTION"
+      ],
+      "copyrightText": "NOASSERTION"
+    },
+    {
+      "fileName": "./package/services/metadata/core-properties/9ab8d7af69f44768a0caad5ae1d3298f.psmdcp",
+      "SPDXID": "SPDXRef-File--package-services-metadata-core-properties-9ab8d7af69f44768a0caad5ae1d3298f.psmdcp-2F9436CD4C7618261B2247FDACD0337E7D92849E",
+      "checksums": [
+        {
+          "algorithm": "SHA256",
+          "checksumValue": "785b9bcff49dfd7c6982479bfd4b2e75d736223b2e3cdb47cd6161c409356e71"
+        },
+        {
+          "algorithm": "SHA1",
+          "checksumValue": "2f9436cd4c7618261b2247fdacd0337e7d92849e"
+        }
+      ],
+      "licenseConcluded": "NOASSERTION",
+      "licenseInfoInFiles": [
+        "NOASSERTION"
+      ],
+      "copyrightText": "NOASSERTION"
+    },
+    {
+      "fileName": "./lib/net8.0-android34.0/Xamarin.KotlinX.Coroutines.Core.aar",
+      "SPDXID": "SPDXRef-File--lib-net8.0-android34.0-Xamarin.KotlinX.Coroutines.Core.aar-0BAC706C109749580A50A6FDEF05A50E0293F8EE",
+      "checksums": [
+        {
+          "algorithm": "SHA256",
+          "checksumValue": "7247a356c08c1affc5de306b25ff6160ee827403fb2a4b3d2874598dffe2fe01"
+        },
+        {
+          "algorithm": "SHA1",
+          "checksumValue": "0bac706c109749580a50a6fdef05a50e0293f8ee"
+        }
+      ],
+      "licenseConcluded": "NOASSERTION",
+      "licenseInfoInFiles": [
+        "NOASSERTION"
+      ],
+      "copyrightText": "NOASSERTION"
+    },
+    {
+      "fileName": "./_rels/.rels",
+      "SPDXID": "SPDXRef-File---rels-.rels-241AD3108851DDEA1B1C640C4ABF16CBF630F4D7",
+      "checksums": [
+        {
+          "algorithm": "SHA256",
+          "checksumValue": "444d1458667c28ea824e5e2e8f8869c53fec4f1bcbaa5f7f5f47bccc039cc637"
+        },
+        {
+          "algorithm": "SHA1",
+          "checksumValue": "241ad3108851ddea1b1c640c4abf16cbf630f4d7"
+        }
+      ],
+      "licenseConcluded": "NOASSERTION",
+      "licenseInfoInFiles": [
+        "NOASSERTION"
+      ],
+      "copyrightText": "NOASSERTION"
+    }
+  ],
+  "packages": [
+    {
+      "name": "Microsoft.NET.ILLink.Tasks",
+      "SPDXID": "SPDXRef-Package-B84F439F5F1D8181504001808BED8E35B93D9468972E1607A04B571DD24DA920",
+      "downloadLocation": "NOASSERTION",
+      "filesAnalyzed": false,
+      "licenseConcluded": "NOASSERTION",
+      "licenseDeclared": "NOASSERTION",
+      "copyrightText": "NOASSERTION",
+      "versionInfo": "8.0.11",
+      "externalRefs": [
+        {
+          "referenceCategory": "PACKAGE-MANAGER",
+          "referenceType": "purl",
+          "referenceLocator": "pkg:nuget/Microsoft.NET.ILLink.Tasks@8.0.11"
+        }
+      ],
+      "supplier": "NOASSERTION"
+    },
+    {
+      "name": "Xamarin.KotlinX.Coroutines.Core",
+      "SPDXID": "SPDXRef-Package-71E897228C025FF782D388FEB4CEF87260E1E4F97C074A7E979965E4592F779A",
+      "downloadLocation": "NOASSERTION",
+      "filesAnalyzed": false,
+      "licenseConcluded": "NOASSERTION",
+      "licenseDeclared": "NOASSERTION",
+      "copyrightText": "NOASSERTION",
+      "versionInfo": "1.9.0.2",
+      "externalRefs": [
+        {
+          "referenceCategory": "PACKAGE-MANAGER",
+          "referenceType": "purl",
+          "referenceLocator": "pkg:nuget/Xamarin.KotlinX.Coroutines.Core@1.9.0.2"
+        }
+      ],
+      "supplier": "Organization: Microsoft"
+    },
+    {
+      "name": "Microsoft.Sbom.Targets",
+      "SPDXID": "SPDXRef-Package-7DAA0B3EDED3076AACC82E185C2A8B522D51C2079B97B13D8E6454E08E0A27CA",
+      "downloadLocation": "NOASSERTION",
+      "filesAnalyzed": false,
+      "licenseConcluded": "NOASSERTION",
+      "licenseDeclared": "NOASSERTION",
+      "copyrightText": "NOASSERTION",
+      "versionInfo": "3.0.0",
+      "externalRefs": [
+        {
+          "referenceCategory": "PACKAGE-MANAGER",
+          "referenceType": "purl",
+          "referenceLocator": "pkg:nuget/Microsoft.Sbom.Targets@3.0.0"
+        }
+      ],
+      "supplier": "NOASSERTION"
+    },
+    {
+      "name": "Xamarin.KotlinX.Coroutines.Core",
+      "SPDXID": "SPDXRef-RootPackage",
+      "downloadLocation": "NOASSERTION",
+      "packageVerificationCode": {
+        "packageVerificationCodeValue": "7bf687f5e5e08f2b033b54f4f622519ae494594b"
+      },
+      "filesAnalyzed": true,
+      "licenseConcluded": "NOASSERTION",
+      "licenseInfoFromFiles": [
+        "NOASSERTION"
+      ],
+      "licenseDeclared": "NOASSERTION",
+      "copyrightText": "NOASSERTION",
+      "versionInfo": "1.0.0",
+      "externalRefs": [
+        {
+          "referenceCategory": "PACKAGE-MANAGER",
+          "referenceType": "purl",
+          "referenceLocator": "pkg:swid/Microsoft/spdx.org/Xamarin.KotlinX.Coroutines.Core@1.0.0?tag_id=e8e5f111-6e86-45b6-b1e9-7bceffb7adbb"
+        }
+      ],
+      "supplier": "Organization: Microsoft",
+      "hasFiles": [
+        "SPDXRef-File--lib-net8.0-android34.0-Xamarin.KotlinX.Coroutines.Core.dll-AD9BA490736379DF59C729E80D2F73D50719AF0D",
+        "SPDXRef-File--Xamarin.KotlinX.Coroutines.Core.nuspec-9EDCB3161A1A4519CDB9785BCB51AD86465387D5",
+        "SPDXRef-File--THIRD-PARTY-NOTICES.txt-0D8181990DE7D4B6BD0E11E195005CAE3E8DB7E5",
+        "SPDXRef-File--icon.png-7229B5BECEBBC51925AA2E08341DDB4BFB53F7AD",
+        "SPDXRef-File---rels-.rels-241AD3108851DDEA1B1C640C4ABF16CBF630F4D7",
+        "SPDXRef-File--lib-net8.0-android34.0-Xamarin.KotlinX.Coroutines.Core.aar-0BAC706C109749580A50A6FDEF05A50E0293F8EE",
+        "SPDXRef-File--package-services-metadata-core-properties-9ab8d7af69f44768a0caad5ae1d3298f.psmdcp-2F9436CD4C7618261B2247FDACD0337E7D92849E",
+        "SPDXRef-File--lib-net8.0-android34.0-Xamarin.KotlinX.Coroutines.Core.pdb-CDCED05F1BF50FD5EEB65BA272B9492243BE7F94",
+        "SPDXRef-File---Content-Types-.xml-0B958D2E5439DD7A3B45870AA13CC77346C50EB7",
+        "SPDXRef-File--LICENSE.md-3B941EC3773572CD471F1DD124D3ABEB19A6437B",
+        "SPDXRef-File--lib-net8.0-android34.0-Xamarin.KotlinX.Coroutines.Core.xml-3F79FA0F321CE53BCF6B5B6F2CDEA4D7807BF13E",
+        "SPDXRef-File--readme.md-3A24332EEF3ED09070BC3A5A323ABC5389AA78DD"
+      ]
+    }
+  ],
+  "externalDocumentRefs": [],
+  "relationships": [
+    {
+      "relationshipType": "DEPENDS_ON",
+      "relatedSpdxElement": "SPDXRef-Package-7DAA0B3EDED3076AACC82E185C2A8B522D51C2079B97B13D8E6454E08E0A27CA",
+      "spdxElementId": "SPDXRef-RootPackage"
+    },
+    {
+      "relationshipType": "DESCRIBES",
+      "relatedSpdxElement": "SPDXRef-RootPackage",
+      "spdxElementId": "SPDXRef-DOCUMENT"
+    },
+    {
+      "relationshipType": "DEPENDS_ON",
+      "relatedSpdxElement": "SPDXRef-Package-71E897228C025FF782D388FEB4CEF87260E1E4F97C074A7E979965E4592F779A",
+      "spdxElementId": "SPDXRef-RootPackage"
+    },
+    {
+      "relationshipType": "DEPENDS_ON",
+      "relatedSpdxElement": "SPDXRef-Package-B84F439F5F1D8181504001808BED8E35B93D9468972E1607A04B571DD24DA920",
+      "spdxElementId": "SPDXRef-RootPackage"
+    }
+  ],
+  "spdxVersion": "SPDX-2.2",
+  "dataLicense": "CC0-1.0",
+  "SPDXID": "SPDXRef-DOCUMENT",
+  "name": "Xamarin.KotlinX.Coroutines.Core 1.0.0",
+  "documentNamespace": "http://spdx.org/spdxdocs/Xamarin.KotlinX.Coroutines.Core/Xamarin.KotlinX.Coroutines.Core/1.0.0/zCx72UvI3kiLmvOGhhgOyg",
+  "creationInfo": {
+    "created": "2025-01-21T19:40:01Z",
+    "creators": [
+      "Organization: Microsoft",
+      "Tool: Microsoft.SBOMTool-3.0.0"
+    ]
+  },
+  "documentDescribes": [
+    "SPDXRef-RootPackage"
+  ]
+}

@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <AndroidManifestMerger>manifestmerger.jar</AndroidManifestMerger>
+  </PropertyGroup>  
+  
+  <ItemGroup>
+    <ProguardConfiguration Condition=" '$(AndroidApplication)' == 'true' " Include="$(MSBuildThisFileDirectory)..\..\proguard\proguard.txt" />
+  </ItemGroup>
+  <PropertyGroup>
+    <AndroidManifestMerger>manifestmerger.jar</AndroidManifestMerger>
+  </PropertyGroup>
+
+  <PropertyGroup>
+    <AndroidManifestMerger>manifestmerger.jar</AndroidManifestMerger>
+  </PropertyGroup>  
+  <PropertyGroup>
+    <AndroidFragmentType>AndroidX.Fragment.App.Fragment</AndroidFragmentType>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <XamarinBuildRestoreResources Include="_XbdRestoreItems_firebasecommon_20_4_2" />
+  </ItemGroup>
+  <Target Name="_XbdRestoreItems_firebasecommon_20_4_2">
+    <ItemGroup>
+      <XamarinBuildDownload Include="firebasecommon-20.4.2">
+        <Url>https://dl.google.com/dl/android/maven2/com/google/firebase/firebase-common/20.4.2/firebase-common-20.4.2.aar</Url>
+        <ToFile>firebasecommon-20.4.2.aar</ToFile>
+        <Kind>Uncompressed</Kind>
+        <Sha256>37782e3f361b6c424b5439a3f33d569433d7e266055801f51ffca0badda898da</Sha256>
+      </XamarinBuildDownload>
+    </ItemGroup>
+
+
+    <ItemGroup>
+     <XamarinBuildDownloadAndroidAarLibrary Include="$(XamarinBuildDownloadDir)firebasecommon-20.4.2\firebasecommon-20.4.2.aar" />
+      <XamarinBuildDownloadAndroidAarLibrary Include="$(XamarinBuildDownloadDir)firebasecommon-20.4.2\firebasecommon-20.4.2.aar" />
+    </ItemGroup>
+  </Target>
+
+</Project>

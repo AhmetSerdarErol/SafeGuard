@@ -1,0 +1,14 @@
+﻿<BindingAssembly>
+	<NativeReference Name="GoogleUtilities.xcframework">
+		<ForceLoad>True</ForceLoad>
+		<Frameworks>Security SystemConfiguration</Frameworks>
+		<IdentityWithoutPathSeparatorSuffix>../../../externals/GoogleUtilities.xcframework</IdentityWithoutPathSeparatorSuffix>
+		<IsCxx></IsCxx>
+		<Kind>Framework</Kind>
+		<LinkerFlags></LinkerFlags>
+		<LinkWithSwiftSystemLibraries></LinkWithSwiftSystemLibraries>
+		<NeedsGccExceptionHandling></NeedsGccExceptionHandling>
+		<SmartLink>True</SmartLink>
+		<WeakFrameworks></WeakFrameworks>
+	</NativeReference>
+</BindingAssembly>

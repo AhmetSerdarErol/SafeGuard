@@ -1,0 +1,125 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>Plugin.Firebase.Crashlytics</name>
+    </assembly>
+    <members>
+        <member name="P:Plugin.Firebase.Crashlytics.CrossFirebaseCrashlytics.IsSupported">
+            <summary>
+            Gets if the plugin is supported on the current platform.
+            </summary>
+        </member>
+        <member name="P:Plugin.Firebase.Crashlytics.CrossFirebaseCrashlytics.Current">
+            <summary>
+            Current plugin implementation to use
+            </summary>
+        </member>
+        <member name="M:Plugin.Firebase.Crashlytics.CrossFirebaseCrashlytics.Dispose">
+            <summary>
+            Dispose of everything 
+            </summary>
+        </member>
+        <member name="T:Plugin.Firebase.Crashlytics.IFirebaseCrashlytics">
+            <summary>
+            Firebase Crashlytics is a lightweight, realtime crash reporter that helps you track, prioritize, and fix stability issues that
+            erode your app quality.
+            </summary>
+        </member>
+        <member name="M:Plugin.Firebase.Crashlytics.IFirebaseCrashlytics.SetCrashlyticsCollectionEnabled(System.Boolean)">
+            <summary>
+            Enables or disables the automatic data collection configuration for Crashlytics
+            </summary>
+            <param name="enabled">Whether to enable or disable automatic data collection</param>
+        </member>
+        <member name="M:Plugin.Firebase.Crashlytics.IFirebaseCrashlytics.SetCustomKey(System.String,System.Boolean)">
+            <summary>
+            Sets a custom key and value that are associated with subsequent fatal, non-fatal, and ANR reports.
+            </summary>
+            <param name="key">A unique key</param>
+            <param name="value">A value to be associated with the given key</param>
+        </member>
+        <member name="M:Plugin.Firebase.Crashlytics.IFirebaseCrashlytics.SetCustomKey(System.String,System.Int32)">
+            <summary>
+            Sets a custom key and value that are associated with subsequent fatal, non-fatal, and ANR reports.
+            </summary>
+            <param name="key">A unique key</param>
+            <param name="value">A value to be associated with the given key</param>
+        </member>
+        <member name="M:Plugin.Firebase.Crashlytics.IFirebaseCrashlytics.SetCustomKey(System.String,System.Int64)">
+            <summary>
+            Sets a custom key and value that are associated with subsequent fatal, non-fatal, and ANR reports.
+            </summary>
+            <param name="key">A unique key</param>
+            <param name="value">A value to be associated with the given key</param>
+        </member>
+        <member name="M:Plugin.Firebase.Crashlytics.IFirebaseCrashlytics.SetCustomKey(System.String,System.Single)">
+            <summary>
+            Sets a custom key and value that are associated with subsequent fatal, non-fatal, and ANR reports.
+            </summary>
+            <param name="key">A unique key</param>
+            <param name="value">A value to be associated with the given key</param>
+        </member>
+        <member name="M:Plugin.Firebase.Crashlytics.IFirebaseCrashlytics.SetCustomKey(System.String,System.Double)">
+            <summary>
+            Sets a custom key and value that are associated with subsequent fatal, non-fatal, and ANR reports.
+            </summary>
+            <param name="key">A unique key</param>
+            <param name="value">A value to be associated with the given key</param>
+        </member>
+        <member name="M:Plugin.Firebase.Crashlytics.IFirebaseCrashlytics.SetCustomKey(System.String,System.String)">
+            <summary>
+            Sets a custom key and value that are associated with subsequent fatal, non-fatal, and ANR reports.
+            </summary>
+            <param name="key">A unique key</param>
+            <param name="value">A value to be associated with the given key</param>
+        </member>
+        <member name="M:Plugin.Firebase.Crashlytics.IFirebaseCrashlytics.SetCustomKeys(System.Collections.Generic.IDictionary{System.String,System.Object})">
+            <summary>
+            Sets multiple custom keys and values that are associated with subsequent fatal, non-fatal, and ANR reports.
+            </summary>
+            <param name="customKeysAndValues">A dictionary of keys and the values to associate with each key</param>
+        </member>
+        <member name="M:Plugin.Firebase.Crashlytics.IFirebaseCrashlytics.SetUserId(System.String)">
+            <summary>
+            Records a user ID (identifier) that's associated with subsequent fatal, non-fatal, and ANR reports.
+            </summary>
+            <param name="identifier">A unique identifier for the current user</param>
+        </member>
+        <member name="M:Plugin.Firebase.Crashlytics.IFirebaseCrashlytics.Log(System.String)">
+            <summary>
+            Logs a message that's included in the next fatal, non-fatal, or ANR report.
+            </summary>
+            <param name="message">The message to be logged</param>
+        </member>
+        <member name="M:Plugin.Firebase.Crashlytics.IFirebaseCrashlytics.RecordException(System.Exception)">
+            <summary>
+            Records a non-fatal report to send to Crashlytics.
+            </summary>
+            <param name="exception">An exception to be recorded as a non-fatal event.</param>
+        </member>
+        <member name="M:Plugin.Firebase.Crashlytics.IFirebaseCrashlytics.DidCrashOnPreviousExecution">
+            <summary>
+            Checks whether the app crashed on its previous run.
+            </summary>
+            <returns>True if a crash was recorded during the previous run of the app.</returns>
+        </member>
+        <member name="M:Plugin.Firebase.Crashlytics.IFirebaseCrashlytics.CheckForUnsentReportsAsync">
+            <summary>
+            Checks a device for any fatal crash, non-fatal error, or ANR reports that haven't yet been sent to Crashlytics.
+            </summary>
+            <returns>The result.</returns>
+        </member>
+        <member name="M:Plugin.Firebase.Crashlytics.IFirebaseCrashlytics.SendUnsentReports">
+            <summary>
+            If automatic data collection is disabled, this method queues up all the reports on a device to send to Crashlytics.
+            Otherwise, this method is a no-op.
+            </summary>
+        </member>
+        <member name="M:Plugin.Firebase.Crashlytics.IFirebaseCrashlytics.DeleteUnsentReports">
+            <summary>
+            If automatic data collection is disabled, this method queues up all the reports on a device for deletion.
+            Otherwise, this method is a no-op.
+            </summary>
+        </member>
+    </members>
+</doc>

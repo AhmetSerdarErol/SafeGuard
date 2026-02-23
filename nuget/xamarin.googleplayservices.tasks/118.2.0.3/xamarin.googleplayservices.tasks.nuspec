@@ -1,0 +1,25 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2013/05/nuspec.xsd">
+  <metadata>
+    <id>Xamarin.GooglePlayServices.Tasks</id>
+    <version>118.2.0.3</version>
+    <title>.NET for Android bindings for the Android Java library 'com.google.android.gms:play-services-tasks'.</title>
+    <authors>Microsoft</authors>
+    <requireLicenseAcceptance>true</requireLicenseAcceptance>
+    <license type="file">LICENSE.md</license>
+    <licenseUrl>https://aka.ms/deprecateLicenseUrl</licenseUrl>
+    <icon>icon.png</icon>
+    <readme>readme.md</readme>
+    <projectUrl>https://aka.ms/androidx</projectUrl>
+    <description>.NET for Android bindings for the Android Java library 'com.google.android.gms:play-services-tasks'.</description>
+    <copyright>© Microsoft Corporation. All rights reserved.</copyright>
+    <tags>xamarin artifact=com.google.android.gms:play-services-tasks artifact_versioned=com.google.android.gms:play-services-tasks:18.2.0</tags>
+    <repository type="git" url="https://github.com/xamarin/AndroidX.git" branch="refs/tags/20241107-weekly-stable-updates-20241107" commit="2d800224bb2f56e2e0a8f5ac775dc51accda4f90" />
+    <dependencies>
+      <group targetFramework="net8.0-android34.0">
+        <dependency id="Xamarin.GooglePlayServices.Basement" version="118.4.0.3" include="All" />
+        <dependency id="Xamarin.Build.Download" version="0.11.4" exclude="Build,Analyzers" />
+      </group>
+    </dependencies>
+  </metadata>
+</package>

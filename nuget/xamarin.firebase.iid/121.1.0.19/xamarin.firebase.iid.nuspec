@@ -1,0 +1,36 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2013/05/nuspec.xsd">
+  <metadata>
+    <id>Xamarin.Firebase.Iid</id>
+    <version>121.1.0.19</version>
+    <title>.NET for Android bindings for the Android Java library 'com.google.firebase:firebase-iid'.</title>
+    <authors>Microsoft</authors>
+    <requireLicenseAcceptance>true</requireLicenseAcceptance>
+    <license type="file">LICENSE.md</license>
+    <licenseUrl>https://aka.ms/deprecateLicenseUrl</licenseUrl>
+    <icon>icon.png</icon>
+    <readme>readme.md</readme>
+    <projectUrl>https://aka.ms/androidx</projectUrl>
+    <description>.NET for Android bindings for the Android Java library 'com.google.firebase:firebase-iid'.</description>
+    <copyright>© Microsoft Corporation. All rights reserved.</copyright>
+    <tags>xamarin artifact=com.google.firebase:firebase-iid artifact_versioned=com.google.firebase:firebase-iid:21.1.0</tags>
+    <repository type="git" url="https://github.com/xamarin/AndroidX.git" branch="refs/tags/20241107-weekly-stable-updates-20241107" commit="2d800224bb2f56e2e0a8f5ac775dc51accda4f90" />
+    <dependencies>
+      <group targetFramework="net8.0-android34.0">
+        <dependency id="Xamarin.AndroidX.Collection" version="1.4.5.1" include="All" />
+        <dependency id="Xamarin.AndroidX.Core" version="1.15.0.1" include="All" />
+        <dependency id="Xamarin.AndroidX.Legacy.Support.Core.Utils" version="1.0.0.30" include="All" />
+        <dependency id="Xamarin.GooglePlayServices.Basement" version="118.4.0.3" include="All" />
+        <dependency id="Xamarin.GooglePlayServices.CloudMessaging" version="117.3.0.3" include="All" />
+        <dependency id="Xamarin.GooglePlayServices.Stats" version="117.1.0.3" include="All" />
+        <dependency id="Xamarin.GooglePlayServices.Tasks" version="118.2.0.3" include="All" />
+        <dependency id="Xamarin.Firebase.Common" version="121.0.0.3" include="All" />
+        <dependency id="Xamarin.Firebase.Components" version="118.0.1.1" include="All" />
+        <dependency id="Xamarin.Firebase.Iid.Interop" version="117.1.0.19" include="All" />
+        <dependency id="Xamarin.Firebase.Installations.InterOp" version="117.2.0.7" include="All" />
+        <dependency id="Xamarin.Firebase.Installations" version="118.0.0.3" include="All" />
+        <dependency id="Xamarin.Build.Download" version="0.11.4" exclude="Build,Analyzers" />
+      </group>
+    </dependencies>
+  </metadata>
+</package>

@@ -1,0 +1,87 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>Plugin.Firebase.CloudMessaging</name>
+    </assembly>
+    <members>
+        <member name="P:Plugin.Firebase.CloudMessaging.CrossFirebaseCloudMessaging.IsSupported">
+            <summary>
+            Gets if the plugin is supported on the current platform.
+            </summary>
+        </member>
+        <member name="P:Plugin.Firebase.CloudMessaging.CrossFirebaseCloudMessaging.Current">
+            <summary>
+            Current plugin implementation to use
+            </summary>
+        </member>
+        <member name="M:Plugin.Firebase.CloudMessaging.CrossFirebaseCloudMessaging.Dispose">
+            <summary>
+            Dispose of everything 
+            </summary>
+        </member>
+        <member name="T:Plugin.Firebase.CloudMessaging.IFirebaseCloudMessaging">
+            <summary>
+            Firebase Messaging lets you reliably deliver messages at no cost. To send or receive messages, the app must get a registration token
+            from InstanceID. This token authorizes an app server to send messages to an app instance.
+            </summary>
+        </member>
+        <member name="M:Plugin.Firebase.CloudMessaging.IFirebaseCloudMessaging.CheckIfValidAsync">
+            <summary>
+            Checks whether device is able to receive cloud messages and if the user has granted the permissions for it.
+            </summary>
+        </member>
+        <member name="M:Plugin.Firebase.CloudMessaging.IFirebaseCloudMessaging.OnTokenRefreshAsync">
+            <summary>
+            Call it when the token was refreshed.
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Plugin.Firebase.CloudMessaging.IFirebaseCloudMessaging.GetTokenAsync">
+            <summary>
+            Asynchronously gets the default FCM registration token. This creates a Firebase Installations ID, if one does not exist,
+            and sends information about the application and the device to the Firebase backend. A network connection is required for
+            the method to succeed.
+            </summary>
+        </member>
+        <member name="M:Plugin.Firebase.CloudMessaging.IFirebaseCloudMessaging.SubscribeToTopicAsync(System.String)">
+            <summary>
+            Asynchronously subscribes to a topic. This uses the default FCM registration token to identify the app instance and periodically
+            sends data to the Firebase backend.
+            </summary>
+            <param name="topic">The name of the topic, for example, @“sports”.</param>
+        </member>
+        <member name="M:Plugin.Firebase.CloudMessaging.IFirebaseCloudMessaging.UnsubscribeFromTopicAsync(System.String)">
+            <summary>
+            Asynchronously unsubscribe from a topic. This uses a FCM Token to identify the app instance and periodically sends data to the
+            Firebase backend.
+            </summary>
+            <param name="topic">The name of the topic, for example @“sports”.</param>
+        </member>
+        <member name="M:Plugin.Firebase.CloudMessaging.IFirebaseCloudMessaging.OnNotificationReceived(Plugin.Firebase.CloudMessaging.FCMNotification)">
+            <summary>
+            Call it when a fcm notification was received.
+            </summary>
+            <param name="fcmNotification">The received fcm notification.</param>
+        </member>
+        <member name="E:Plugin.Firebase.CloudMessaging.IFirebaseCloudMessaging.TokenChanged">
+            <summary>
+            Gets invoked when the fcm registration token has changed.
+            </summary>
+        </member>
+        <member name="E:Plugin.Firebase.CloudMessaging.IFirebaseCloudMessaging.NotificationReceived">
+            <summary>
+            Gets invoked when a new fcm notification was received.
+            </summary>
+        </member>
+        <member name="E:Plugin.Firebase.CloudMessaging.IFirebaseCloudMessaging.NotificationTapped">
+            <summary>
+            Gets invoked when a received fcm notification was tapped by the user.
+            </summary>
+        </member>
+        <member name="E:Plugin.Firebase.CloudMessaging.IFirebaseCloudMessaging.Error">
+            <summary>
+            Gets invoked when something went wrong during the validity check.
+            </summary>
+        </member>
+    </members>
+</doc>

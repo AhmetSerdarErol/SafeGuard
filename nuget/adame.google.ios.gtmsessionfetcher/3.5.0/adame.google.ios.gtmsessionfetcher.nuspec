@@ -1,0 +1,30 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2013/05/nuspec.xsd">
+  <metadata>
+    <id>AdamE.Google.iOS.GTMSessionFetcher</id>
+    <version>3.5.0</version>
+    <title>GTMSessionFetcher</title>
+    <authors>Microsoft, Adam Essenmacher</authors>
+    <requireLicenseAcceptance>true</requireLicenseAcceptance>
+    <license type="file">License.md</license>
+    <licenseUrl>https://aka.ms/deprecateLicenseUrl</licenseUrl>
+    <projectUrl>https://github.com/AdamEssenmacher/GoogleApisForiOSComponents</projectUrl>
+    <description>GTMSessionFetcher packed for .NET for iOS</description>
+    <copyright>© Microsoft Corporation. All rights reserved. © 2024, Adam Essenmacher.</copyright>
+    <dependencies>
+      <group targetFramework="Xamarin.iOS1.0" />
+      <group targetFramework="net6.0-ios16.1">
+        <dependency id="System.Runtime.InteropServices.NFloat.Internal" version="6.0.1" exclude="Build,Analyzers" />
+      </group>
+    </dependencies>
+    <frameworkAssemblies>
+      <frameworkAssembly assemblyName="mscorlib" targetFramework="Xamarin.iOS1.0" />
+      <frameworkAssembly assemblyName="System.Core" targetFramework="Xamarin.iOS1.0" />
+      <frameworkAssembly assemblyName="System" targetFramework="Xamarin.iOS1.0" />
+      <frameworkAssembly assemblyName="System.Numerics" targetFramework="Xamarin.iOS1.0" />
+      <frameworkAssembly assemblyName="System.Numerics.Vectors" targetFramework="Xamarin.iOS1.0" />
+      <frameworkAssembly assemblyName="System.Xml" targetFramework="Xamarin.iOS1.0" />
+      <frameworkAssembly assemblyName="Xamarin.iOS" targetFramework="Xamarin.iOS1.0" />
+    </frameworkAssemblies>
+  </metadata>
+</package>

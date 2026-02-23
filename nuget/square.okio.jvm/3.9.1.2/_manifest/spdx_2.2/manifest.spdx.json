@@ -1,0 +1,364 @@
+{
+  "files": [
+    {
+      "fileName": "./readme.md",
+      "SPDXID": "SPDXRef-File--readme.md-1571BD0FCB7934B28D8DCD6DCA3D88630D641A6F",
+      "checksums": [
+        {
+          "algorithm": "SHA256",
+          "checksumValue": "7069c99ffe216b85d63e4a3e51ec05586f6d0f0da4a050edecf01a53825c85d6"
+        },
+        {
+          "algorithm": "SHA1",
+          "checksumValue": "1571bd0fcb7934b28d8dcd6dca3d88630d641a6f"
+        }
+      ],
+      "licenseConcluded": "NOASSERTION",
+      "licenseInfoInFiles": [
+        "NOASSERTION"
+      ],
+      "copyrightText": "NOASSERTION"
+    },
+    {
+      "fileName": "./icon.png",
+      "SPDXID": "SPDXRef-File--icon.png-7229B5BECEBBC51925AA2E08341DDB4BFB53F7AD",
+      "checksums": [
+        {
+          "algorithm": "SHA256",
+          "checksumValue": "8fcf6f6cd575c0f8c643691765a7db2a4b3b104bfbff34646555f5ccffdb2895"
+        },
+        {
+          "algorithm": "SHA1",
+          "checksumValue": "7229b5becebbc51925aa2e08341ddb4bfb53f7ad"
+        }
+      ],
+      "licenseConcluded": "NOASSERTION",
+      "licenseInfoInFiles": [
+        "NOASSERTION"
+      ],
+      "copyrightText": "NOASSERTION"
+    },
+    {
+      "fileName": "./THIRD-PARTY-NOTICES.txt",
+      "SPDXID": "SPDXRef-File--THIRD-PARTY-NOTICES.txt-571B160816F7F79B0EC258B6B0DB19C576B9FF1E",
+      "checksums": [
+        {
+          "algorithm": "SHA256",
+          "checksumValue": "1a14e25264f604fca355c489c0d5877480ddb738cec665008bcf494ad1cdc787"
+        },
+        {
+          "algorithm": "SHA1",
+          "checksumValue": "571b160816f7f79b0ec258b6b0db19c576b9ff1e"
+        }
+      ],
+      "licenseConcluded": "NOASSERTION",
+      "licenseInfoInFiles": [
+        "NOASSERTION"
+      ],
+      "copyrightText": "NOASSERTION"
+    },
+    {
+      "fileName": "./LICENSE.md",
+      "SPDXID": "SPDXRef-File--LICENSE.md-3B941EC3773572CD471F1DD124D3ABEB19A6437B",
+      "checksums": [
+        {
+          "algorithm": "SHA256",
+          "checksumValue": "7f92be6c840f2584494d4986060fe7dfe8bbf02d6ab122980fa1d43ffb2ecb0f"
+        },
+        {
+          "algorithm": "SHA1",
+          "checksumValue": "3b941ec3773572cd471f1dd124d3abeb19a6437b"
+        }
+      ],
+      "licenseConcluded": "NOASSERTION",
+      "licenseInfoInFiles": [
+        "NOASSERTION"
+      ],
+      "copyrightText": "NOASSERTION"
+    },
+    {
+      "fileName": "./Square.OkIO.JVM.nuspec",
+      "SPDXID": "SPDXRef-File--Square.OkIO.JVM.nuspec-2DCB83AD0B2A4BD0F6405783D1D2BF2270DC72CD",
+      "checksums": [
+        {
+          "algorithm": "SHA256",
+          "checksumValue": "50e877c85410d0fddf33f37613217ac9faacdb4f7eb33322dcdee7cf19269fdb"
+        },
+        {
+          "algorithm": "SHA1",
+          "checksumValue": "2dcb83ad0b2a4bd0f6405783d1d2bf2270dc72cd"
+        }
+      ],
+      "licenseConcluded": "NOASSERTION",
+      "licenseInfoInFiles": [
+        "NOASSERTION"
+      ],
+      "copyrightText": "NOASSERTION"
+    },
+    {
+      "fileName": "./[Content_Types].xml",
+      "SPDXID": "SPDXRef-File---Content-Types-.xml-0B958D2E5439DD7A3B45870AA13CC77346C50EB7",
+      "checksums": [
+        {
+          "algorithm": "SHA256",
+          "checksumValue": "4ff0d29eae0d4a36a36915b9f374008b0ee06145abf29932effdbb0cdf5c4507"
+        },
+        {
+          "algorithm": "SHA1",
+          "checksumValue": "0b958d2e5439dd7a3b45870aa13cc77346c50eb7"
+        }
+      ],
+      "licenseConcluded": "NOASSERTION",
+      "licenseInfoInFiles": [
+        "NOASSERTION"
+      ],
+      "copyrightText": "NOASSERTION"
+    },
+    {
+      "fileName": "./lib/net8.0-android34.0/Square.OkIO.JVM.dll",
+      "SPDXID": "SPDXRef-File--lib-net8.0-android34.0-Square.OkIO.JVM.dll-5342AF611D20B95599C25CF41D9C20B0BF9B54E5",
+      "checksums": [
+        {
+          "algorithm": "SHA256",
+          "checksumValue": "eaa0b1125a00b60df21c91d0ba8a2eefe288563f0e3e56ae8fc9d06e95c31cb2"
+        },
+        {
+          "algorithm": "SHA1",
+          "checksumValue": "5342af611d20b95599c25cf41d9c20b0bf9b54e5"
+        }
+      ],
+      "licenseConcluded": "NOASSERTION",
+      "licenseInfoInFiles": [
+        "NOASSERTION"
+      ],
+      "copyrightText": "NOASSERTION"
+    },
+    {
+      "fileName": "./lib/net8.0-android34.0/Square.OkIO.JVM.aar",
+      "SPDXID": "SPDXRef-File--lib-net8.0-android34.0-Square.OkIO.JVM.aar-B883BD758DF69264C1A7ECCCC37716EDE81C9A3E",
+      "checksums": [
+        {
+          "algorithm": "SHA256",
+          "checksumValue": "94f18548559e9e46112ba8badb32a2101319d8a7c63d0fa7fb7c7c7f83b8178d"
+        },
+        {
+          "algorithm": "SHA1",
+          "checksumValue": "b883bd758df69264c1a7ecccc37716ede81c9a3e"
+        }
+      ],
+      "licenseConcluded": "NOASSERTION",
+      "licenseInfoInFiles": [
+        "NOASSERTION"
+      ],
+      "copyrightText": "NOASSERTION"
+    },
+    {
+      "fileName": "./lib/net8.0-android34.0/Square.OkIO.JVM.xml",
+      "SPDXID": "SPDXRef-File--lib-net8.0-android34.0-Square.OkIO.JVM.xml-9921A3DBD0AD2D64F80EC77D2CCBBF1BF65D795A",
+      "checksums": [
+        {
+          "algorithm": "SHA256",
+          "checksumValue": "8f6098eae42a5615647af6ec319737ac7bed6aaaabab8cdd4ef6f8331a75bd3d"
+        },
+        {
+          "algorithm": "SHA1",
+          "checksumValue": "9921a3dbd0ad2d64f80ec77d2ccbbf1bf65d795a"
+        }
+      ],
+      "licenseConcluded": "NOASSERTION",
+      "licenseInfoInFiles": [
+        "NOASSERTION"
+      ],
+      "copyrightText": "NOASSERTION"
+    },
+    {
+      "fileName": "./package/services/metadata/core-properties/f623164e96494ce58ae752dbd1857841.psmdcp",
+      "SPDXID": "SPDXRef-File--package-services-metadata-core-properties-f623164e96494ce58ae752dbd1857841.psmdcp-71A8692136AD36D0423152363390EF9763FC9DCD",
+      "checksums": [
+        {
+          "algorithm": "SHA256",
+          "checksumValue": "e9e13827d61a199b097f00e2b7057967b440cb74efbd18cc5d69ecf755d84a12"
+        },
+        {
+          "algorithm": "SHA1",
+          "checksumValue": "71a8692136ad36d0423152363390ef9763fc9dcd"
+        }
+      ],
+      "licenseConcluded": "NOASSERTION",
+      "licenseInfoInFiles": [
+        "NOASSERTION"
+      ],
+      "copyrightText": "NOASSERTION"
+    },
+    {
+      "fileName": "./_rels/.rels",
+      "SPDXID": "SPDXRef-File---rels-.rels-AE14D86536F8A2746E236012E2FB2357D3834263",
+      "checksums": [
+        {
+          "algorithm": "SHA256",
+          "checksumValue": "8e7d2e0c17bbececd0576d3870a1f77ca48fdd4a454c5ca858da760e8665e246"
+        },
+        {
+          "algorithm": "SHA1",
+          "checksumValue": "ae14d86536f8a2746e236012e2fb2357d3834263"
+        }
+      ],
+      "licenseConcluded": "NOASSERTION",
+      "licenseInfoInFiles": [
+        "NOASSERTION"
+      ],
+      "copyrightText": "NOASSERTION"
+    },
+    {
+      "fileName": "./lib/net8.0-android34.0/Square.OkIO.JVM.pdb",
+      "SPDXID": "SPDXRef-File--lib-net8.0-android34.0-Square.OkIO.JVM.pdb-A015E8D3DE7F09723DFFA464A7ECC6DBB1E3BDD4",
+      "checksums": [
+        {
+          "algorithm": "SHA256",
+          "checksumValue": "7eff3009247c44e1122039e87fa3792d7d9d41c186eee2f01c26da822044576c"
+        },
+        {
+          "algorithm": "SHA1",
+          "checksumValue": "a015e8d3de7f09723dffa464a7ecc6dbb1e3bdd4"
+        }
+      ],
+      "licenseConcluded": "NOASSERTION",
+      "licenseInfoInFiles": [
+        "NOASSERTION"
+      ],
+      "copyrightText": "NOASSERTION"
+    }
+  ],
+  "packages": [
+    {
+      "name": "Square.OkIO.JVM",
+      "SPDXID": "SPDXRef-Package-8A64C47FCFE5CA66BF03B6A4EB47C8FD1B8E1CDFC21E91A3E7BBF2D1EEC01054",
+      "downloadLocation": "NOASSERTION",
+      "filesAnalyzed": false,
+      "licenseConcluded": "NOASSERTION",
+      "licenseDeclared": "NOASSERTION",
+      "copyrightText": "NOASSERTION",
+      "versionInfo": "3.9.1.2",
+      "externalRefs": [
+        {
+          "referenceCategory": "PACKAGE-MANAGER",
+          "referenceType": "purl",
+          "referenceLocator": "pkg:nuget/Square.OkIO.JVM@3.9.1.2"
+        }
+      ],
+      "supplier": "Organization: Microsoft"
+    },
+    {
+      "name": "Microsoft.Sbom.Targets",
+      "SPDXID": "SPDXRef-Package-7DAA0B3EDED3076AACC82E185C2A8B522D51C2079B97B13D8E6454E08E0A27CA",
+      "downloadLocation": "NOASSERTION",
+      "filesAnalyzed": false,
+      "licenseConcluded": "NOASSERTION",
+      "licenseDeclared": "NOASSERTION",
+      "copyrightText": "NOASSERTION",
+      "versionInfo": "3.0.0",
+      "externalRefs": [
+        {
+          "referenceCategory": "PACKAGE-MANAGER",
+          "referenceType": "purl",
+          "referenceLocator": "pkg:nuget/Microsoft.Sbom.Targets@3.0.0"
+        }
+      ],
+      "supplier": "NOASSERTION"
+    },
+    {
+      "name": "Microsoft.NET.ILLink.Tasks",
+      "SPDXID": "SPDXRef-Package-B84F439F5F1D8181504001808BED8E35B93D9468972E1607A04B571DD24DA920",
+      "downloadLocation": "NOASSERTION",
+      "filesAnalyzed": false,
+      "licenseConcluded": "NOASSERTION",
+      "licenseDeclared": "NOASSERTION",
+      "copyrightText": "NOASSERTION",
+      "versionInfo": "8.0.11",
+      "externalRefs": [
+        {
+          "referenceCategory": "PACKAGE-MANAGER",
+          "referenceType": "purl",
+          "referenceLocator": "pkg:nuget/Microsoft.NET.ILLink.Tasks@8.0.11"
+        }
+      ],
+      "supplier": "NOASSERTION"
+    },
+    {
+      "name": "Square.OkIO.JVM",
+      "SPDXID": "SPDXRef-RootPackage",
+      "downloadLocation": "NOASSERTION",
+      "packageVerificationCode": {
+        "packageVerificationCodeValue": "f42932822fecfeec1736310f435ff5f93a649191"
+      },
+      "filesAnalyzed": true,
+      "licenseConcluded": "NOASSERTION",
+      "licenseInfoFromFiles": [
+        "NOASSERTION"
+      ],
+      "licenseDeclared": "NOASSERTION",
+      "copyrightText": "NOASSERTION",
+      "versionInfo": "1.0.0",
+      "externalRefs": [
+        {
+          "referenceCategory": "PACKAGE-MANAGER",
+          "referenceType": "purl",
+          "referenceLocator": "pkg:swid/Microsoft/spdx.org/Square.OkIO.JVM@1.0.0?tag_id=11ec19d2-f408-4e50-b825-eac02e340428"
+        }
+      ],
+      "supplier": "Organization: Microsoft",
+      "hasFiles": [
+        "SPDXRef-File--lib-net8.0-android34.0-Square.OkIO.JVM.pdb-A015E8D3DE7F09723DFFA464A7ECC6DBB1E3BDD4",
+        "SPDXRef-File---rels-.rels-AE14D86536F8A2746E236012E2FB2357D3834263",
+        "SPDXRef-File--package-services-metadata-core-properties-f623164e96494ce58ae752dbd1857841.psmdcp-71A8692136AD36D0423152363390EF9763FC9DCD",
+        "SPDXRef-File--lib-net8.0-android34.0-Square.OkIO.JVM.xml-9921A3DBD0AD2D64F80EC77D2CCBBF1BF65D795A",
+        "SPDXRef-File--lib-net8.0-android34.0-Square.OkIO.JVM.aar-B883BD758DF69264C1A7ECCCC37716EDE81C9A3E",
+        "SPDXRef-File--lib-net8.0-android34.0-Square.OkIO.JVM.dll-5342AF611D20B95599C25CF41D9C20B0BF9B54E5",
+        "SPDXRef-File--Square.OkIO.JVM.nuspec-2DCB83AD0B2A4BD0F6405783D1D2BF2270DC72CD",
+        "SPDXRef-File---Content-Types-.xml-0B958D2E5439DD7A3B45870AA13CC77346C50EB7",
+        "SPDXRef-File--LICENSE.md-3B941EC3773572CD471F1DD124D3ABEB19A6437B",
+        "SPDXRef-File--THIRD-PARTY-NOTICES.txt-571B160816F7F79B0EC258B6B0DB19C576B9FF1E",
+        "SPDXRef-File--icon.png-7229B5BECEBBC51925AA2E08341DDB4BFB53F7AD",
+        "SPDXRef-File--readme.md-1571BD0FCB7934B28D8DCD6DCA3D88630D641A6F"
+      ]
+    }
+  ],
+  "externalDocumentRefs": [],
+  "relationships": [
+    {
+      "relationshipType": "DESCRIBES",
+      "relatedSpdxElement": "SPDXRef-RootPackage",
+      "spdxElementId": "SPDXRef-DOCUMENT"
+    },
+    {
+      "relationshipType": "DEPENDS_ON",
+      "relatedSpdxElement": "SPDXRef-Package-B84F439F5F1D8181504001808BED8E35B93D9468972E1607A04B571DD24DA920",
+      "spdxElementId": "SPDXRef-RootPackage"
+    },
+    {
+      "relationshipType": "DEPENDS_ON",
+      "relatedSpdxElement": "SPDXRef-Package-7DAA0B3EDED3076AACC82E185C2A8B522D51C2079B97B13D8E6454E08E0A27CA",
+      "spdxElementId": "SPDXRef-RootPackage"
+    },
+    {
+      "relationshipType": "DEPENDS_ON",
+      "relatedSpdxElement": "SPDXRef-Package-8A64C47FCFE5CA66BF03B6A4EB47C8FD1B8E1CDFC21E91A3E7BBF2D1EEC01054",
+      "spdxElementId": "SPDXRef-RootPackage"
+    }
+  ],
+  "spdxVersion": "SPDX-2.2",
+  "dataLicense": "CC0-1.0",
+  "SPDXID": "SPDXRef-DOCUMENT",
+  "name": "Square.OkIO.JVM 1.0.0",
+  "documentNamespace": "http://spdx.org/spdxdocs/Square.OkIO.JVM/Square.OkIO.JVM/1.0.0/cgvylLIEMUKsDAQ5wJpmOA",
+  "creationInfo": {
+    "created": "2025-01-21T19:37:24Z",
+    "creators": [
+      "Organization: Microsoft",
+      "Tool: Microsoft.SBOMTool-3.0.0"
+    ]
+  },
+  "documentDescribes": [
+    "SPDXRef-RootPackage"
+  ]
+}

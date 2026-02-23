@@ -1,0 +1,35 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <AndroidManifestMerger>manifestmerger.jar</AndroidManifestMerger>
+  </PropertyGroup>
+  <ItemGroup>
+    <ProguardConfiguration Condition=" '$(AndroidApplication)' == 'true' " Include="$(MSBuildThisFileDirectory)..\..\proguard\proguard.txt" />
+  </ItemGroup>
+  <PropertyGroup>
+    <AndroidManifestMerger>manifestmerger.jar</AndroidManifestMerger>
+  </PropertyGroup>
+  <PropertyGroup>
+    <AndroidManifestMerger>manifestmerger.jar</AndroidManifestMerger>
+  </PropertyGroup>
+  <PropertyGroup>
+    <AndroidFragmentType>AndroidX.Fragment.App.Fragment</AndroidFragmentType>
+  </PropertyGroup>
+  <ItemGroup>
+    <XamarinBuildRestoreResources Include="_XbdRestoreItems_playservicesmeasurementsdk_22_0_2" />
+  </ItemGroup>
+  <Target Name="_XbdRestoreItems_playservicesmeasurementsdk_22_0_2">
+    <ItemGroup>
+      <XamarinBuildDownload Include="playservicesmeasurementsdk-22.0.2">
+        <Url>https://dl.google.com/dl/android/maven2/com/google/android/gms/play-services-measurement-sdk/22.0.2/play-services-measurement-sdk-22.0.2.aar</Url>
+        <ToFile>playservicesmeasurementsdk-22.0.2.aar</ToFile>
+        <Kind>Uncompressed</Kind>
+        <Sha256>728a53b17457d754aad310990234cb7954bf69f199bdbd05d1ec297919c1ca16</Sha256>
+      </XamarinBuildDownload>
+    </ItemGroup>
+    <ItemGroup>
+      <XamarinBuildDownloadAndroidAarLibrary Include="$(XamarinBuildDownloadDir)playservicesmeasurementsdk-22.0.2\playservicesmeasurementsdk-22.0.2.aar" />
+      <XamarinBuildDownloadAndroidAarLibrary Include="$(XamarinBuildDownloadDir)playservicesmeasurementsdk-22.0.2\playservicesmeasurementsdk-22.0.2.aar" />
+    </ItemGroup>
+  </Target>
+</Project>

@@ -1,0 +1,23 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2013/05/nuspec.xsd">
+  <metadata>
+    <id>Xamarin.Kotlin.StdLib</id>
+    <version>2.0.20</version>
+    <title>Kotlin Standard Library for Xamarin.Android</title>
+    <authors>Microsoft</authors>
+    <requireLicenseAcceptance>true</requireLicenseAcceptance>
+    <license type="expression">MIT AND Apache-2.0</license>
+    <licenseUrl>https://licenses.nuget.org/MIT%20AND%20Apache-2.0</licenseUrl>
+    <readme>readme.md</readme>
+    <projectUrl>https://aka.ms/androidx</projectUrl>
+    <description>.NET for Android (formerly Xamarin.Android) binding for Kotlin Standard Library</description>
+    <copyright>© Microsoft Corporation. All rights reserved.</copyright>
+    <tags>.NET dotnet Xamarin Android Kotlin Xamarin.Kotlin artifact=org.jetbrains.kotlin:kotlin-stdlib artifact_versioned=org.jetbrains.kotlin:kotlin-stdlib:2.0.20</tags>
+    <repository type="git" url="https://github.com/xamarin/AndroidX.git" branch="refs/tags/20240924-weekly-stable-updates-20240920" commit="a539f1b7b59afd6ab76fdede1c8130479759a8cf" />
+    <dependencies>
+      <group targetFramework="net8.0-android34.0">
+        <dependency id="Xamarin.Jetbrains.Annotations" version="24.1.0.8" include="All" />
+      </group>
+    </dependencies>
+  </metadata>
+</package>

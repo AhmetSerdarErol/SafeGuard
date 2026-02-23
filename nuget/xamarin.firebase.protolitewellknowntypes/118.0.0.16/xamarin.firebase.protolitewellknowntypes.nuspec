@@ -1,0 +1,23 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2013/05/nuspec.xsd">
+  <metadata>
+    <id>Xamarin.Firebase.ProtoliteWellKnownTypes</id>
+    <version>118.0.0.16</version>
+    <title>.NET for Android (formerly Xamarin.Android) Bindings for Google Play Services -  Xamarin.Firebase.ProtoliteWellKnownTypes</title>
+    <authors>Microsoft</authors>
+    <requireLicenseAcceptance>true</requireLicenseAcceptance>
+    <licenseUrl>https://go.microsoft.com/fwlink/?linkid=865373</licenseUrl>
+    <projectUrl>https://go.microsoft.com/fwlink/?linkid=865435</projectUrl>
+    <iconUrl>https://raw.githubusercontent.com/xamarin/GooglePlayServicesComponents/master/icons/play-services-protolitewellknowntypes_128x128.png</iconUrl>
+    <description>.NET for Android (formerly Xamarin.Android) bindings for Google Play Services library 'com.google.firebase:protolite-well-known-types'.</description>
+    <copyright>© Microsoft Corporation. All rights reserved.</copyright>
+    <tags>.NET for Android Xamarin.Android Bindings Google Play Services artifact=com.google.firebase:protolite-well-known-types:18.0.0 artifact_versioned=com.google.firebase:protolite-well-known-types:18.0.0</tags>
+    <repository type="git" url="https://github.com/xamarin/GooglePlayServicesComponents.git" branch="100.20240509-alignment-bumps-net8.0-removal-net7.0" commit="cf1e774e54f3c140109e772455310deb09599f77" />
+    <dependencies>
+      <group targetFramework="net8.0-android34.0">
+        <dependency id="Xamarin.Protobuf.JavaLite" version="3.25.3.2" include="All" />
+        <dependency id="Xamarin.Build.Download" version="0.11.4" exclude="Build,Analyzers" />
+      </group>
+    </dependencies>
+  </metadata>
+</package>

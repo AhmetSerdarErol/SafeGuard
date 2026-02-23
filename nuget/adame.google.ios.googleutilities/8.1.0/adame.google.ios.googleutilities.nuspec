@@ -1,0 +1,20 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2012/06/nuspec.xsd">
+  <metadata>
+    <id>AdamE.Google.iOS.GoogleUtilities</id>
+    <version>8.1.0</version>
+    <title>GoogleUtilities</title>
+    <authors>Microsoft, Adam Essenmacher</authors>
+    <requireLicenseAcceptance>true</requireLicenseAcceptance>
+    <license type="file">License.md</license>
+    <licenseUrl>https://aka.ms/deprecateLicenseUrl</licenseUrl>
+    <projectUrl>https://github.com/AdamEssenmacher/GoogleApisForiOSComponents</projectUrl>
+    <description>GoogleUtilities packed for .NET for iOS</description>
+    <copyright>© Microsoft Corporation. All rights reserved. © 2024, Adam Essenmacher.</copyright>
+    <repository type="git" commit="584795cfff5cc98e2371ae341c5d78b7d07f0abe" />
+    <dependencies>
+      <group targetFramework="net8.0-ios18.0" />
+      <group targetFramework="net9.0-ios18.0" />
+    </dependencies>
+  </metadata>
+</package>

@@ -1,0 +1,30 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2013/05/nuspec.xsd">
+  <metadata>
+    <id>Xamarin.Firebase.Common</id>
+    <version>120.4.2.4</version>
+    <title>.NET for Android (formerly Xamarin.Android) Bindings for Google Play Services -  Xamarin.Firebase.Common</title>
+    <authors>Microsoft</authors>
+    <requireLicenseAcceptance>true</requireLicenseAcceptance>
+    <licenseUrl>https://go.microsoft.com/fwlink/?linkid=865377</licenseUrl>
+    <projectUrl>https://go.microsoft.com/fwlink/?linkid=865436</projectUrl>
+    <iconUrl>https://raw.githubusercontent.com/xamarin/GooglePlayServicesComponents/master/icons/firebase-common_128x128.png</iconUrl>
+    <description>.NET for Android (formerly Xamarin.Android) bindings for Google Play Services library 'com.google.firebase:firebase-common'.</description>
+    <copyright>© Microsoft Corporation. All rights reserved.</copyright>
+    <tags>.NET for Android Xamarin.Android Bindings Google Play Services artifact=com.google.firebase:firebase-common:20.4.2 artifact_versioned=com.google.firebase:firebase-common:20.4.2</tags>
+    <repository type="git" url="https://github.com/xamarin/GooglePlayServicesComponents.git" branch="100.20240509-alignment-bumps-net8.0-removal-net7.0" commit="cf1e774e54f3c140109e772455310deb09599f77" />
+    <dependencies>
+      <group targetFramework="net8.0-android34.0">
+        <dependency id="Xamarin.GooglePlayServices.Basement" version="118.3.0.2" include="All" />
+        <dependency id="Xamarin.GooglePlayServices.Tasks" version="118.1.0.2" include="All" />
+        <dependency id="Xamarin.Firebase.Annotations" version="116.2.0.8" include="All" />
+        <dependency id="Xamarin.Firebase.Components" version="117.1.5.4" include="All" />
+        <dependency id="Xamarin.AndroidX.Annotation" version="1.7.1.4" include="All" />
+        <dependency id="Xamarin.AndroidX.Concurrent.Futures" version="1.1.0.21" include="All" />
+        <dependency id="Xamarin.Build.Download" version="0.11.4" exclude="Build,Analyzers" />
+        <dependency id="Xamarin.Kotlin.StdLib" version="1.9.23.3" include="All" />
+        <dependency id="Xamarin.KotlinX.Coroutines.Play.Services" version="1.8.0.4" include="All" />
+      </group>
+    </dependencies>
+  </metadata>
+</package>

@@ -1,0 +1,76 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>Plugin.Firebase.Functions</name>
+    </assembly>
+    <members>
+        <member name="M:Plugin.Firebase.Functions.CrossFirebaseFunctions.Initialize(System.String)">
+            <summary>
+            Initialize Functions with a specific region.
+            </summary>
+            <param name="region">e.g. 'us-central1'</param>
+        </member>
+        <member name="P:Plugin.Firebase.Functions.CrossFirebaseFunctions.IsSupported">
+            <summary>
+            Gets if the plugin is supported on the current platform.
+            </summary>
+        </member>
+        <member name="P:Plugin.Firebase.Functions.CrossFirebaseFunctions.Current">
+            <summary>
+            Current plugin implementation to use
+            </summary>
+        </member>
+        <member name="M:Plugin.Firebase.Functions.CrossFirebaseFunctions.Dispose">
+            <summary>
+            Dispose of everything 
+            </summary>
+        </member>
+        <member name="T:Plugin.Firebase.Functions.IFirebaseFunctions">
+            <summary>
+            FirebaseFunctions lets you call Cloud Functions for Firebase.
+            </summary>
+        </member>
+        <member name="M:Plugin.Firebase.Functions.IFirebaseFunctions.GetHttpsCallable(System.String)">
+            <summary>
+            Creates a reference to the Callable HTTPS trigger with the given name.
+            </summary>
+            <param name="name">The name of the Callable HTTPS trigger.</param>
+        </member>
+        <member name="M:Plugin.Firebase.Functions.IFirebaseFunctions.UseEmulator(System.String,System.Int32)">
+            <summary>
+            Modifies this FirebaseFunctions instance to communicate with the Cloud Functions emulator.
+            Note: Call this method before using the instance to do any functions operations.
+            </summary>
+            <param name="host">The emulator host (for example, 10.0.2.2 on android and localhost on iOS)</param>
+            <param name="port">The emulator port (for example, 5001)</param>
+        </member>
+        <member name="T:Plugin.Firebase.Functions.IHttpsCallable">
+            <summary>
+            A reference to a particular Callable HTTPS trigger in Cloud Functions.
+            </summary>
+        </member>
+        <member name="M:Plugin.Firebase.Functions.IHttpsCallable.CallAsync(System.String)">
+            <summary>
+            Executes this Callable HTTPS trigger asynchronously without any parameters. The request to the Cloud Functions
+            backend made by this method automatically includes a Firebase Instance ID token to identify the app instance.
+            If a user is logged in with Firebase Auth, an auth ID token for the user is also automatically included.
+            </summary>
+            <param name="dataJson">Optional data in json format that gets attached to the request.</param>
+        </member>
+        <member name="M:Plugin.Firebase.Functions.IHttpsCallable.CallAsync``1(System.String)">
+            <summary>
+            Executes this Callable HTTPS trigger asynchronously without any parameters. The request to the Cloud Functions
+            backend made by this method automatically includes a Firebase Instance ID token to identify the app instance.
+            If a user is logged in with Firebase Auth, an auth ID token for the user is also automatically included.
+            </summary>
+            <param name="dataJson">Optional data in json format that gets attached to the request.</param>
+            <typeparam name="TResponse">The type that gets returned in a successful call by the Cloud Function.</typeparam>
+        </member>
+        <member name="T:Plugin.Firebase.Functions.Resource">
+            <summary>
+            Android Resource Designer class.
+            Exposes the Android Resource designer assembly into the project Namespace.
+            </summary>
+        </member>
+    </members>
+</doc>

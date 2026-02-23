@@ -1,0 +1,24 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2013/05/nuspec.xsd">
+  <metadata>
+    <id>AdamE.Google.iOS.GoogleAppMeasurement</id>
+    <version>12.5.0.1</version>
+    <title>GoogleAppMeasurement</title>
+    <authors>Microsoft, Adam Essenmacher</authors>
+    <requireLicenseAcceptance>true</requireLicenseAcceptance>
+    <license type="file">License.md</license>
+    <licenseUrl>https://aka.ms/deprecateLicenseUrl</licenseUrl>
+    <projectUrl>https://github.com/AdamEssenmacher/GoogleApisForiOSComponents</projectUrl>
+    <description>GoogleAppMeasurement packed for .NET for iOS</description>
+    <copyright>© Microsoft Corporation. All rights reserved. © 2024, Adam Essenmacher.</copyright>
+    <repository type="git" commit="efb2265984829f99fa29ea594e2acc94aab7f1c6" />
+    <dependencies>
+      <group targetFramework="net9.0-ios18.0">
+        <dependency id="Xamarin.Build.Download" version="0.11.4" include="All" />
+      </group>
+      <group targetFramework="net10.0-ios26.0">
+        <dependency id="Xamarin.Build.Download" version="0.11.4" include="All" />
+      </group>
+    </dependencies>
+  </metadata>
+</package>

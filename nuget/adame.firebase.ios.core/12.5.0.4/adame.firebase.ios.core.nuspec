@@ -1,0 +1,43 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2013/05/nuspec.xsd">
+  <metadata>
+    <id>AdamE.Firebase.iOS.Core</id>
+    <version>12.5.0.4</version>
+    <title>Firebase APIs Core iOS Library</title>
+    <authors>Microsoft, Adam Essenmacher</authors>
+    <requireLicenseAcceptance>true</requireLicenseAcceptance>
+    <license type="file">License.md</license>
+    <licenseUrl>https://aka.ms/deprecateLicenseUrl</licenseUrl>
+    <icon>firebaseioscore_128x128.png</icon>
+    <projectUrl>https://github.com/AdamEssenmacher/GoogleApisForiOSComponents</projectUrl>
+    <description>C# bindings for Firebase APIs Core iOS Library</description>
+    <copyright>© Microsoft Corporation. All rights reserved. © 2024, Adam Essenmacher.</copyright>
+    <repository type="git" commit="5d3d66d24fb982d22bc2c8032acaaf546677ea84" />
+    <dependencies>
+      <group targetFramework="net9.0-ios18.0">
+        <dependency id="AdamE.Google.iOS.GoogleDataTransport" version="[10.1.0, 11.0.0)" exclude="Build,Analyzers" />
+        <dependency id="AdamE.Google.iOS.GoogleUtilities" version="[8.1.0, 9.0.0)" exclude="Build,Analyzers" />
+        <dependency id="AdamE.Google.iOS.Nanopb" version="[3.30910.0, 4.0.0)" exclude="Build,Analyzers" />
+        <dependency id="AdamE.Google.iOS.PromisesObjC" version="[2.4.0, 3.0.0)" exclude="Build,Analyzers" />
+      </group>
+      <group targetFramework="net9.0-maccatalyst18.0">
+        <dependency id="AdamE.Google.iOS.GoogleDataTransport" version="[10.1.0, 11.0.0)" exclude="Build,Analyzers" />
+        <dependency id="AdamE.Google.iOS.GoogleUtilities" version="[8.1.0, 9.0.0)" exclude="Build,Analyzers" />
+        <dependency id="AdamE.Google.iOS.Nanopb" version="[3.30910.0, 4.0.0)" exclude="Build,Analyzers" />
+        <dependency id="AdamE.Google.iOS.PromisesObjC" version="[2.4.0, 3.0.0)" exclude="Build,Analyzers" />
+      </group>
+      <group targetFramework="net10.0-ios26.0">
+        <dependency id="AdamE.Google.iOS.GoogleDataTransport" version="[10.1.0, 11.0.0)" exclude="Build,Analyzers" />
+        <dependency id="AdamE.Google.iOS.GoogleUtilities" version="[8.1.0, 9.0.0)" exclude="Build,Analyzers" />
+        <dependency id="AdamE.Google.iOS.Nanopb" version="[3.30910.0, 4.0.0)" exclude="Build,Analyzers" />
+        <dependency id="AdamE.Google.iOS.PromisesObjC" version="[2.4.0, 3.0.0)" exclude="Build,Analyzers" />
+      </group>
+      <group targetFramework="net10.0-maccatalyst26.0">
+        <dependency id="AdamE.Google.iOS.GoogleDataTransport" version="[10.1.0, 11.0.0)" exclude="Build,Analyzers" />
+        <dependency id="AdamE.Google.iOS.GoogleUtilities" version="[8.1.0, 9.0.0)" exclude="Build,Analyzers" />
+        <dependency id="AdamE.Google.iOS.Nanopb" version="[3.30910.0, 4.0.0)" exclude="Build,Analyzers" />
+        <dependency id="AdamE.Google.iOS.PromisesObjC" version="[2.4.0, 3.0.0)" exclude="Build,Analyzers" />
+      </group>
+    </dependencies>
+  </metadata>
+</package>

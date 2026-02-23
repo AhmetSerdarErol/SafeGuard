@@ -1,0 +1,404 @@
+{
+  "files": [
+    {
+      "fileName": "./icon.png",
+      "SPDXID": "SPDXRef-File--icon.png-7229B5BECEBBC51925AA2E08341DDB4BFB53F7AD",
+      "checksums": [
+        {
+          "algorithm": "SHA256",
+          "checksumValue": "8fcf6f6cd575c0f8c643691765a7db2a4b3b104bfbff34646555f5ccffdb2895"
+        },
+        {
+          "algorithm": "SHA1",
+          "checksumValue": "7229b5becebbc51925aa2e08341ddb4bfb53f7ad"
+        }
+      ],
+      "licenseConcluded": "NOASSERTION",
+      "licenseInfoInFiles": [
+        "NOASSERTION"
+      ],
+      "copyrightText": "NOASSERTION"
+    },
+    {
+      "fileName": "./buildTransitive/net8.0-android34.0/Xamarin.AndroidX.DataStore.targets",
+      "SPDXID": "SPDXRef-File--buildTransitive-net8.0-android34.0-Xamarin.AndroidX.DataStore.targets-E6FFEE6E67394BCB996416DF216271B79BD9140F",
+      "checksums": [
+        {
+          "algorithm": "SHA256",
+          "checksumValue": "3272bb04c5b789b2e01f3d1b83ef19c146e54430a9b7a3cf0f0ffa95264c9212"
+        },
+        {
+          "algorithm": "SHA1",
+          "checksumValue": "e6ffee6e67394bcb996416df216271b79bd9140f"
+        }
+      ],
+      "licenseConcluded": "NOASSERTION",
+      "licenseInfoInFiles": [
+        "NOASSERTION"
+      ],
+      "copyrightText": "NOASSERTION"
+    },
+    {
+      "fileName": "./LICENSE.md",
+      "SPDXID": "SPDXRef-File--LICENSE.md-3B941EC3773572CD471F1DD124D3ABEB19A6437B",
+      "checksums": [
+        {
+          "algorithm": "SHA256",
+          "checksumValue": "7f92be6c840f2584494d4986060fe7dfe8bbf02d6ab122980fa1d43ffb2ecb0f"
+        },
+        {
+          "algorithm": "SHA1",
+          "checksumValue": "3b941ec3773572cd471f1dd124d3abeb19a6437b"
+        }
+      ],
+      "licenseConcluded": "NOASSERTION",
+      "licenseInfoInFiles": [
+        "NOASSERTION"
+      ],
+      "copyrightText": "NOASSERTION"
+    },
+    {
+      "fileName": "./readme.md",
+      "SPDXID": "SPDXRef-File--readme.md-8F4E6603AEF8C097866B76A22B094DF513B15776",
+      "checksums": [
+        {
+          "algorithm": "SHA256",
+          "checksumValue": "4705ae6bf5dfccd5e474ec2fbd66935340520cd14f21415697f908f5b7ce0556"
+        },
+        {
+          "algorithm": "SHA1",
+          "checksumValue": "8f4e6603aef8c097866b76a22b094df513b15776"
+        }
+      ],
+      "licenseConcluded": "NOASSERTION",
+      "licenseInfoInFiles": [
+        "NOASSERTION"
+      ],
+      "copyrightText": "NOASSERTION"
+    },
+    {
+      "fileName": "./lib/net8.0-android34.0/Xamarin.AndroidX.DataStore.pdb",
+      "SPDXID": "SPDXRef-File--lib-net8.0-android34.0-Xamarin.AndroidX.DataStore.pdb-64CD9AE5517A329BD5136513871AB71C796469E9",
+      "checksums": [
+        {
+          "algorithm": "SHA256",
+          "checksumValue": "4155f5bebffb812f5ec4d962f97d63eba120e14ec31fbdca4df90620d067fce4"
+        },
+        {
+          "algorithm": "SHA1",
+          "checksumValue": "64cd9ae5517a329bd5136513871ab71c796469e9"
+        }
+      ],
+      "licenseConcluded": "NOASSERTION",
+      "licenseInfoInFiles": [
+        "NOASSERTION"
+      ],
+      "copyrightText": "NOASSERTION"
+    },
+    {
+      "fileName": "./THIRD-PARTY-NOTICES.txt",
+      "SPDXID": "SPDXRef-File--THIRD-PARTY-NOTICES.txt-571B160816F7F79B0EC258B6B0DB19C576B9FF1E",
+      "checksums": [
+        {
+          "algorithm": "SHA256",
+          "checksumValue": "1a14e25264f604fca355c489c0d5877480ddb738cec665008bcf494ad1cdc787"
+        },
+        {
+          "algorithm": "SHA1",
+          "checksumValue": "571b160816f7f79b0ec258b6b0db19c576b9ff1e"
+        }
+      ],
+      "licenseConcluded": "NOASSERTION",
+      "licenseInfoInFiles": [
+        "NOASSERTION"
+      ],
+      "copyrightText": "NOASSERTION"
+    },
+    {
+      "fileName": "./Xamarin.AndroidX.DataStore.nuspec",
+      "SPDXID": "SPDXRef-File--Xamarin.AndroidX.DataStore.nuspec-A31820111552898992BB3E86E35FF99AE81F0038",
+      "checksums": [
+        {
+          "algorithm": "SHA256",
+          "checksumValue": "1d6361469cceb53379e8a0328f9b2141caeda091975c7f468bdf6d9bd7425148"
+        },
+        {
+          "algorithm": "SHA1",
+          "checksumValue": "a31820111552898992bb3e86e35ff99ae81f0038"
+        }
+      ],
+      "licenseConcluded": "NOASSERTION",
+      "licenseInfoInFiles": [
+        "NOASSERTION"
+      ],
+      "copyrightText": "NOASSERTION"
+    },
+    {
+      "fileName": "./lib/net8.0-android34.0/Xamarin.AndroidX.DataStore.xml",
+      "SPDXID": "SPDXRef-File--lib-net8.0-android34.0-Xamarin.AndroidX.DataStore.xml-D7401D31258F6120455E1BB0D87A8950592243DC",
+      "checksums": [
+        {
+          "algorithm": "SHA256",
+          "checksumValue": "eefa17e4121867d5c0b537f5e5dcee6b6f05cac6af2aa2ea3aeabfeeec786ed0"
+        },
+        {
+          "algorithm": "SHA1",
+          "checksumValue": "d7401d31258f6120455e1bb0d87a8950592243dc"
+        }
+      ],
+      "licenseConcluded": "NOASSERTION",
+      "licenseInfoInFiles": [
+        "NOASSERTION"
+      ],
+      "copyrightText": "NOASSERTION"
+    },
+    {
+      "fileName": "./[Content_Types].xml",
+      "SPDXID": "SPDXRef-File---Content-Types-.xml-3285C27AA44BB8B33343116834649102363BF8D9",
+      "checksums": [
+        {
+          "algorithm": "SHA256",
+          "checksumValue": "56ee243ea19087393b0454d1a60a4d82cd606bda5dff56561ed1c4f93b54105b"
+        },
+        {
+          "algorithm": "SHA1",
+          "checksumValue": "3285c27aa44bb8b33343116834649102363bf8d9"
+        }
+      ],
+      "licenseConcluded": "NOASSERTION",
+      "licenseInfoInFiles": [
+        "NOASSERTION"
+      ],
+      "copyrightText": "NOASSERTION"
+    },
+    {
+      "fileName": "./aar/androidx.datastore.datastore.aar",
+      "SPDXID": "SPDXRef-File--aar-androidx.datastore.datastore.aar-DB188F8C8F6A6EA48A1DABA41A46C44A25C07E60",
+      "checksums": [
+        {
+          "algorithm": "SHA256",
+          "checksumValue": "bb93975325ddc6b94a9893f5434919a74fe7859bfb77459cff8dcd85232baa09"
+        },
+        {
+          "algorithm": "SHA1",
+          "checksumValue": "db188f8c8f6a6ea48a1daba41a46c44a25c07e60"
+        }
+      ],
+      "licenseConcluded": "NOASSERTION",
+      "licenseInfoInFiles": [
+        "NOASSERTION"
+      ],
+      "copyrightText": "NOASSERTION"
+    },
+    {
+      "fileName": "./build/net8.0-android34.0/Xamarin.AndroidX.DataStore.targets",
+      "SPDXID": "SPDXRef-File--build-net8.0-android34.0-Xamarin.AndroidX.DataStore.targets-E6FFEE6E67394BCB996416DF216271B79BD9140F",
+      "checksums": [
+        {
+          "algorithm": "SHA256",
+          "checksumValue": "3272bb04c5b789b2e01f3d1b83ef19c146e54430a9b7a3cf0f0ffa95264c9212"
+        },
+        {
+          "algorithm": "SHA1",
+          "checksumValue": "e6ffee6e67394bcb996416df216271b79bd9140f"
+        }
+      ],
+      "licenseConcluded": "NOASSERTION",
+      "licenseInfoInFiles": [
+        "NOASSERTION"
+      ],
+      "copyrightText": "NOASSERTION"
+    },
+    {
+      "fileName": "./lib/net8.0-android34.0/Xamarin.AndroidX.DataStore.dll",
+      "SPDXID": "SPDXRef-File--lib-net8.0-android34.0-Xamarin.AndroidX.DataStore.dll-6546CD742A3EF2D0D5CF88728F120BE9AE3B31D9",
+      "checksums": [
+        {
+          "algorithm": "SHA256",
+          "checksumValue": "a1d6227496258cd7c5992150a675393dcfc35fd5e6adaad3b7f956132c1ac96f"
+        },
+        {
+          "algorithm": "SHA1",
+          "checksumValue": "6546cd742a3ef2d0d5cf88728f120be9ae3b31d9"
+        }
+      ],
+      "licenseConcluded": "NOASSERTION",
+      "licenseInfoInFiles": [
+        "NOASSERTION"
+      ],
+      "copyrightText": "NOASSERTION"
+    },
+    {
+      "fileName": "./_rels/.rels",
+      "SPDXID": "SPDXRef-File---rels-.rels-2683D1595ED61F470EEFA43384F70A682C366476",
+      "checksums": [
+        {
+          "algorithm": "SHA256",
+          "checksumValue": "d9dd801b60ce26cd0e410df6a43955d0b70a23e2dad200d6bb37749b40ddf505"
+        },
+        {
+          "algorithm": "SHA1",
+          "checksumValue": "2683d1595ed61f470eefa43384f70a682c366476"
+        }
+      ],
+      "licenseConcluded": "NOASSERTION",
+      "licenseInfoInFiles": [
+        "NOASSERTION"
+      ],
+      "copyrightText": "NOASSERTION"
+    },
+    {
+      "fileName": "./package/services/metadata/core-properties/0d26dcb389c9487c9e539fa1aaefde9b.psmdcp",
+      "SPDXID": "SPDXRef-File--package-services-metadata-core-properties-0d26dcb389c9487c9e539fa1aaefde9b.psmdcp-74462DBAA4CDE34355BB44B486892B0D369F9CC5",
+      "checksums": [
+        {
+          "algorithm": "SHA256",
+          "checksumValue": "17b7535883f17e36bb037a94c134980c63a72d21e4d2121d0a9debca36f3d545"
+        },
+        {
+          "algorithm": "SHA1",
+          "checksumValue": "74462dbaa4cde34355bb44b486892b0d369f9cc5"
+        }
+      ],
+      "licenseConcluded": "NOASSERTION",
+      "licenseInfoInFiles": [
+        "NOASSERTION"
+      ],
+      "copyrightText": "NOASSERTION"
+    }
+  ],
+  "packages": [
+    {
+      "name": "Microsoft.NET.ILLink.Tasks",
+      "SPDXID": "SPDXRef-Package-B84F439F5F1D8181504001808BED8E35B93D9468972E1607A04B571DD24DA920",
+      "downloadLocation": "NOASSERTION",
+      "filesAnalyzed": false,
+      "licenseConcluded": "NOASSERTION",
+      "licenseDeclared": "NOASSERTION",
+      "copyrightText": "NOASSERTION",
+      "versionInfo": "8.0.11",
+      "externalRefs": [
+        {
+          "referenceCategory": "PACKAGE-MANAGER",
+          "referenceType": "purl",
+          "referenceLocator": "pkg:nuget/Microsoft.NET.ILLink.Tasks@8.0.11"
+        }
+      ],
+      "supplier": "NOASSERTION"
+    },
+    {
+      "name": "Xamarin.AndroidX.DataStore",
+      "SPDXID": "SPDXRef-Package-6903D20AC4382980BF08349B1435BED7879F386EF5E2EE19B0952E3F59E0DD48",
+      "downloadLocation": "NOASSERTION",
+      "filesAnalyzed": false,
+      "licenseConcluded": "NOASSERTION",
+      "licenseDeclared": "NOASSERTION",
+      "copyrightText": "NOASSERTION",
+      "versionInfo": "1.1.1.8",
+      "externalRefs": [
+        {
+          "referenceCategory": "PACKAGE-MANAGER",
+          "referenceType": "purl",
+          "referenceLocator": "pkg:nuget/Xamarin.AndroidX.DataStore@1.1.1.8"
+        }
+      ],
+      "supplier": "Organization: Microsoft"
+    },
+    {
+      "name": "Microsoft.Sbom.Targets",
+      "SPDXID": "SPDXRef-Package-7DAA0B3EDED3076AACC82E185C2A8B522D51C2079B97B13D8E6454E08E0A27CA",
+      "downloadLocation": "NOASSERTION",
+      "filesAnalyzed": false,
+      "licenseConcluded": "NOASSERTION",
+      "licenseDeclared": "NOASSERTION",
+      "copyrightText": "NOASSERTION",
+      "versionInfo": "3.0.0",
+      "externalRefs": [
+        {
+          "referenceCategory": "PACKAGE-MANAGER",
+          "referenceType": "purl",
+          "referenceLocator": "pkg:nuget/Microsoft.Sbom.Targets@3.0.0"
+        }
+      ],
+      "supplier": "NOASSERTION"
+    },
+    {
+      "name": "Xamarin.AndroidX.DataStore",
+      "SPDXID": "SPDXRef-RootPackage",
+      "downloadLocation": "NOASSERTION",
+      "packageVerificationCode": {
+        "packageVerificationCodeValue": "2cf1ef6b65e88b2ba4619e766779e5e517e4b15f"
+      },
+      "filesAnalyzed": true,
+      "licenseConcluded": "NOASSERTION",
+      "licenseInfoFromFiles": [
+        "NOASSERTION"
+      ],
+      "licenseDeclared": "NOASSERTION",
+      "copyrightText": "NOASSERTION",
+      "versionInfo": "1.0.0",
+      "externalRefs": [
+        {
+          "referenceCategory": "PACKAGE-MANAGER",
+          "referenceType": "purl",
+          "referenceLocator": "pkg:swid/Microsoft/spdx.org/Xamarin.AndroidX.DataStore@1.0.0?tag_id=61fb60ec-3997-44a7-a296-539fbc2b5658"
+        }
+      ],
+      "supplier": "Organization: Microsoft",
+      "hasFiles": [
+        "SPDXRef-File---rels-.rels-2683D1595ED61F470EEFA43384F70A682C366476",
+        "SPDXRef-File--lib-net8.0-android34.0-Xamarin.AndroidX.DataStore.xml-D7401D31258F6120455E1BB0D87A8950592243DC",
+        "SPDXRef-File--THIRD-PARTY-NOTICES.txt-571B160816F7F79B0EC258B6B0DB19C576B9FF1E",
+        "SPDXRef-File--package-services-metadata-core-properties-0d26dcb389c9487c9e539fa1aaefde9b.psmdcp-74462DBAA4CDE34355BB44B486892B0D369F9CC5",
+        "SPDXRef-File--lib-net8.0-android34.0-Xamarin.AndroidX.DataStore.dll-6546CD742A3EF2D0D5CF88728F120BE9AE3B31D9",
+        "SPDXRef-File--build-net8.0-android34.0-Xamarin.AndroidX.DataStore.targets-E6FFEE6E67394BCB996416DF216271B79BD9140F",
+        "SPDXRef-File--aar-androidx.datastore.datastore.aar-DB188F8C8F6A6EA48A1DABA41A46C44A25C07E60",
+        "SPDXRef-File---Content-Types-.xml-3285C27AA44BB8B33343116834649102363BF8D9",
+        "SPDXRef-File--Xamarin.AndroidX.DataStore.nuspec-A31820111552898992BB3E86E35FF99AE81F0038",
+        "SPDXRef-File--lib-net8.0-android34.0-Xamarin.AndroidX.DataStore.pdb-64CD9AE5517A329BD5136513871AB71C796469E9",
+        "SPDXRef-File--readme.md-8F4E6603AEF8C097866B76A22B094DF513B15776",
+        "SPDXRef-File--LICENSE.md-3B941EC3773572CD471F1DD124D3ABEB19A6437B",
+        "SPDXRef-File--buildTransitive-net8.0-android34.0-Xamarin.AndroidX.DataStore.targets-E6FFEE6E67394BCB996416DF216271B79BD9140F",
+        "SPDXRef-File--icon.png-7229B5BECEBBC51925AA2E08341DDB4BFB53F7AD"
+      ]
+    }
+  ],
+  "externalDocumentRefs": [],
+  "relationships": [
+    {
+      "relationshipType": "DEPENDS_ON",
+      "relatedSpdxElement": "SPDXRef-Package-7DAA0B3EDED3076AACC82E185C2A8B522D51C2079B97B13D8E6454E08E0A27CA",
+      "spdxElementId": "SPDXRef-RootPackage"
+    },
+    {
+      "relationshipType": "DESCRIBES",
+      "relatedSpdxElement": "SPDXRef-RootPackage",
+      "spdxElementId": "SPDXRef-DOCUMENT"
+    },
+    {
+      "relationshipType": "DEPENDS_ON",
+      "relatedSpdxElement": "SPDXRef-Package-B84F439F5F1D8181504001808BED8E35B93D9468972E1607A04B571DD24DA920",
+      "spdxElementId": "SPDXRef-RootPackage"
+    },
+    {
+      "relationshipType": "DEPENDS_ON",
+      "relatedSpdxElement": "SPDXRef-Package-6903D20AC4382980BF08349B1435BED7879F386EF5E2EE19B0952E3F59E0DD48",
+      "spdxElementId": "SPDXRef-RootPackage"
+    }
+  ],
+  "spdxVersion": "SPDX-2.2",
+  "dataLicense": "CC0-1.0",
+  "SPDXID": "SPDXRef-DOCUMENT",
+  "name": "Xamarin.AndroidX.DataStore 1.0.0",
+  "documentNamespace": "http://spdx.org/spdxdocs/Xamarin.AndroidX.DataStore/Xamarin.AndroidX.DataStore/1.0.0/81EpBS3SwUG-1Sxh7Z0y1w",
+  "creationInfo": {
+    "created": "2025-01-21T19:33:34Z",
+    "creators": [
+      "Organization: Microsoft",
+      "Tool: Microsoft.SBOMTool-3.0.0"
+    ]
+  },
+  "documentDescribes": [
+    "SPDXRef-RootPackage"
+  ]
+}

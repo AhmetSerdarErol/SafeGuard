@@ -1,0 +1,20 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2012/06/nuspec.xsd">
+  <metadata>
+    <id>Xamarin.JavaX.Inject</id>
+    <version>1.0.0.13</version>
+    <title>JavaX Inject bindings for Xamarin.Android</title>
+    <authors>Microsoft</authors>
+    <requireLicenseAcceptance>true</requireLicenseAcceptance>
+    <license type="expression">MIT AND Apache-2.0</license>
+    <licenseUrl>https://licenses.nuget.org/MIT%20AND%20Apache-2.0</licenseUrl>
+    <projectUrl>https://go.microsoft.com/fwlink/?linkid=865435</projectUrl>
+    <description>.NET for Android (formerly Xamarin.Android) bindings for JavaX Inject</description>
+    <copyright>© Microsoft Corporation. All rights reserved.</copyright>
+    <tags>.NET, dotnet, xamarin, android, bindings, javax, inject, artifact=javax.inject:javax.inject artifact_versioned=javax.inject:javax.inject:1</tags>
+    <repository type="git" url="https://go.microsoft.com/fwlink/?linkid=865435" branch="100.20240509-alignment-bumps-removal-classic-net6.0" commit="0ff2f53583c181c18593d13f7eed437c9cf8465e" />
+    <dependencies>
+      <group targetFramework="net7.0-android33.0" />
+    </dependencies>
+  </metadata>
+</package>

@@ -1,0 +1,346 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>Plugin.Firebase.Storage</name>
+    </assembly>
+    <members>
+        <member name="P:Plugin.Firebase.Storage.CrossFirebaseStorage.IsSupported">
+            <summary>
+            Gets if the plugin is supported on the current platform.
+            </summary>
+        </member>
+        <member name="P:Plugin.Firebase.Storage.CrossFirebaseStorage.Current">
+            <summary>
+            Current plugin implementation to use
+            </summary>
+        </member>
+        <member name="M:Plugin.Firebase.Storage.CrossFirebaseStorage.Dispose">
+            <summary>
+            Dispose of everything 
+            </summary>
+        </member>
+        <member name="T:Plugin.Firebase.Storage.IFirebaseStorage">
+            <summary>
+            FirebaseStorage is a service that supports uploading and downloading binary objects, such as images, videos, and other files to
+            Google Cloud Storage.
+            </summary>
+        </member>
+        <member name="M:Plugin.Firebase.Storage.IFirebaseStorage.GetRootReference">
+            <summary>
+            Creates a new <c>IStorageReference</c> initialized at the root Firebase Storage location. 
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Plugin.Firebase.Storage.IFirebaseStorage.GetReferenceFromUrl(System.String)">
+            <summary>
+            Creates a <c>IStorageReference</c> given a gs:// or // URL pointing to a Firebase Storage location.
+            </summary>
+            <param name="url">
+            A gs:// or http[s]:// URL used to initialize the reference. For example, you can pass in a download URL retrieved from
+            GetDownloadUrlAsync(). An error is thrown if the url is not associated with the FirebaseApp used to initialize this FirebaseStorage.
+            </param>
+        </member>
+        <member name="M:Plugin.Firebase.Storage.IFirebaseStorage.GetReferenceFromPath(System.String)">
+            <summary>
+            Creates a new <c>IStorageReference</c> initialized with a child Firebase Storage location.
+            </summary>
+            <param name="path">A relative path from the root to initialize the reference with, for instance "path/to/object"</param>
+            <returns></returns>
+        </member>
+        <member name="P:Plugin.Firebase.Storage.IStorageListResult.Items">
+            <summary>
+            The items (files) returned by the <c>ListAsync()</c> operation.
+            </summary>
+        </member>
+        <member name="P:Plugin.Firebase.Storage.IStorageListResult.Prefixes">
+            <summary>
+            The prefixes (folders) returned by the <c>ListAsync()</c> operation.
+            </summary>
+        </member>
+        <member name="P:Plugin.Firebase.Storage.IStorageListResult.PageToken">
+            <summary>
+            Returns a token that can be used to resume a previous <c>ListAsync()</c> operation. null indicates that there are no more results.
+            </summary>
+        </member>
+        <member name="T:Plugin.Firebase.Storage.IStorageMetadata">
+            <summary>
+            Class which represents the metadata on an object in Firebase Storage. This metadata is returned on successful operations, and can be
+            used to retrieve download URLs, content types, and a storage reference to the object in question.
+            </summary>
+        </member>
+        <member name="P:Plugin.Firebase.Storage.IStorageMetadata.Bucket">
+            <summary>
+            The name of the bucket containing this object.
+            </summary>
+        </member>
+        <member name="P:Plugin.Firebase.Storage.IStorageMetadata.Generation">
+            <summary>
+            The content generation of this object. Used for object versioning.
+            </summary>
+        </member>
+        <member name="P:Plugin.Firebase.Storage.IStorageMetadata.MetaGeneration">
+            <summary>
+            The version of the metadata for this object at this generation. Used for preconditions and for detecting changes in metadata.
+            A metageneration number is only meaningful in the context of a particular generation of a particular object.
+            </summary>
+        </member>
+        <member name="P:Plugin.Firebase.Storage.IStorageMetadata.Name">
+            <summary>
+            The name of this object, in gs://bucket/path/to/object.txt, this is object.txt.
+            </summary>
+        </member>
+        <member name="P:Plugin.Firebase.Storage.IStorageMetadata.Path">
+            <summary>
+            The full path of this object, in gs://bucket/path/to/object.txt, this is path/to/object.txt.
+            </summary>
+        </member>
+        <member name="P:Plugin.Firebase.Storage.IStorageMetadata.Size">
+            <summary>
+            Content-Length of the data in bytes.
+            </summary>
+        </member>
+        <member name="P:Plugin.Firebase.Storage.IStorageMetadata.CacheControl">
+            <summary>
+            Cache-Control directive for the object data.
+            </summary>
+        </member>
+        <member name="P:Plugin.Firebase.Storage.IStorageMetadata.ContentDisposition">
+            <summary>
+            Content-Disposition of the object data.
+            </summary>
+        </member>
+        <member name="P:Plugin.Firebase.Storage.IStorageMetadata.ContentEncoding">
+            <summary>
+            Content-Encoding of the object data.
+            </summary>
+        </member>
+        <member name="P:Plugin.Firebase.Storage.IStorageMetadata.ContentLanguage">
+            <summary>
+            Content-Language of the object data.
+            </summary>
+        </member>
+        <member name="P:Plugin.Firebase.Storage.IStorageMetadata.ContentType">
+            <summary>
+            Content-Type of the object data.
+            </summary>
+        </member>
+        <member name="P:Plugin.Firebase.Storage.IStorageMetadata.CustomMetadata">
+            <summary>
+            User-provided metadata, in key/value pairs.
+            </summary>
+        </member>
+        <member name="P:Plugin.Firebase.Storage.IStorageMetadata.MD5Hash">
+            <summary>
+            MD5 hash of the data; encoded using base64.
+            </summary>
+        </member>
+        <member name="P:Plugin.Firebase.Storage.IStorageMetadata.StorageReference">
+            <summary>
+            A reference to the object in Firebase Storage.
+            </summary>
+        </member>
+        <member name="P:Plugin.Firebase.Storage.IStorageMetadata.CreationTime">
+            <summary>
+            The time the <c>IStorageReference</c> was created.
+            </summary>
+        </member>
+        <member name="P:Plugin.Firebase.Storage.IStorageMetadata.UpdatedTime">
+            <summary>
+            The time the <c>IStorageReference</c> was last updated.
+            </summary>
+        </member>
+        <member name="T:Plugin.Firebase.Storage.IStorageReference">
+            <summary>
+            <c>IStorageReference</c> represents a reference to a Google Cloud Storage object. Developers can upload and download objects, as well
+            as get/set object metadata, and delete an object at the path.
+            </summary>
+        </member>
+        <member name="M:Plugin.Firebase.Storage.IStorageReference.GetChild(System.String)">
+            <summary>
+            Creates a new <c>IStorageReference</c> pointing to a child object of the current reference. path = foo child = bar newPath = foo/bar path
+            = foo/bar child = baz newPath = foo/bar/baz. All leading and trailing slashes will be removed, and consecutive slashes will be compressed
+            to single slashes. For example: child = /foo/bar newPath = foo/bar child = foo/bar/ newPath = foo/bar child = foo///bar newPath = foo/bar
+            </summary>
+            <param name="path">Path to append to the current path.</param>
+        </member>
+        <member name="M:Plugin.Firebase.Storage.IStorageReference.PutBytes(System.Byte[],Plugin.Firebase.Storage.IStorageMetadata)">
+            <summary>
+            Uploads a byte array to firebase storage bucket.<br></br>
+            CAUTION: Although this method returns an IStorageUploadTask, which has an AwaitAsync() method, the upload will start immediately on iOS
+            </summary>
+        </member>
+        <member name="M:Plugin.Firebase.Storage.IStorageReference.PutFile(System.String,Plugin.Firebase.Storage.IStorageMetadata)">
+            <summary>
+            Uploads a file via it's file path to firebase storage bucket.<br></br>
+            CAUTION: Although this method returns an IStorageUploadTask, which has an AwaitAsync() method, the upload will start immediately on iOS
+            </summary>
+        </member>
+        <member name="M:Plugin.Firebase.Storage.IStorageReference.PutStream(System.IO.Stream,Plugin.Firebase.Storage.IStorageMetadata)">
+            <summary>
+            Uploads a file via it's data stream to firebase storage bucket.<br></br>
+            CAUTION: Although this method returns an IStorageUploadTask, which has an AwaitAsync() method, the upload will start immediately on iOS
+            </summary>
+        </member>
+        <member name="M:Plugin.Firebase.Storage.IStorageReference.GetMetadataAsync">
+            <summary>
+            Retrieves metadata associated with an object at the current path.
+            </summary>
+        </member>
+        <member name="M:Plugin.Firebase.Storage.IStorageReference.UpdateMetadataAsync(Plugin.Firebase.Storage.IStorageMetadata)">
+            <summary>
+            Updates the metadata associated with an object at the current path.
+            </summary>
+            <param name="metadata">An <c>IStorageMetaData</c> object with the metadata to update.</param>
+            <returns></returns>
+        </member>
+        <member name="M:Plugin.Firebase.Storage.IStorageReference.GetDownloadUrlAsync">
+            <summary>
+            Asynchronously retrieves a long lived download URL with a revocable token. This can be used to share the file with others, but can
+            be revoked by a developer in the Firebase Console if desired.
+            </summary>
+        </member>
+        <member name="M:Plugin.Firebase.Storage.IStorageReference.ListAsync(System.Int64)">
+            <summary>
+            List up to maxResults items (files) and prefixes (folders) under this <c>IStorageReference</c>. “/” is treated as a path delimiter.
+            Firebase Storage does not support unsupported object paths that end with “/” or contain two consecutive “/"s. All invalid objects
+            in GCS will be filtered. <c>ListAsync(maxResults)</c> is only available for projects using Firebase Rules Version 2.
+            </summary>
+            <param name="maxResults">The maximum number of results to return in a single page. Must be greater than 0 and at most 1000.</param>
+        </member>
+        <member name="M:Plugin.Firebase.Storage.IStorageReference.ListAllAsync">
+            <summary>
+            List all items (files) and prefixes (folders) under this <c>IStorageReference</c>. This is a helper method for calling
+            <c>ListAsync()</c> repeatedly until there are no more results. Consistency of the result is not guaranteed if objects
+            are inserted or removed while this operation is executing. All results are buffered in memory. <c>ListAllAsync()</c> is
+            only available for projects using Firebase Rules Version 2.
+            </summary>
+        </member>
+        <member name="M:Plugin.Firebase.Storage.IStorageReference.GetStreamAsync(System.Int64)">
+            <summary>
+            Asynchronously downloads the object at the <c>IStorageReference</c> to memory. The provided max size will be allocated, so ensure
+            that the device has enough free memory to complete the download. For downloading large files, <c>DownloadFile(destinationPath)</c>
+            may be a better option.
+            </summary>
+            <param name="maxSize">
+            The maximum size in bytes to download. If the download exceeds this size the task will be cancelled and an error will be returned.
+            </param>
+        </member>
+        <member name="M:Plugin.Firebase.Storage.IStorageReference.GetBytesAsync(System.Int64)">
+            <summary>
+            Asynchronously downloads the object from this <c>IStorageReference</c>. A byte array will be allocated large enough to hold the entire file in memory.
+            Therefore, using this method will impact memory usage of your process. If you are downloading many large files, getStream may be a better option.
+            </summary>
+            <param name="maxDownloadSizeBytes">
+            The maximum allowed size in bytes that will be allocated. Set this parameter to prevent out of memory conditions from occurring. If the download exceeds this limit, the task will fail and an IndexOutOfBoundsException will be returned.    /// </param>
+        </member>
+        <member name="M:Plugin.Firebase.Storage.IStorageReference.DownloadFile(System.String)">
+            <summary>
+            Asynchronously downloads the object at the current path to a specified system filepath.
+            </summary>
+            <param name="destinationPath">A file system URL representing the path the object should be downloaded to.</param>
+        </member>
+        <member name="M:Plugin.Firebase.Storage.IStorageReference.DeleteAsync">
+            <summary>
+            Deletes the object at the current path.
+            </summary>
+        </member>
+        <member name="P:Plugin.Firebase.Storage.IStorageReference.Parent">
+            <summary>
+            Creates a new <c>IStorageReference</c> pointing to the parent of the current reference or null if this instance references the root location.
+            For example: path = foo/bar/baz parent = foo/bar path = foo parent = (root) path = (root) parent = null.
+            </summary>
+        </member>
+        <member name="P:Plugin.Firebase.Storage.IStorageReference.Root">
+            <summary>
+            Creates a new <c>IStorageReference</c> pointing to the root object.
+            </summary>
+        </member>
+        <member name="P:Plugin.Firebase.Storage.IStorageReference.Bucket">
+            <summary>
+            The name of the Google Cloud Storage bucket associated with this reference, in gs://bucket/path/to/object.txt, the bucket would be: ‘bucket’.
+            </summary>
+        </member>
+        <member name="P:Plugin.Firebase.Storage.IStorageReference.Name">
+            <summary>
+            The short name of the object associated with this reference, in gs://bucket/path/to/object.txt, the name of the object would be: ‘object.txt’
+            </summary>
+        </member>
+        <member name="P:Plugin.Firebase.Storage.IStorageReference.FullPath">
+            <summary>
+            The full path to this object, not including the Google Cloud Storage bucket. In gs://bucket/path/to/object.txt, the full path would be: ‘path/to/object.txt’
+            </summary>
+        </member>
+        <member name="T:Plugin.Firebase.Storage.IStorageTaskSnapshot">
+            <summary>
+            <c>IStorageTaskSnapshot</c> represents an immutable view of a task. A Snapshot contains a task, storage reference, metadata (if it exists),
+            progress, and an error (if one occurred).
+            </summary>
+        </member>
+        <member name="P:Plugin.Firebase.Storage.IStorageTaskSnapshot.TransferredUnitCount">
+            <summary>
+            The total bytes uploaded so far.
+            </summary>
+        </member>
+        <member name="P:Plugin.Firebase.Storage.IStorageTaskSnapshot.TotalUnitCount">
+            <summary>
+            The number of bytes to upload. Will return -1 if uploading from a stream. 
+            </summary>
+        </member>
+        <member name="P:Plugin.Firebase.Storage.IStorageTaskSnapshot.TransferredFraction">
+            <summary>
+            The total bytes uploaded so far as a fraction.
+            </summary>
+        </member>
+        <member name="P:Plugin.Firebase.Storage.IStorageTaskSnapshot.Metadata">
+            <summary>
+            Metadata returned by the task, or null if no metadata returned.
+            </summary>
+        </member>
+        <member name="P:Plugin.Firebase.Storage.IStorageTaskSnapshot.Error">
+            <summary>
+            Error during task execution, or null if no error occurred.
+            </summary>
+        </member>
+        <member name="T:Plugin.Firebase.Storage.IStorageTransferTask">
+            <summary>
+            A controllable Task that has a synchronized state machine.
+            </summary>
+        </member>
+        <member name="M:Plugin.Firebase.Storage.IStorageTransferTask.AddObserver(Plugin.Firebase.Storage.StorageTaskStatus,System.Action{Plugin.Firebase.Storage.IStorageTaskSnapshot})">
+            <summary>
+            Observes changes in the upload status: Progress, Pause, Success, and Failure.
+            </summary>
+            <param name="status">The <c>StorageTaskStatus</c> change to observe.</param>
+            <param name="observer">
+            A callback that fires every time the status event occurs, returns a <c>IStorageTaskSnapshot</c> containing the state of the task.
+            </param>
+        </member>
+        <member name="M:Plugin.Firebase.Storage.IStorageTransferTask.RemoveObserver(System.Action{Plugin.Firebase.Storage.IStorageTaskSnapshot})">
+            <summary>
+            Removes the single observer action.
+            </summary>
+            <param name="observer">The observer action of the task to remove.</param>
+        </member>
+        <member name="M:Plugin.Firebase.Storage.IStorageTransferTask.Pause">
+            <summary>
+            Attempts to pause the task. 
+            </summary>
+        </member>
+        <member name="M:Plugin.Firebase.Storage.IStorageTransferTask.Resume">
+            <summary>
+            Attempts to resume a paused task. 
+            </summary>
+        </member>
+        <member name="M:Plugin.Firebase.Storage.IStorageTransferTask.Cancel">
+            <summary>
+            Attempts to cancel the task. 
+            </summary>
+        </member>
+        <member name="T:Plugin.Firebase.Storage.Resource">
+            <summary>
+            Android Resource Designer class.
+            Exposes the Android Resource designer assembly into the project Namespace.
+            </summary>
+        </member>
+    </members>
+</doc>

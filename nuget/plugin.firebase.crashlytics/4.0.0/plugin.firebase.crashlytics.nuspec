@@ -1,0 +1,32 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2013/05/nuspec.xsd">
+  <metadata>
+    <id>Plugin.Firebase.Crashlytics</id>
+    <version>4.0.0</version>
+    <title>Plugin.Firebase</title>
+    <authors>Tobias Buchholz</authors>
+    <license type="expression">MIT</license>
+    <licenseUrl>https://licenses.nuget.org/MIT</licenseUrl>
+    <icon>icon.png</icon>
+    <readme>crashlytics.md</readme>
+    <projectUrl>https://github.com/TobiasBuchholz/Plugin.Firebase</projectUrl>
+    <description>The plugin includes cross-platform APIs for Firebase Crashlytics.</description>
+    <copyright>Copyright 2023</copyright>
+    <tags>xamarin, ios, android</tags>
+    <repository type="git" url="https://github.com/TobiasBuchholz/Plugin.Firebase" commit="243d8e5fa92da6f33ca449ff2e0aea0150fe9bd6" />
+    <dependencies>
+      <group targetFramework="net9.0">
+        <dependency id="Plugin.Firebase.Core" version="4.0.0" exclude="Build,Analyzers" />
+      </group>
+      <group targetFramework="net9.0-android35.0">
+        <dependency id="Plugin.Firebase.Core" version="4.0.0" exclude="Build,Analyzers" />
+        <dependency id="Xamarin.AndroidX.DataStore" version="1.1.1.8" exclude="Build,Analyzers" />
+        <dependency id="Xamarin.Firebase.Crashlytics" version="119.0.0" exclude="Build,Analyzers" />
+      </group>
+      <group targetFramework="net9.0-ios18.0">
+        <dependency id="Plugin.Firebase.Core" version="4.0.0" exclude="Build,Analyzers" />
+        <dependency id="AdamE.Firebase.iOS.Crashlytics" version="12.5.0.4" exclude="Build,Analyzers" />
+      </group>
+    </dependencies>
+  </metadata>
+</package>

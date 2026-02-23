@@ -1,0 +1,26 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2013/05/nuspec.xsd">
+  <metadata>
+    <id>Xamarin.AndroidX.Annotation.Jvm</id>
+    <version>1.9.1.2</version>
+    <title>.NET for Android bindings for the Android Java library 'androidx.annotation:annotation-jvm'.</title>
+    <authors>Microsoft</authors>
+    <requireLicenseAcceptance>true</requireLicenseAcceptance>
+    <license type="expression">MIT AND Apache-2.0</license>
+    <licenseUrl>https://licenses.nuget.org/MIT%20AND%20Apache-2.0</licenseUrl>
+    <icon>icon.png</icon>
+    <readme>readme.md</readme>
+    <projectUrl>https://aka.ms/android-libraries</projectUrl>
+    <description>.NET for Android bindings for the Android Java library 'androidx.annotation:annotation-jvm'.
+
+Library description: Provides source annotations for tooling and readability.</description>
+    <copyright>© Microsoft Corporation. All rights reserved.</copyright>
+    <tags>xamarin artifact=androidx.annotation:annotation-jvm artifact_versioned=androidx.annotation:annotation-jvm:1.9.1</tags>
+    <repository type="git" url="https://github.com/xamarin/AndroidX.git" branch="refs/tags/20250117-alignment-bumps-20250121" commit="f38f657f246b3c6eb9c2f9f1b6b906add8a0cb6e" />
+    <dependencies>
+      <group targetFramework="net8.0-android34.0">
+        <dependency id="Xamarin.Kotlin.StdLib" version="2.0.21.2" include="All" />
+      </group>
+    </dependencies>
+  </metadata>
+</package>

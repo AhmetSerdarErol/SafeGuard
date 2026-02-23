@@ -1,0 +1,13 @@
+﻿<BindingAssembly>
+	<NativeReference Name="nanopb.xcframework">
+		<_Id>nanopb</_Id>
+		<ForceLoad>True</ForceLoad>
+		<Frameworks></Frameworks>
+		<IsCxx></IsCxx>
+		<Kind>Framework</Kind>
+		<LinkerFlags></LinkerFlags>
+		<NeedsGccExceptionHandling></NeedsGccExceptionHandling>
+		<SmartLink>True</SmartLink>
+		<WeakFrameworks></WeakFrameworks>
+	</NativeReference>
+</BindingAssembly>
