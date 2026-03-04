@@ -1,0 +1,78 @@
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="SafeGuard.Mobile.OnboardingPage"
+             NavigationPage.HasNavigationBar="False">
+
+    <ContentPage.Background>
+        <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
+            <GradientStop Color="#101418" Offset="0.0" />
+            <GradientStop Color="#1E2A38" Offset="1.0" />
+        </LinearGradientBrush>
+    </ContentPage.Background>
+
+    <Grid RowDefinitions="*, Auto, Auto" Padding="25,50,25,30">
+
+        <CarouselView x:Name="OnboardingCarousel" 
+                      Grid.Row="0"
+                      IndicatorView="Indicator"
+                      HorizontalScrollBarVisibility="Never"
+                      IsSwipeEnabled="True">
+            <CarouselView.ItemTemplate>
+                <DataTemplate>
+                    <Grid RowDefinitions="6*, 4*">
+
+                        <Frame Grid.Row="0"
+                               BackgroundColor="Transparent"
+                               BorderColor="Transparent"
+                               VerticalOptions="Center"
+                               HorizontalOptions="Center"
+                               HeightRequest="220"
+                               WidthRequest="220">
+                            <Image Source="{Binding ImageName}" Aspect="AspectFit" />
+                        </Frame>
+
+                        <StackLayout Grid.Row="1" Spacing="15" VerticalOptions="Start" Margin="0,20,0,0">
+                            <Label Text="{Binding Title}" 
+                                   FontSize="26" 
+                                   FontAttributes="Bold" 
+                                   TextColor="White" 
+                                   HorizontalOptions="Center"
+                                   HorizontalTextAlignment="Center" />
+
+                            <Label Text="{Binding Description}" 
+                                   FontSize="15" 
+                                   TextColor="#A0AAB5" 
+                                   LineHeight="1.3"
+                                   HorizontalOptions="Center" 
+                                   HorizontalTextAlignment="Center"
+                                   Margin="10,0,10,0"/>
+                        </StackLayout>
+
+                    </Grid>
+                </DataTemplate>
+            </CarouselView.ItemTemplate>
+        </CarouselView>
+
+        <IndicatorView x:Name="Indicator" 
+                       Grid.Row="1" 
+                       IndicatorsShape="Circle"
+                       IndicatorSize="10"
+                       IndicatorColor="#3A4A5A"
+                       SelectedIndicatorColor="#FF3B30"
+                       HorizontalOptions="Center"
+                       Margin="0,10,0,30" />
+
+        <Button x:Name="NextButton"
+                Grid.Row="2"
+                Text="İleri" 
+                FontSize="18"
+                BackgroundColor="#FF3B30"
+                TextColor="White"
+                FontAttributes="Bold"
+                CornerRadius="25"
+                HeightRequest="55"
+                Shadow="{Shadow Brush=Black, Offset='0,5', Opacity=0.3, Radius=10}"
+                Clicked="OnNextButtonClicked" />
+
+    </Grid>
+</ContentPage>

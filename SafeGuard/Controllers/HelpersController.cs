@@ -107,9 +107,8 @@ namespace SafeGuard.Controllers
                 .Select(h => new
                 {
                     Name = h.UserId == userId ? h.HelperUser.FullName : h.User.FullName,
+                    Id = h.UserId == userId ? h.HelperId : h.UserId,
                     PhoneNumber = h.UserId == userId ? h.HelperUser.PhoneNumber : h.User.PhoneNumber,
-
-                    // --- YENİ EKLENEN VERİLER ---
                     BloodType = h.UserId == userId ? h.HelperUser.BloodType : h.User.BloodType,
                     BirthDate = h.UserId == userId ? h.HelperUser.BirthDate : h.User.BirthDate
                 })

@@ -42,7 +42,7 @@ public partial class ProfilePage : ContentPage
         string photoUrl = Preferences.Get("UserPhotoUrl", "");
         if (!string.IsNullOrEmpty(photoUrl))
         {
-            ProfileImage.Source = $"http://10.0.2.2:5161/{photoUrl}";
+            ProfileImage.Source = $"http://172.16.0.38:5161/{photoUrl}";
             InitialsLabel.IsVisible = false;
         }
         else

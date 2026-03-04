@@ -35,7 +35,7 @@ namespace SafeGuard.Controllers
                 // 4. Bulduğumuz profilden sağlık verilerini çekip pakete (JSON) ekliyoruz
                 detailedContacts.Add(new
                 {
-                    Id = c.Id,
+                    Id = targetProfile?.Id ?? 0,
                     Name = c.Name,
                     PhoneNumber = c.PhoneNumber,
                     VerificationStatus = c.VerificationStatus,

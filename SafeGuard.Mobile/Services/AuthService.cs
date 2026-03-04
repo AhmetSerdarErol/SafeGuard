@@ -10,7 +10,7 @@ namespace SafeGuard.Mobile.Services
         private readonly HttpClient _httpClient;
 
         // 🟢 EMÜLATÖR İÇİN SABİT IP (Değiştirme)
-        private const string BaseUrl = "http://172.16.0.78:5161/api";
+        private const string BaseUrl = "http://172.16.0.38:5161/api";
 
         public AuthService()
         {
@@ -68,7 +68,76 @@ namespace SafeGuard.Mobile.Services
             }
             catch { return false; }
         }
+        public async Task<bool> UpdateFcmTokenAsync(int userId, string token)
+        {
+            try
+            {
+                var payload = new { UserId = userId, Token = token };
+                string json = System.Text.Json.JsonSerializer.Serialize(payload);
+                var content = new StringContent(json, System.Text.Encoding.UTF8, "application/json");
 
+                // Senin güncel IP adresini (172.16.0.38) buraya yazdım. 
+                // Eğer backend'de metodu AuthController içine yazdıysan adres böyle kalmalı.
+                // Eğer UsersController içine yazdıysan "api/Users/update-fcm-token" yapmalısın.
+                var response = await _httpClient.PostAsync("http://172.16.0.38:5161/api/Users/update-fcm-token", content);
+
+                return response.IsSuccessStatusCode;
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Token gönderme hatası: {ex.Message}");
+                return false;
+            }
+        }
+        public async Task<bool> UpdateTokenAsync(int userId, string token)
+        {
+            try
+            {
+                // API'nin adresini kendi API URL'in ile değiştir (Örn: http://10.0.2.2:5161 veya gerçek IP)
+                string apiUrl = $"http://172.16.0.38:5161/api/Users/update-fcm-token";
+
+                var data = new { UserId = userId, Token = token };
+                string json = System.Text.Json.JsonSerializer.Serialize(data);
+                var content = new StringContent(json, System.Text.Encoding.UTF8, "application/json");
+
+                // HttpClient ile API'ye gönderiyoruz
+                using var client = new HttpClient();
+                var response = await client.PostAsync(apiUrl, content);
+
+                return response.IsSuccessStatusCode;
+            }
+            catch
+            {
+                return false;
+            }
+        }
+        public async Task<bool> SendSosAlertAsync(int senderId, int targetUserId)
+        {
+            try
+            {
+                // Backend'deki füze kapımızın adresi (IP'nin aynı kaldığını varsayıyoruz, değiştiyse güncellersin)
+                string url = $"http://172.16.0.38:5161/api/Users/send-sos?senderId={senderId}&targetUserId={targetUserId}";
+
+                // Post isteğini atıyoruz (İçine data koymuyoruz çünkü ID'leri URL'den gönderdik)
+                var response = await _httpClient.PostAsync(url, null);
+
+                if (response.IsSuccessStatusCode)
+                {
+                    return true; // Füze başarıyla ateşlendi!
+                }
+                else
+                {
+                    var error = await response.Content.ReadAsStringAsync();
+                    Console.WriteLine($"Füze Hatası: {error}");
+                    return false;
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Bağlantı Hatası: {ex.Message}");
+                return false;
+            }
+        }
         public async Task<bool> SendFriendRequestAsync(int myUserId, string targetPhone)
         {
             try

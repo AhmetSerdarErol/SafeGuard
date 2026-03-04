@@ -1,8 +1,8 @@
 ﻿using Microsoft.Extensions.Logging;
-using Microsoft.Maui.LifecycleEvents; // Firebase'i başlatmak için yaşam döngüsü kütüphanesi
+using Microsoft.Maui.LifecycleEvents; 
 
 #if ANDROID
-using Plugin.Firebase.Core.Platforms.Android; // Sadece Android'de çalışacak Firebase paketi
+using Plugin.Firebase.Core.Platforms.Android; 
 #endif
 
 namespace SafeGuard.Mobile

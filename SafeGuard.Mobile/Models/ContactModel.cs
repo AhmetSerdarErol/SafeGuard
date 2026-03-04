@@ -11,5 +11,6 @@ namespace SafeGuard.Mobile.Models
         public string PhoneNumber { get; set; }
         public string BloodType { get; set; }
         public string BirthDate { get; set; }
+        public int Id { get; set; }
     }
 }

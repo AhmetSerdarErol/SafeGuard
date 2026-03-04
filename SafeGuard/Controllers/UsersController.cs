@@ -4,6 +4,7 @@ using SafeGuard.Backend.DTOs;
 using SafeGuard.Data;
 using SafeGuard.Dtos;
 using SafeGuard.Models;
+using FirebaseAdmin.Messaging;
 
 namespace SafeGuard.Controllers
 {
@@ -16,6 +17,60 @@ namespace SafeGuard.Controllers
         public UsersController(AppDbContext context)
         {
             _context = context;
+        }
+
+        [HttpPost("update-fcm-token")]
+        public async Task<IActionResult> UpdateFcmToken([FromBody] UpdateTokenDto request)
+        {
+            // 1. Veritabanında bu id'ye sahip kullanıcıyı bul
+            var user = await _context.Users.FindAsync(request.UserId);
+
+            if (user == null)
+                return NotFound("Kullanıcı bulunamadı.");
+
+            // 2. Kullanıcının adresini (Token) yeni gelen adresle değiştir
+            user.FcmToken = request.Token;
+
+            // 3. Değişiklikleri veritabanına kaydet
+            await _context.SaveChangesAsync();
+
+            return Ok(new { message = "Postacının adresi (Token) başarıyla veritabanına işlendi!" });
+        }
+
+        [HttpPost("send-sos")]
+        public async Task<IActionResult> SendSosAlert(int senderId, int targetUserId)
+        {
+            var senderUser = await _context.Users.FindAsync(senderId);
+            var targetUser = await _context.Users.FindAsync(targetUserId);
+
+            if (targetUser == null || string.IsNullOrEmpty(targetUser.FcmToken))
+                return BadRequest("Hedef kullanıcının cihaz adresi bulunamadı!");
+
+            var message = new Message()
+            {
+                Token = targetUser.FcmToken,
+
+                Data = new Dictionary<string, string>()
+                {
+                    { "senderName", senderUser?.FullName ?? "Bir arkadaşın" },
+                    { "title", "🚨 ACİL DURUM (SOS) 🚨" },
+                    { "message", "Acil yardıma ihtiyacı var!" }
+                },
+                Android = new AndroidConfig()
+                {
+                    Priority = Priority.High
+                }
+            };
+
+            try
+            {
+                string response = await FirebaseMessaging.DefaultInstance.SendAsync(message);
+                return Ok(new { success = true, info = "Füze hedefi vurdu!", details = response });
+            }
+            catch (Exception ex)
+            {
+                return BadRequest($"Füze ateşlenemedi: {ex.Message}");
+            }
         }
 
         [HttpPost("register")]
@@ -133,7 +188,11 @@ namespace SafeGuard.Controllers
 
             return Ok(new { Path = user.ProfilePhotoUrl });
         }
-
+        public class UpdateTokenDto
+        {
+            public int UserId { get; set; }
+            public string Token { get; set; }
+        }
 
     }
 }

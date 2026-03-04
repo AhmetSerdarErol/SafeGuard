@@ -2,10 +2,9 @@
 {
     public class HelperDto
     {
-        public int UserId { get; set; }          // İsteyen Kişi (Sen)
-        public string HelperPhoneNumber { get; set; } // Eklemek İstediğin Kişinin Numarası
+        public int UserId { get; set; }          
+        public string HelperPhoneNumber { get; set; } 
     }
-
     public class RespondDto
     {
         public int RequestId { get; set; }

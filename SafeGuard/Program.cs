@@ -5,16 +5,16 @@ using Microsoft.OpenApi.Models;
 using SafeGuard.Data;
 using SafeGuard.Hubs;
 using System.Text;
+using FirebaseAdmin;
+using Google.Apis.Auth.OAuth2;
 
 var builder = WebApplication.CreateBuilder(args);
 
 builder.WebHost.UseUrls("http://0.0.0.0:5161");
 
-// 1. Veritabaný Baðlantýsý
 builder.Services.AddDbContext<AppDbContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 
-// 2. JWT Kimlik Doðrulama Ayarlarý
 var secretKey = builder.Configuration["JwtSettings:SecretKey"];
 var key = Encoding.UTF8.GetBytes(secretKey!);
 
@@ -34,19 +34,17 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSignalR();
 
-// 3. SWAGGER AYARLARI (YENÝLENDÝ: Artýk Bearer yazmana gerek yok!)
 builder.Services.AddSwaggerGen(c =>
 {
     c.SwaggerDoc("v1", new OpenApiInfo { Title = "SafeGuard API", Version = "v1" });
 
-    // Kilit Ayarý - HTTP Modu (Daha Kolay)
     c.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
     {
         Description = "JWT Token'ýnýzý buraya yapýþtýrýn (Bearer yazmanýza GEREK YOK!)",
         Name = "Authorization",
         In = ParameterLocation.Header,
-        Type = SecuritySchemeType.Http, // <-- Önemli deðiþiklik burada
-        Scheme = "bearer"               // <-- Swagger artýk Bearer'ý kendi ekleyecek
+        Type = SecuritySchemeType.Http, 
+        Scheme = "bearer"               
     });
 
     c.AddSecurityRequirement(new OpenApiSecurityRequirement
@@ -65,20 +63,22 @@ builder.Services.AddSwaggerGen(c =>
     });
 });
 
+FirebaseApp.Create(new AppOptions()
+{
+    Credential = GoogleCredential.FromFile("firebase-admin.json")
+});
+
 var app = builder.Build();
 
-// 4. Uygulama Ayarlarý
+
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
     app.UseSwaggerUI();
 }
-
-//app.UseHttpsRedirection();
-
-app.UseAuthentication(); // Kimlik Kontrolü (Sýrasý önemli!)
+app.UseAuthentication(); 
 app.UseStaticFiles();
-app.UseAuthorization();  // Yetki Kontrolü
+app.UseAuthorization();  
 
 app.MapControllers();
 app.MapHub<SosHub>("/sosHub");

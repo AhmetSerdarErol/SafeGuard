@@ -1,4 +1,4 @@
-namespace SafeGuard.Dtos
+    namespace SafeGuard.Dtos
 {
     public class UserDto
     {

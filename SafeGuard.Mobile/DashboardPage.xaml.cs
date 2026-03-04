@@ -3,6 +3,7 @@ using System.Globalization;
 using SafeGuard.Mobile.Models;
 using SafeGuard.Mobile.Services;
 using SafeGuard.Mobile.Views;
+using Plugin.Firebase.CloudMessaging;
 #if ANDROID
 using Android.Telephony;
 using Android.Content;
@@ -57,7 +58,7 @@ namespace SafeGuard.Mobile
 
             if (!string.IsNullOrEmpty(photoUrl))
             {
-                BottomProfileImage.Source = $"http://10.0.2.2:5161/{photoUrl}";
+                BottomProfileImage.Source = $"http://172.16.0.38:5161/{photoUrl}";
                 BottomInitialsLabel.IsVisible = false;
             }
             else
@@ -73,19 +74,39 @@ namespace SafeGuard.Mobile
 
             if (currentUserId != 0)
             {
-                // Bağlanırken sunucuya "Ben bu ID'li kullanıcıyım" diyoruz
+                // 1. Bağlanırken sunucuya "Ben bu ID'li kullanıcıyım" diyoruz (Senin kodun)
                 await _signalRService.ConnectAsync(currentUserId);
+
+                // --- 2. YENİ EKLENEN KISIM: POSTACININ ADRESİNİ (TOKEN) BACKEND'E YEDEKELEME ---
+                try
+                {
+                    var token = await Plugin.Firebase.CloudMessaging.CrossFirebaseCloudMessaging.Current.GetTokenAsync();
+
+                    if (!string.IsNullOrEmpty(token))
+                    {
+                        // Eğer AuthService'i yukarıda tanımladıysan 'new AuthService()' kısmını onla değiştirebilirsin
+                        var authService = new AuthService();
+                        bool isSaved = await authService.UpdateFcmTokenAsync(currentUserId, token);
+
+                        if (isSaved)
+                        {
+                            Console.WriteLine("\n=== BAŞARILI: Token veritabanına kaydedildi! ===\n");
+                        }
+                    }
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine($"Token veritabanına gönderilirken hata oluştu: {ex.Message}");
+                }
+                // ---------------------------------------------------------------------------------
             }
         }
 
         protected override void OnDisappearing()
         {
             base.OnDisappearing();
-            // Sayfadan çıkınca abonelikleri temizlemek iyi bir pratiktir (Opsiyonel ama önerilir)
-            // _signalRService.OnSafeReceived -= HandleIncomingSafe;
         }
 
-        // --- 1. YAKINLARI YÜKLEME METODU ---
         private async Task LoadContacts()
         {
             try
@@ -160,7 +181,12 @@ namespace SafeGuard.Mobile
             if (cevap)
             {
                 Preferences.Clear();
-                Application.Current.MainPage = new NavigationPage(new MainPage());
+
+                // Çıkış yaparken motorun kilitlenmemesi için güvenli sıfırlama:
+                MainThread.BeginInvokeOnMainThread(() =>
+                {
+                    Application.Current.MainPage = new NavigationPage(new MainPage());
+                });
             }
         }
 
@@ -238,24 +264,46 @@ namespace SafeGuard.Mobile
             // --- SOS GÖNDERME KISMI ---
             try
             {
-                StatusLabel.Text = "KONUM ALINIYOR...";
+                StatusLabel.Text = "KONUM VE KİMLİK ALINIYOR...";
 
-                // 1. Konumu Bul
+                // 1. Cihazın Firebase Kimliğini (Token) Alıyoruz (YENİ EKLENDİ)
+                await Plugin.Firebase.CloudMessaging.CrossFirebaseCloudMessaging.Current.CheckIfValidAsync();
+                var token = await Plugin.Firebase.CloudMessaging.CrossFirebaseCloudMessaging.Current.GetTokenAsync();
+
+                // 2. Konumu Bul
                 var location = await _locationService.GetCurrentLocationAsync();
 
-                if (location != null)
+                if (location != null && !string.IsNullOrEmpty(token))
                 {
                     StatusLabel.Text = "SUNUCUYA İLETİLİYOR...";
                     if (currentUserId != 0)
                     {
-                        // SignalR ile backend'e konum ve SOS bilgisini atıyoruz
                         await _signalRService.SendSosAsync(currentUserId, location.Latitude, location.Longitude);
-                        StatusLabel.Text = "YARDIM ÇAĞRISI YAPILDI!";
+
+                        if (_localContacts != null && _localContacts.Any())
+                        {
+                            foreach (var item in _localContacts)
+                            {
+                                // ID 0 değilse (yani sistemde kayıtlı bir kullanıcıysa) füzeyi yolla
+                                if (item.Id != 0)
+                                {
+                                    await _authService.SendSosAlertAsync(currentUserId, item.Id);
+                                    Console.WriteLine($"=== 🚀 FÜZE {item.Name} (ID: {item.Id}) İÇİN ATEŞLENDİ! ===");
+                                }
+                            }
+
+                            Console.WriteLine($"\n\n=== FIREBASE TOKEN (BURAYI KOPYALA) ===\n{token}\n=======================================\n\n");
+                            await Clipboard.Default.SetTextAsync(token);
+
+                            StatusLabel.Text = "ÇAĞRI YAPILDI!\nKimlik Kopyalandı!";
+                            StatusLabel.TextColor = Colors.White;
+                            await Application.Current.MainPage.DisplayAlert("Yardım Çağrısı Başarılı", "Hem uygulama içi (SignalR) hem de arka plan (FCM) bildirimleri başarıyla tetiklendi!", "Tamam");
+                        }
                     }
-                }
-                else
-                {
-                    StatusLabel.Text = "KONUM BULUNAMADI!";
+                    else
+                    {
+                        StatusLabel.Text = "KONUM VEYA KİMLİK BULUNAMADI!";
+                    }
                 }
             }
             catch (Exception ex)

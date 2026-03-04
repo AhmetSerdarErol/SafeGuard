@@ -9,10 +9,8 @@
                 // 1. Önce cihazın hafızasındaki son bilinen konuma bak (Çok Hızlıdır)
                 Location? location = await Geolocation.Default.GetLastKnownLocationAsync();
 
-                // 2. Eğer hafızada yoksa, uydudan taze konum iste (Biraz daha yavaştır ama kesindir)
                 if (location == null)
                 {
-                    // Yüksek doğrulukta konum iste, en fazla 10 saniye bekle
                     var request = new GeolocationRequest(GeolocationAccuracy.High, TimeSpan.FromSeconds(15));
                     location = await Geolocation.Default.GetLocationAsync(request);
                 }

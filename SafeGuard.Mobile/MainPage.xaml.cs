@@ -30,11 +30,27 @@ namespace SafeGuard.Mobile
 
             if (result.IsSuccess)
             {
-                // Kullanıcı bilgilerini telefona kaydet
                 Preferences.Set("UserFullName", result.FullName);
                 Preferences.Set("CurrentUserId", result.UserId);
 
-                Application.Current.MainPage = new NavigationPage(new DashboardPage());
+                try
+                {
+                    string deviceToken = Preferences.Get("FcmToken", "");
+                    if (!string.IsNullOrEmpty(deviceToken))
+                    {
+                        await _authService.UpdateTokenAsync(result.UserId, deviceToken);
+                    }
+                }
+                catch (Exception ex)
+                {
+                    System.Diagnostics.Debug.WriteLine("🚨 Token gönderilirken kaza oldu: " + ex.Message);
+                }
+
+                
+                MainThread.BeginInvokeOnMainThread(() =>
+                {
+                    Application.Current.MainPage = new NavigationPage(new DashboardPage());
+                });
             }
             else
             {
