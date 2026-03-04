@@ -45,12 +45,13 @@ namespace SafeGuard.Mobile
             _signalRService.OnHelpConfirmed += HandleHelpConfirmation;
             _signalRService.OnSafeReceived += HandleIncomingSafe; // <--- YENİ EKLENDİ (Güvendeyim bildirimi için)
 
-            StartRedPulse();
+         
         }
 
         protected override async void OnAppearing()
         {
             base.OnAppearing();
+            StartRedPulse();
             currentUserId = Preferences.Get("CurrentUserId", 0);
 
             string photoUrl = Preferences.Get("UserPhotoUrl", "");

@@ -1,4 +1,4 @@
-﻿using Android.App;
+﻿    using Android.App;
 using Android.Content;
 using Android.OS;
 using Android.Views;
@@ -52,7 +52,7 @@ namespace SafeGuard.Mobile.Platforms.Android
             mainLayout.SetGravity(GravityFlags.Center);
             mainLayout.SetPadding(50, 50, 50, 50);
 
-            // 1. KİŞİNİN ADI (Devasa ve Kalın Font)
+            senderName = Intent.GetStringExtra("YardimIsteyenKisi") ?? "BİR YAKININIZ";  
             var nameText = new TextView(this)
             {
                 Text = senderName.ToUpper(),

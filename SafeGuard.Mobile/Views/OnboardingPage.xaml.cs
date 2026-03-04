@@ -16,7 +16,7 @@ namespace SafeGuard.Mobile
             OnboardingSteps = new ObservableCollection<OnboardingItem>
             {
                 new OnboardingItem { Title = "SafeGuard'a Hoş Geldiniz", Description = "Acil durumlarda sizin ve sevdiklerinizin en hızlı kurtarıcısı.", ImageName = "koruma.png" },
-                new OnboardingItem { Title = "Temel Erişimler", Description = "Konumunuzu belirlemek ve acil SMS gönderebilmek için ekrandaki uyarılara izin verin.", ImageName = "konum.png" },
+                new OnboardingItem { Title = "Temel Erişimler", Description = "Konumunuzu belirlemek, acil SMS gönderebilmek ve bildirimleri alabilmek için ekrandaki uyarılara izin verin.", ImageName = "konum.png" },
                 new OnboardingItem { Title = "Arka Plan Çalışması", Description = "Uygulamanın uyku moduna girmemesi için Pil Optimizasyonunu kapatmalısınız.", ImageName = "pil.png" },
                 new OnboardingItem { Title = "Acil Durum Ekranı", Description = "Telefon kilitliyken bile kırmızı alarmı görebilmek için 'Diğer uygulamaların üzerinde göster' izni gereklidir.", ImageName = "app_logo.jpg" },
                 new OnboardingItem { Title = "Her Şey Hazır!", Description = "Sisteminiz başarıyla kuruldu. Artık güvendesiniz.", ImageName = "koruma.png" }
@@ -54,13 +54,35 @@ namespace SafeGuard.Mobile
                 {
                     try
                     {
+                        // 1. KONUM İZNİ
                         var locStatus = await Permissions.CheckStatusAsync<Permissions.LocationWhenInUse>();
                         if (locStatus != PermissionStatus.Granted) await Permissions.RequestAsync<Permissions.LocationWhenInUse>();
 
+                        // 2. SMS İZNİ
                         var smsStatus = await Permissions.CheckStatusAsync<Permissions.Sms>();
                         if (smsStatus != PermissionStatus.Granted) await Permissions.RequestAsync<Permissions.Sms>();
+
+                        // 3. YENİ EKLENEN: BİLDİRİM İZNİ (Sadece Android 13 ve üzeri için)
+                        if (DeviceInfo.Platform == DevicePlatform.Android && DeviceInfo.Version.Major >= 13)
+                        {
+                            var notificationStatus = await Permissions.CheckStatusAsync<Permissions.PostNotifications>();
+
+                            if (notificationStatus != PermissionStatus.Granted)
+                            {
+                                notificationStatus = await Permissions.RequestAsync<Permissions.PostNotifications>();
+
+                                if (notificationStatus != PermissionStatus.Granted)
+                                {
+                                    // Kullanıcı reddederse uyaralım
+                                    await Application.Current.MainPage.DisplayAlert("Uyarı", "Bildirim izni vermezseniz acil durum çağrılarını alamazsınız!", "Anladım");
+                                }
+                            }
+                        }
                     }
-                    catch { }
+                    catch (Exception ex)
+                    {
+                        System.Diagnostics.Debug.WriteLine($"İzin Hatası: {ex.Message}");
+                    }
 
                     OnboardingCarousel.ScrollTo(2, position: ScrollToPosition.Center, animate: true);
                 }
@@ -105,7 +127,6 @@ namespace SafeGuard.Mobile
             }
             finally
             {
-                
                 await Task.Delay(500);
                 _isProcessing = false;
             }

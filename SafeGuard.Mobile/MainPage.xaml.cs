@@ -46,8 +46,8 @@ namespace SafeGuard.Mobile
                     System.Diagnostics.Debug.WriteLine("🚨 Token gönderilirken kaza oldu: " + ex.Message);
                 }
 
-                
-                MainThread.BeginInvokeOnMainThread(() =>
+
+                Application.Current.Dispatcher.Dispatch(() =>
                 {
                     Application.Current.MainPage = new NavigationPage(new DashboardPage());
                 });

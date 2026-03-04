@@ -54,6 +54,8 @@ namespace SafeGuard.Mobile.Platforms.Android
             }
 
             var intent = new Intent(this, typeof(EmergencyActivity));
+            string gonderenKisi = message.Data["senderName"];
+            intent.PutExtra("YardimIsteyenKisi", gonderenKisi);
             intent.AddFlags(ActivityFlags.NewTask | ActivityFlags.ClearTask | ActivityFlags.ClearTop);
 
             var pendingIntent = PendingIntent.GetActivity(this, 0, intent, PendingIntentFlags.Immutable | PendingIntentFlags.UpdateCurrent);
@@ -61,7 +63,7 @@ namespace SafeGuard.Mobile.Platforms.Android
             var notificationBuilder = new NotificationCompat.Builder(this, channelId)
                 .SetSmallIcon(Resource.Drawable.navigation_empty_icon)
                 .SetContentTitle("🚨 ACİL DURUM ÇAĞRISI!")
-                .SetContentText("Yakınınız yardım bekliyor!")
+                .SetContentText($"{gonderenKisi} acil yardım bekliyor!")
                 .SetPriority(NotificationCompat.PriorityHigh)
                 .SetCategory(NotificationCompat.CategoryCall)
                 .SetSound(soundUri)
