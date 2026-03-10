@@ -45,19 +45,21 @@ namespace SafeGuard.API.Controllers
 
             try
             {
-                // 1. ADIM: Bu kullanıcının 'Yardımcılarını' veritabanından bul!
-                var helpers = await _context.Helpers
-                    .Include(h => h.HelperUser)
-                    .Where(h => h.UserId == userId)
+                // 1. ADIM: SADECE Onaylanmış (Accepted) yardımcıları bul ve KESİN OLARAK onların User verilerini çek!
+                var helperUsers = await _context.Helpers
+                    .Where(h => h.UserId == userId && h.Status == "Accepted") // Sadece onaylı dostlar
+                    .Join(_context.Users,
+                          h => h.HelperId,  // Yardım edecek kişinin ID'si
+                          u => u.Id,        // User tablosundaki ID
+                          (h, u) => u)      // Direkt karşı tarafın (Savior) User nesnesini al
                     .ToListAsync();
 
                 int atilanFuzeSayisi = 0;
 
                 // 2. ADIM: Her bir yardımcıya zırh delici füzeyi yolla!
-                foreach (var helper in helpers)
+                foreach (var hUser in helperUsers)
                 {
-                    // DİKKAT: Modelindeki isim "Token" ise burayı helper.HelperUser.Token yap
-                    var hedefToken = helper.HelperUser?.FcmToken;
+                    var hedefToken = hUser.FcmToken; // Artık kesinlikle karşı tarafın (arkadaşının) token'ı!
 
                     if (!string.IsNullOrEmpty(hedefToken))
                     {
@@ -78,18 +80,21 @@ namespace SafeGuard.API.Controllers
                                     ChannelId = "acil_kanal"
                                 }
                             },
+                            
                             Data = new Dictionary<string, string>()
-                            {
-                                { "action", "Emergency" },
-                                { "senderName", username },
-                                { "latitude", location.Latitude.ToString() },
-                                { "longitude", location.Longitude.ToString() }
-                            }
+                    {
+                        { "action", "Emergency" },
+                        { "userId", userId.ToString() }, // Telefonun aradığı ID
+                        { "userName", username },        // Telefonun aradığı İsim
+                        // Virgül/Nokta çakışmasını engellemek için InvariantCulture ekledik:
+                        { "latitude", location.Latitude.ToString(System.Globalization.CultureInfo.InvariantCulture) },
+                        { "longitude", location.Longitude.ToString(System.Globalization.CultureInfo.InvariantCulture) }
+                    }
                         };
 
                         // Füzeyi Ateşle!
                         string response = await FirebaseMessaging.DefaultInstance.SendAsync(message);
-                        Console.WriteLine($"🚨 Füze Başarıyla Ulaştı! Hedef: {helper.HelperUser.Email}");
+                        Console.WriteLine($"🚨 Füze Başarıyla Ulaştı! Hedef: {hUser.FullName} ({hUser.Email})");
                         atilanFuzeSayisi++;
                     }
                 }

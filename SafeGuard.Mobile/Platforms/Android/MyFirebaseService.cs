@@ -54,11 +54,17 @@ namespace SafeGuard.Mobile.Platforms.Android
             }
 
             var intent = new Intent(this, typeof(EmergencyActivity));
-            string gonderenKisi = message.Data["senderName"];
+            string gonderenKisi = message.Data.ContainsKey("senderName") ? message.Data["senderName"] : "Bir Yakınınız";
             intent.PutExtra("YardimIsteyenKisi", gonderenKisi);
-            intent.AddFlags(ActivityFlags.NewTask | ActivityFlags.ClearTask | ActivityFlags.ClearTop);
 
-            var pendingIntent = PendingIntent.GetActivity(this, 0, intent, PendingIntentFlags.Immutable | PendingIntentFlags.UpdateCurrent);
+            string gonderenId = message.Data.ContainsKey("senderId") ? message.Data["senderId"] : "";
+            intent.PutExtra("YardimIsteyenId", gonderenId);
+            intent.AddFlags(ActivityFlags.NewTask | ActivityFlags.ClearTask | ActivityFlags.ClearTop);
+            var pendingIntentFlags = (global::Android.OS.Build.VERSION.SdkInt >= global::Android.OS.BuildVersionCodes.S)
+                ? PendingIntentFlags.Immutable | PendingIntentFlags.UpdateCurrent
+                : PendingIntentFlags.UpdateCurrent;
+
+            var pendingIntent = PendingIntent.GetActivity(this, 0, intent, pendingIntentFlags);
 
             var notificationBuilder = new NotificationCompat.Builder(this, channelId)
                 .SetSmallIcon(Resource.Drawable.navigation_empty_icon)

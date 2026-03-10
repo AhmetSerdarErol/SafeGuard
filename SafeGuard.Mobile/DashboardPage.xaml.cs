@@ -4,6 +4,9 @@ using SafeGuard.Mobile.Models;
 using SafeGuard.Mobile.Services;
 using SafeGuard.Mobile.Views;
 using Plugin.Firebase.CloudMessaging;
+using Microsoft.Maui.Controls.Maps;
+using Microsoft.Maui.Maps;
+
 #if ANDROID
 using Android.Telephony;
 using Android.Content;
@@ -13,7 +16,6 @@ namespace SafeGuard.Mobile
 {
     public partial class DashboardPage : ContentPage
     {
-        // ARTIK ContactModel KULLANIYORUZ
         private List<ContactModel> _localContacts = new List<ContactModel>();
 
         private readonly AuthService _authService = new AuthService();
@@ -27,26 +29,54 @@ namespace SafeGuard.Mobile
         private bool _isAlertActive = false;
         private CancellationTokenSource? _cancelTokenSource;
 
+        // --- HARİTA TAKİP DEĞİŞKENLERİ ---
+        private string? _activeTrackingUserId = null;
+        private string _activeTrackingUserName = "";
+
         public DashboardPage()
         {
             InitializeComponent();
 
-            // Converter Kontrolü
             if (!this.Resources.ContainsKey("InitialsConverter"))
             {
                 this.Resources.Add("InitialsConverter", new InitialsConverter());
             }
 
-            // SignalR Başlat
             _signalRService = new SignalRService();
 
-            // --- EVENT ABONELİKLERİ ---
             _signalRService.OnSosReceived += HandleIncomingSos;
             _signalRService.OnHelpConfirmed += HandleHelpConfirmation;
-            _signalRService.OnSafeReceived += HandleIncomingSafe; // <--- YENİ EKLENDİ (Güvendeyim bildirimi için)
+            _signalRService.OnSafeReceived += HandleIncomingSafe;
+            CrossFirebaseCloudMessaging.Current.NotificationTapped += (sender, e) =>
+            {
+                MainThread.BeginInvokeOnMainThread(() =>
+                {
+                    var data = e.Notification.Data; // Bildirimin içine gizlenmiş veriler
 
-         
+                    // Eğer Firebase'den gelen bildirimde Enlem ve Boylam varsa...
+                    if (data.ContainsKey("latitude") && data.ContainsKey("longitude"))
+                    {
+                        // Bilgileri güvenli bir şekilde çekiyoruz
+                        string vName = data.ContainsKey("userName") ? data["userName"].ToString() : "Yardım İsteyen";
+                        string vId = data.ContainsKey("userId") ? data["userId"].ToString() : "0";
+
+                        // Türkiye'deki virgüllü sayı çakışmalarını önlemek için Replace koyuyoruz (Jilet gibi çalışır)
+                        double lat = Convert.ToDouble(data["latitude"].ToString().Replace(",", "."), CultureInfo.InvariantCulture);
+                        double lng = Convert.ToDouble(data["longitude"].ToString().Replace(",", "."), CultureInfo.InvariantCulture);
+
+                        // İşte O Altın Vuruş: Gizli Harita Katmanını Mermi Gibi Aç!
+                        OpenOrUpdateEmergencyMap(vId, vName, lat, lng);
+                    }
+                    else
+                    {
+                        // Eğer Backend bildirim yollarken içine koordinat koymadıysa bizi uyarsın
+                        Application.Current.MainPage.DisplayAlert("Hata", "Bildirim geldi ancak içinde konum verisi (latitude/longitude) yok. Backend'in bildirim veri yükünü (Data Payload) kontrol et!", "Tamam");
+                    }
+                });
+            };
+
         }
+
 
         protected override async void OnAppearing()
         {
@@ -59,7 +89,7 @@ namespace SafeGuard.Mobile
 
             if (!string.IsNullOrEmpty(photoUrl))
             {
-                BottomProfileImage.Source = $"http://172.16.0.38:5161/{photoUrl}";
+                BottomProfileImage.Source = $"http://10.241.192.15:5161/{photoUrl}";
                 BottomInitialsLabel.IsVisible = false;
             }
             else
@@ -70,22 +100,19 @@ namespace SafeGuard.Mobile
             }
 
             UpdateWelcomeMessage();
-            await LoadContacts(); // Kişileri Yükle
-            await UpdateBadge();  // Bildirimleri Güncelle
+            await LoadContacts();
+            await UpdateBadge();
 
             if (currentUserId != 0)
             {
-                // 1. Bağlanırken sunucuya "Ben bu ID'li kullanıcıyım" diyoruz (Senin kodun)
                 await _signalRService.ConnectAsync(currentUserId);
 
-                // --- 2. YENİ EKLENEN KISIM: POSTACININ ADRESİNİ (TOKEN) BACKEND'E YEDEKELEME ---
                 try
                 {
                     var token = await Plugin.Firebase.CloudMessaging.CrossFirebaseCloudMessaging.Current.GetTokenAsync();
 
                     if (!string.IsNullOrEmpty(token))
                     {
-                        // Eğer AuthService'i yukarıda tanımladıysan 'new AuthService()' kısmını onla değiştirebilirsin
                         var authService = new AuthService();
                         bool isSaved = await authService.UpdateFcmTokenAsync(currentUserId, token);
 
@@ -99,7 +126,6 @@ namespace SafeGuard.Mobile
                 {
                     Console.WriteLine($"Token veritabanına gönderilirken hata oluştu: {ex.Message}");
                 }
-                // ---------------------------------------------------------------------------------
             }
         }
 
@@ -114,9 +140,7 @@ namespace SafeGuard.Mobile
             {
                 if (currentUserId != 0)
                 {
-                    // Servisten ContactModel listesi dönmeli
                     var contacts = await _contactService.GetContactsAsync(currentUserId);
-
                     _localContacts = contacts;
                     ContactsCollection.ItemsSource = _localContacts;
                 }
@@ -127,15 +151,12 @@ namespace SafeGuard.Mobile
             }
         }
 
-        // --- 2. LİSTEDEN SEÇİM YAPINCA ---
         private async void OnContactSelected(object sender, SelectionChangedEventArgs e)
         {
             if (e.CurrentSelection.FirstOrDefault() is ContactModel c)
             {
-                // Seçimi temizle (aynı kişiye tekrar tıklanabilmesi için)
                 ((CollectionView)sender).SelectedItem = null;
 
-                // Veriler boşsa "Belirtilmemiş" yazsın
                 string kanGrubu = string.IsNullOrEmpty(c.BloodType) ? "Belirtilmemiş" : c.BloodType;
                 string dogumTarihi = string.IsNullOrEmpty(c.BirthDate) ? "Belirtilmemiş" : c.BirthDate;
 
@@ -147,7 +168,6 @@ namespace SafeGuard.Mobile
             }
         }
 
-        // --- MENÜ BUTONLARI ---
         private void OnHomeClicked(object sender, EventArgs e)
         {
             SosView.IsVisible = true;
@@ -158,7 +178,7 @@ namespace SafeGuard.Mobile
         {
             SosView.IsVisible = false;
             ContactsView.IsVisible = true;
-            await LoadContacts(); // Listeyi yenile
+            await LoadContacts();
         }
 
         private async void OnAddFriendClicked(object sender, EventArgs e)
@@ -183,7 +203,6 @@ namespace SafeGuard.Mobile
             {
                 Preferences.Clear();
 
-                // Çıkış yaparken motorun kilitlenmemesi için güvenli sıfırlama:
                 MainThread.BeginInvokeOnMainThread(() =>
                 {
                     Application.Current.MainPage = new NavigationPage(new MainPage());
@@ -191,10 +210,8 @@ namespace SafeGuard.Mobile
             }
         }
 
-        // --- SOS (ACİL DURUM) MANTIĞI ---
         private async void OnSosClicked(object sender, EventArgs e)
         {
-            // Eğer SOS zaten aktifse, butona basınca "Güvendeyim" metoduna gider
             if (isSosActive) { await MarkAsSafe(); return; }
 
             if (isCooldown) return;
@@ -255,6 +272,9 @@ namespace SafeGuard.Mobile
             isCooldown = true;
             isSosActive = true;
 
+            bool planASuccessful = false;
+            bool planBExecuted = false;
+
             StartGreenPulse();
             try { HapticFeedback.Perform(HapticFeedbackType.LongPress); } catch { }
 
@@ -262,76 +282,135 @@ namespace SafeGuard.Mobile
             SosLabel.Text = "GÜVENDEYİM";
             SosLabel.FontSize = 20;
 
-            // --- SOS GÖNDERME KISMI ---
-            try
+            while (isSosActive)
             {
-                StatusLabel.Text = "KONUM VE KİMLİK ALINIYOR...";
-
-                // 1. Cihazın Firebase Kimliğini (Token) Alıyoruz (YENİ EKLENDİ)
-                await Plugin.Firebase.CloudMessaging.CrossFirebaseCloudMessaging.Current.CheckIfValidAsync();
-                var token = await Plugin.Firebase.CloudMessaging.CrossFirebaseCloudMessaging.Current.GetTokenAsync();
-
-                // 2. Konumu Bul
-                var location = await _locationService.GetCurrentLocationAsync();
-
-                if (location != null && !string.IsNullOrEmpty(token))
+                if (!planASuccessful && Connectivity.Current.NetworkAccess == NetworkAccess.Internet)
                 {
-                    StatusLabel.Text = "SUNUCUYA İLETİLİYOR...";
-                    if (currentUserId != 0)
+                    try
                     {
-                        await _signalRService.SendSosAsync(currentUserId, location.Latitude, location.Longitude);
+                        StatusLabel.Text = "KONUM VE KİMLİK ALINIYOR...";
 
-                        if (_localContacts != null && _localContacts.Any())
+                        await Plugin.Firebase.CloudMessaging.CrossFirebaseCloudMessaging.Current.CheckIfValidAsync();
+                        var token = await Plugin.Firebase.CloudMessaging.CrossFirebaseCloudMessaging.Current.GetTokenAsync();
+                        var location = await _locationService.GetCurrentLocationAsync();
+
+                        if (location != null && !string.IsNullOrEmpty(token))
                         {
-                            foreach (var item in _localContacts)
+                            StatusLabel.Text = "SUNUCUYA İLETİLİYOR...";
+                            if (currentUserId != 0)
                             {
-                                // ID 0 değilse (yani sistemde kayıtlı bir kullanıcıysa) füzeyi yolla
-                                if (item.Id != 0)
+                                await _signalRService.SendSosAsync(currentUserId, location.Latitude, location.Longitude);
+
+                                if (_localContacts != null && _localContacts.Any())
                                 {
-                                    await _authService.SendSosAlertAsync(currentUserId, item.Id);
-                                    Console.WriteLine($"=== 🚀 FÜZE {item.Name} (ID: {item.Id}) İÇİN ATEŞLENDİ! ===");
+                                    foreach (var item in _localContacts)
+                                    {
+                                        if (item.Id != 0)
+                                        {
+                                            await _authService.SendSosAlertAsync(currentUserId, item.Id);
+                                            Console.WriteLine($"=== 🚀 FÜZE {item.Name} (ID: {item.Id}) İÇİN ATEŞLENDİ! ===");
+                                        }
+                                    }
+
+                                    Console.WriteLine($"\n\n=== FIREBASE TOKEN (BURAYI KOPYALA) ===\n{token}\n=======================================\n\n");
+                                    await Clipboard.Default.SetTextAsync(token);
+
+                                    StatusLabel.Text = "ÇAĞRI YAPILDI!\nKimlik Kopyalandı!";
+                                    StatusLabel.TextColor = Colors.White;
+
+                                    if (planBExecuted)
+                                    {
+                                        MainThread.BeginInvokeOnMainThread(async () => {
+                                            await Application.Current.MainPage.DisplayAlert("İNTERNET GELDİ!", "Bağlantı sağlandı. Yardım çağrınız şimdi uygulama üzerinden de (Bildirim/Harita) kişilerinize başarıyla iletildi!", "Tamam");
+                                        });
+                                    }
+                                    else
+                                    {
+                                        MainThread.BeginInvokeOnMainThread(async () => {
+                                            await Application.Current.MainPage.DisplayAlert("Yardım Çağrısı Başarılı", "Hem uygulama içi (SignalR) hem de arka plan (FCM) bildirimleri başarıyla tetiklendi!", "Tamam");
+                                        });
+                                    }
+                                    planASuccessful = true;
                                 }
                             }
-
-                            Console.WriteLine($"\n\n=== FIREBASE TOKEN (BURAYI KOPYALA) ===\n{token}\n=======================================\n\n");
-                            await Clipboard.Default.SetTextAsync(token);
-
-                            StatusLabel.Text = "ÇAĞRI YAPILDI!\nKimlik Kopyalandı!";
-                            StatusLabel.TextColor = Colors.White;
-                            await Application.Current.MainPage.DisplayAlert("Yardım Çağrısı Başarılı", "Hem uygulama içi (SignalR) hem de arka plan (FCM) bildirimleri başarıyla tetiklendi!", "Tamam");
+                            else
+                            {
+                                StatusLabel.Text = "KONUM VEYA KİMLİK BULUNAMADI!";
+                            }
                         }
                     }
-                    else
+                    catch (Exception ex)
                     {
-                        StatusLabel.Text = "KONUM VEYA KİMLİK BULUNAMADI!";
+                        StatusLabel.Text = "HATA OLUŞTU";
+                        Console.WriteLine($"SOS Hatası: {ex.Message}");
                     }
+                }
+                else if (!planASuccessful && !planBExecuted && Connectivity.Current.NetworkAccess != NetworkAccess.Internet)
+                {
+                    StatusLabel.Text = "İNTERNET YOK! SMS ATILIYOR...";
+                    StatusLabel.TextColor = Colors.Orange;
+                    await ExecuteSmsBPlanAsync();
+                    planBExecuted = true;
+                }
+                await Task.Delay(3000);
+            }
+        }
+
+        private async Task ExecuteSmsBPlanAsync()
+        {
+            try
+            {
+                var location = await _locationService.GetCurrentLocationAsync();
+                if (location == null) return;
+
+                string lat = location.Latitude.ToString(CultureInfo.InvariantCulture);
+                string lng = location.Longitude.ToString(CultureInfo.InvariantCulture);
+                string mapLink = $"https://www.google.com/maps?q={lat},{lng}";
+
+                string fullName = Preferences.Get("UserFullName", "Bir yakınınız");
+                string smsText = $"[ACİL DURUM] {fullName} acil yardım istiyor! Konum: {mapLink}";
+
+                if (_localContacts != null && _localContacts.Any())
+                {
+                    foreach (var contact in _localContacts)
+                    {
+                        if (!string.IsNullOrEmpty(contact.PhoneNumber))
+                        {
+#if ANDROID
+                            Console.WriteLine($"\n=== 🚀 HAYALET SMS SİMÜLASYONU ===");
+                            Console.WriteLine($"KİME GİDİYOR: {contact.PhoneNumber}");
+                            Console.WriteLine($"MESAJ İÇERİĞİ: {smsText}");
+                            Console.WriteLine($"===================================\n");
+                            var smsManager = Android.Telephony.SmsManager.Default;
+                            smsManager.SendTextMessage(contact.PhoneNumber, null, smsText, null, null);
+#endif
+                        }
+                    }
+                    StatusLabel.Text = "B PLANI: SMS GÖNDERİLDİ!";
+                    StatusLabel.TextColor = Colors.White;
+
+                    MainThread.BeginInvokeOnMainThread(async () => {
+                        await Application.Current.MainPage.DisplayAlert("B PLANI DEVREDE", "İnternet bağlantınız olmadığı için konumunuz acil durum kişilerinize SMS olarak iletildi.", "Tamam");
+                    });
                 }
             }
             catch (Exception ex)
             {
-                StatusLabel.Text = "HATA OLUŞTU";
-                Console.WriteLine($"SOS Hatası: {ex.Message}");
+                StatusLabel.Text = "SMS GÖNDERİLEMEDİ!";
+                Console.WriteLine($"B Planı Hatası: {ex.Message}");
             }
-            // ---------------------------------------
-
-            // Döngü burada devam eder, kullanıcı "Güvendeyim" diyene kadar.
-            while (isSosActive) { await Task.Delay(2000); }
         }
 
-        // --- GÜVENDEYİM (SOS İPTAL) MANTIĞI ---
         private async Task MarkAsSafe()
         {
             bool answer = await DisplayAlert("Güvende misin?", "Acil durum modunu kapatmak istiyor musunuz?", "EVET", "HAYIR");
             if (answer)
             {
-                // 1. Backend'e "Ben Güvendeyim" sinyali gönder
-                // Böylece arkadaşlarının telefonuna bildirim gidecek.
                 if (currentUserId != 0)
                 {
                     await _signalRService.SendSafeAsync(currentUserId);
                 }
 
-                // 2. Ekranı sıfırla
                 isSosActive = false;
                 isCooldown = false;
                 ResetScreen();
@@ -351,7 +430,6 @@ namespace SafeGuard.Mobile
             StatusLabel.TextColor = Colors.Gray;
         }
 
-        // --- YARDIMCI METOTLAR ---
         private void UpdateWelcomeMessage()
         {
             WelcomeLabel.Text = $"{Preferences.Get("UserFullName", "Kullanıcı")}";
@@ -392,49 +470,84 @@ namespace SafeGuard.Mobile
             successAnimation.Commit(this, "SuccessEffect", 16, 2000, Easing.SinOut, (v, c) => { PulsingRing.Scale = 1.6; PulsingRing.Opacity = 0; }, () => true);
         }
 
+        // --- 🚀 YENİ HARİTA OVERLAY METOTLARI 🚀 ---
+
+        public void OpenOrUpdateEmergencyMap(string victimUserId, string victimName, double lat, double lng)
+        {
+            MainThread.BeginInvokeOnMainThread(() =>
+            {
+                _activeTrackingUserId = victimUserId;
+                _activeTrackingUserName = victimName;
+
+                if (!MapOverlayGrid.IsVisible)
+                {
+                    MapOverlayGrid.IsVisible = true;
+                }
+
+                var targetLocation = new Location(lat, lng);
+                MapSpan mapSpan = MapSpan.FromCenterAndRadius(targetLocation, Distance.FromMeters(400));
+                EmergencyMap.MoveToRegion(mapSpan);
+
+                EmergencyMap.Pins.Clear();
+                var emergencyPin = new Pin
+                {
+                    Label = $"🚨 {victimName} Yardım İstiyor!",
+                    Address = "Canlı Konum",
+                    Type = PinType.Place,
+                    Location = targetLocation
+                };
+                EmergencyMap.Pins.Add(emergencyPin);
+            });
+        }
+
+        private void OnCloseMapClicked(object sender, EventArgs e)
+        {
+            MapOverlayGrid.IsVisible = false;
+            _activeTrackingUserId = null;
+        }
+
+        private void OnCall112Clicked(object sender, EventArgs e)
+        {
+            if (PhoneDialer.Default.IsSupported)
+            {
+                PhoneDialer.Default.Open("112");
+            }
+        }
+
+        // SignalR'dan saniye saniye konum geldikçe bu tetiklenecek (ileride eklersin)
+        public void OnLocationUpdatedFromSignalR(string updatedUserId, double newLat, double newLng)
+        {
+            if (MapOverlayGrid.IsVisible && _activeTrackingUserId == updatedUserId)
+            {
+                OpenOrUpdateEmergencyMap(updatedUserId, _activeTrackingUserName, newLat, newLng);
+            }
+        }
+
         // --- SIGNALR DİNLEYİCİLERİ ---
 
-        // 1. SOS ALININCA ÇALIŞIR
         private void HandleIncomingSos(string senderIdString, string serverSenderName, double lat, double lng)
         {
             MainThread.BeginInvokeOnMainThread(async () =>
             {
                 if (_isAlertActive) return;
 
-                // Telefon titreşsin ve ses çıkarsın (Dikkat çekmek için)
                 try { HapticFeedback.Perform(HapticFeedbackType.LongPress); } catch { }
 
-                // Ekrana ACİL DURUM uyarısı çıkar
                 bool yardimEt = await DisplayAlert("⚠️ ACİL DURUM!",
-                    $"{serverSenderName} yardım istedi!\nKonum: {lat}, {lng}\nOna gitmek istiyor musun?",
-                    "GİT (NAVİGASYON)", "İPTAL");
+                    $"{serverSenderName} yardım istedi!\nOna gitmek istiyor musun?",
+                    "GİT (HARİTADA GÖR)", "İPTAL");
 
                 if (yardimEt)
                 {
-                    // A. Sunucuya "Tamam, yola çıktım" haberini ver
+                    // A. Sunucuya haber ver
                     await _signalRService.ConfirmHelp("Bir Dost", senderIdString);
 
-                    // B. HARİTAYI AÇ VE ROTA ÇİZ 🗺️
-                    try
-                    {
-                        var location = new Location(lat, lng);
-                        var options = new MapLaunchOptions
-                        {
-                            Name = serverSenderName, // Haritada arkadaşının adı yazsın
-                            NavigationMode = NavigationMode.Driving // Araba moduyla aç
-                        };
-
-                        await Map.OpenAsync(location, options);
-                    }
-                    catch (Exception ex)
-                    {
-                        await DisplayAlert("Hata", "Harita açılamadı: " + ex.Message, "Tamam");
-                    }
+                    // B. DIŞ HARİTA YERİNE ARTIK BİZİM OVERLAY HARİTAYI AÇIYORUZ! 🗺️🔥
+                    OpenOrUpdateEmergencyMap(senderIdString, serverSenderName, lat, lng);
                 }
             });
         }
 
-        // 2. YARDIM ONAYI GELİNCE ÇALIŞIR (Yardım isteyen kişiye)
         private void HandleHelpConfirmation(string helperName)
         {
             MainThread.BeginInvokeOnMainThread(() =>
@@ -444,18 +557,22 @@ namespace SafeGuard.Mobile
             });
         }
 
-        // 3. GÜVENDEYİM BİLDİRİMİ GELİNCE ÇALIŞIR (YENİ)
         private void HandleIncomingSafe(string senderName)
         {
             MainThread.BeginInvokeOnMainThread(() =>
             {
-                // Arkadaşın güvende olduğunu bildirir
+                // Arkadaşın güvende olduğunu bildirir, harita açıksa otomatik kapatır
                 Application.Current.MainPage.DisplayAlert("✅ DURUM GÜNCELLEMESİ", $"{senderName} şu an güvende olduğunu bildirdi.", "TAMAM");
+
+                if (MapOverlayGrid.IsVisible && _activeTrackingUserName == senderName)
+                {
+                    MapOverlayGrid.IsVisible = false;
+                    _activeTrackingUserId = null;
+                }
             });
         }
     }
 
-    // --- CONVERTER (BAŞ HARFLERİ ALMA) ---
     public class InitialsConverter : IValueConverter
     {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)

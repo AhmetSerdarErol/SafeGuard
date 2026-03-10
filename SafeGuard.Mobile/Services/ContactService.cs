@@ -8,7 +8,7 @@ namespace SafeGuard.Mobile.Services
         private readonly HttpClient _httpClient;
 
         // ESKİ HALİNE GERİ DÖNDÜRDÜK
-        private const string BaseUrl = "http://172.16.0.38:5161/api/helpers";
+        private const string BaseUrl = "http://10.241.192.15:5161/api/helpers";
 
         public ContactService()
         {

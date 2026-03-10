@@ -90,7 +90,6 @@ namespace SafeGuard.Mobile.Platforms.Android
 
             SetContentView(mainLayout);
 
-            // --- SİREN SESİ KISMI ---
             mediaPlayer = AMediaPlayer.Create(this, MyResource.Raw.siren);
             if (mediaPlayer != null)
             {
@@ -98,15 +97,53 @@ namespace SafeGuard.Mobile.Platforms.Android
                 mediaPlayer.Start();
             }
 
-            // BUTONA BASILDIĞINDA
             stopButton.Click += (sender, e) => {
+
+                string myName = Microsoft.Maui.Storage.Preferences.Get("UserFullName", "Bir Yardımsever");
+                string targetUserId = Intent.GetStringExtra("YardimIsteyenId") ?? "";
+
+                if (!string.IsNullOrEmpty(targetUserId))
+                {
+                    System.Threading.Tasks.Task.Run(async () =>
+                    {
+                        try
+                        {
+                            var signalR = new SafeGuard.Mobile.Services.SignalRService();
+                            await signalR.ConfirmHelp(myName, targetUserId);
+                        }
+                        catch (System.Exception ex)
+                        {
+                            System.Diagnostics.Debug.WriteLine("Yardım iletme hatası: " + ex.Message);
+                        }
+                    });
+                }
                 if (mediaPlayer != null)
                 {
                     mediaPlayer.Stop();
                     mediaPlayer.Release();
                     mediaPlayer = null;
                 }
-                Finish(); // Siyah ekranı kapatır, uygulamanın kendi sayfasına döner
+
+                
+                try
+                {
+                    var context = global::Android.App.Application.Context;
+                    // Uygulamanın orijinal başlatıcı kargocusunu (Intent) buluyoruz
+                    var appIntent = context.PackageManager.GetLaunchIntentForPackage(context.PackageName);
+
+                    if (appIntent != null)
+                    {
+                        
+                        appIntent.AddFlags(ActivityFlags.NewTask | ActivityFlags.ClearTop | ActivityFlags.SingleTop);
+                        StartActivity(appIntent);
+                    }
+                }
+                catch (System.Exception ex)
+                {
+                    System.Diagnostics.Debug.WriteLine("Uygulama açılırken hata: " + ex.Message);
+                }
+                
+                Finish();
             };
         }
 

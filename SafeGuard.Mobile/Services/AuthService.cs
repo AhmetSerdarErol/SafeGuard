@@ -10,7 +10,7 @@ namespace SafeGuard.Mobile.Services
         private readonly HttpClient _httpClient;
 
         // 🟢 EMÜLATÖR İÇİN SABİT IP (Değiştirme)
-        private const string BaseUrl = "http://172.16.0.38:5161/api";
+        private const string BaseUrl = "http://10.241.192.15:5161/api";
 
         public AuthService()
         {
@@ -76,10 +76,10 @@ namespace SafeGuard.Mobile.Services
                 string json = System.Text.Json.JsonSerializer.Serialize(payload);
                 var content = new StringContent(json, System.Text.Encoding.UTF8, "application/json");
 
-                // Senin güncel IP adresini (172.16.0.38) buraya yazdım. 
+                // Senin güncel IP adresini (10.241.192.15) buraya yazdım. 
                 // Eğer backend'de metodu AuthController içine yazdıysan adres böyle kalmalı.
                 // Eğer UsersController içine yazdıysan "api/Users/update-fcm-token" yapmalısın.
-                var response = await _httpClient.PostAsync("http://172.16.0.38:5161/api/Users/update-fcm-token", content);
+                var response = await _httpClient.PostAsync("http://10.241.192.15:5161/api/Users/update-fcm-token", content);
 
                 return response.IsSuccessStatusCode;
             }
@@ -94,7 +94,7 @@ namespace SafeGuard.Mobile.Services
             try
             {
                 // API'nin adresini kendi API URL'in ile değiştir (Örn: http://10.0.2.2:5161 veya gerçek IP)
-                string apiUrl = $"http://172.16.0.38:5161/api/Users/update-fcm-token";
+                string apiUrl = $"http://10.241.192.15:5161/api/Users/update-fcm-token";
 
                 var data = new { UserId = userId, Token = token };
                 string json = System.Text.Json.JsonSerializer.Serialize(data);
@@ -116,7 +116,7 @@ namespace SafeGuard.Mobile.Services
             try
             {
                 // Backend'deki füze kapımızın adresi (IP'nin aynı kaldığını varsayıyoruz, değiştiyse güncellersin)
-                string url = $"http://172.16.0.38:5161/api/Users/send-sos?senderId={senderId}&targetUserId={targetUserId}";
+                string url = $"http://10.241.192.15:5161/api/Users/send-sos?senderId={senderId}&targetUserId={targetUserId}";
 
                 // Post isteğini atıyoruz (İçine data koymuyoruz çünkü ID'leri URL'den gönderdik)
                 var response = await _httpClient.PostAsync(url, null);

@@ -12,15 +12,16 @@ namespace SafeGuard.Mobile
         public static MauiApp CreateMauiApp()
         {
             var builder = MauiApp.CreateBuilder();
-
             builder
                 .UseMauiApp<App>()
+                .UseMauiMaps()
                 .ConfigureFonts(fonts =>
+                
                 {
                     fonts.AddFont("OpenSans-Regular.ttf", "OpenSansRegular");
                     fonts.AddFont("OpenSans-Semibold.ttf", "OpenSansSemibold");
                 })
-                // EKLENEN KISIM: Uygulama açılırken Firebase motorunu ateşler
+
                 .ConfigureLifecycleEvents(events =>
                 {
 #if ANDROID
