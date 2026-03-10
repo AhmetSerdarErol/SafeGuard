@@ -482,3 +482,6 @@ $RECYCLE.BIN/
 *.swp
 google-services.json
 firebase-admin.json
+# --- SAFEGUARD GÜVENLİK AYARLARI ---
+# Google Maps API anahtarını içeren kasayı asla internete yükleme
+**/Platforms/Android/Resources/values/secrets.xml

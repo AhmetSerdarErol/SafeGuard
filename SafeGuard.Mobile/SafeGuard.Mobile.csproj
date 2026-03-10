@@ -61,6 +61,10 @@
 	</ItemGroup>
 
 	<ItemGroup>
+	  <AndroidResource Remove="Platforms\Android\Resources\values\secrets.xml" />
+	</ItemGroup>
+
+	<ItemGroup>
 	  <None Remove="Platforms\Android\Resources\raw\siren.mp3" />
 	  <None Remove="Platforms\Android\Resources\values\strings.xml" />
 	</ItemGroup>
