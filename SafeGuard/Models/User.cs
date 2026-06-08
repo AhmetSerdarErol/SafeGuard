@@ -19,6 +19,7 @@
         public bool Smoker { get; set; }
         public bool AlcoholConsumption { get; set; }
         public bool IsSosActive { get; set; } = false;
+        public DateTime? LastStatusUpdate { get; set; }
         public string? HelperName { get; set; } = null;
         public string? ProfilePhotoUrl { get; set; }
         public DateTime? DateOfBirth { get; set; }
@@ -34,5 +35,7 @@
         public string? SmokingHabit { get; set; }
         public string Password { get; set; }
         public string? BirthDate { get; set; }
+        public double Latitude { get; set; }
+        public double Longitude { get; set; }
     }
 }

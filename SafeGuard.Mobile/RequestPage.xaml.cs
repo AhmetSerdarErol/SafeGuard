@@ -14,9 +14,6 @@ namespace SafeGuard.Mobile
             InitializeComponent();
             _authService = new AuthService();
 
-            // Eğer InitialsConverter burada yoksa DashboardPage'den de alabilir veya buraya ekleyebilirsin.
-            // Ama App.xaml içinde ResourceDictionary olarak tanımlamak en iyisidir.
-            // Şimdilik hata vermemesi için buraya eklemiyorum, Dashboard'da zaten var.
         }
 
         protected override async void OnAppearing()
@@ -52,10 +49,8 @@ namespace SafeGuard.Mobile
 
         private async void OnAcceptClicked(object sender, EventArgs e)
         {
-            // Butondan gelen veriyi güvenli bir şekilde alıyoruz
             var button = sender as Button;
 
-            // "is int requestId" diyerek, gelen şeyin sayı olup olmadığını kontrol ediyoruz
             if (button != null && button.CommandParameter is int requestId)
             {
                 await ProcessRequest(requestId, true);
@@ -85,7 +80,6 @@ namespace SafeGuard.Mobile
             bool success = await _authService.RespondToRequestAsync(requestId, accept);
             if (success)
             {
-                // Listeden kaldır
                 var item = _requests.FirstOrDefault(r => r.Id == requestId);
                 if (item != null) _requests.Remove(item);
 
@@ -101,6 +95,20 @@ namespace SafeGuard.Mobile
             else
             {
                 await DisplayAlert("Hata", "İşlem başarısız.", "Tamam");
+            }
+        }
+        private async void OnBackClicked(object sender, EventArgs e)
+        {
+            try
+            {
+                if (Navigation.ModalStack.Count > 0)
+                    await Navigation.PopModalAsync();
+                else
+                    await Navigation.PopAsync();
+            }
+            catch (Exception ex)
+            {
+                System.Diagnostics.Debug.WriteLine($"Geri dönme hatası: {ex.Message}");
             }
         }
     }

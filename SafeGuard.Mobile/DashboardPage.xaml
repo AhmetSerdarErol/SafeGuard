@@ -8,22 +8,19 @@
              NavigationPage.HasNavigationBar="False">
 
     <Grid>
-
         <Grid RowDefinitions="Auto, *, Auto">
 
             <Grid Grid.Row="0" ColumnDefinitions="*, Auto" Padding="25,25,25,10" VerticalOptions="Center">
                 <VerticalStackLayout Grid.Column="0" Spacing="0" VerticalOptions="Center">
                     <Label Text="Merhaba," TextColor="#B0B0B0" FontSize="20" FontAttributes="None"/>
-                    <Label x:Name="WelcomeLabel" Text="Kullanıcı" TextColor="#2196F3" 
-                           FontSize="28" FontAttributes="Bold" Margin="0,-5,0,0"/>
+                    <Label x:Name="WelcomeLabel" Text="Kullanıcı" TextColor="#2196F3" FontSize="28" FontAttributes="Bold" Margin="0,-5,0,0"/>
                 </VerticalStackLayout>
 
                 <Border Grid.Column="1" StrokeShape="RoundRectangle 12" BackgroundColor="#2A1212" Stroke="#FF3B30" StrokeThickness="1"
                         HeightRequest="44" WidthRequest="44" Padding="0" VerticalOptions="Center">
                     <Grid>
                         <shapes:Path Data="M16 13v-2H7V8l-5 4 5 4v-3z M20 3h-9c-1.103 0-2 .897-2 2v4h2V5h9v14h-9v-4H9v4c0 1.103.897 2 2 2h9c1.103 0 2-.897 2-2V5c0-1.103-.897-2-2-2z"
-                                     Fill="#FF3B30" Aspect="Uniform" HeightRequest="24" WidthRequest="24"
-                                     HorizontalOptions="Center" VerticalOptions="Center" InputTransparent="True"/>
+                                     Fill="#FF3B30" Aspect="Uniform" HeightRequest="24" WidthRequest="24" HorizontalOptions="Center" VerticalOptions="Center" InputTransparent="True"/>
                         <Button BackgroundColor="Transparent" Clicked="OnLogoutClicked"/>
                     </Grid>
                 </Border>
@@ -32,44 +29,78 @@
             <Grid Grid.Row="1">
                 <ScrollView x:Name="SosView" IsVisible="True" VerticalOptions="Center">
                     <VerticalStackLayout Spacing="30" Padding="30">
+
                         <Grid HeightRequest="240" WidthRequest="240" HorizontalOptions="Center">
-                            <shapes:Ellipse x:Name="PulsingRing" Stroke="Red" StrokeThickness="2" WidthRequest="220" HeightRequest="220" Opacity="0" 
-                                            HorizontalOptions="Center" VerticalOptions="Center"/>
+                            <shapes:Ellipse x:Name="PulsingRing" Stroke="Red" StrokeThickness="2" WidthRequest="220" HeightRequest="220" Opacity="0" HorizontalOptions="Center" VerticalOptions="Center"/>
                             <Border x:Name="SosBtnBorder" BackgroundColor="#D32F2F" HeightRequest="200" WidthRequest="200" StrokeShape="RoundRectangle 100" HorizontalOptions="Center" VerticalOptions="Center">
                                 <Label x:Name="SosLabel" Text="SOS" TextColor="White" FontSize="45" FontAttributes="Bold" HorizontalOptions="Center" VerticalOptions="Center"/>
                             </Border>
-
                             <Button BackgroundColor="Transparent" HeightRequest="200" WidthRequest="200" CornerRadius="100" Clicked="OnSosClicked" HorizontalOptions="Center" VerticalOptions="Center"/>
                         </Grid>
+
                         <ProgressBar x:Name="SosProgress" ProgressColor="#FF3B30" ScaleY="3" WidthRequest="220" Progress="0"/>
                         <Label x:Name="StatusLabel" Text="YARDIM ÇAĞIRMAK İÇİN DOKUN" TextColor="Gray" FontSize="16" FontAttributes="Bold" HorizontalOptions="Center" HorizontalTextAlignment="Center"/>
+
+                        <Border x:Name="SafeWalkActiveBanner" IsVisible="False" BackgroundColor="#1E1E1E" Stroke="#FF9800" StrokeThickness="2" Margin="0,15,0,0" Padding="15">
+                            <Border.StrokeShape>
+                                <RoundRectangle CornerRadius="15"/>
+                            </Border.StrokeShape>
+                            <VerticalStackLayout Spacing="10">
+                                <Label Text="🛡️ Güvenli Yürüyüş Modu Aktif" TextColor="#FF9800" FontAttributes="Bold" HorizontalOptions="Center"/>
+                                <Label x:Name="SafeWalkCountdownLabel" Text="Kalan Süre: --:--" TextColor="White" FontSize="24" FontAttributes="Bold" HorizontalOptions="Center"/>
+                                <Button Text="GÜVENDEYİM (İPTAL ET)" BackgroundColor="#4CAF50" TextColor="White" CornerRadius="10" Clicked="OnCancelSafeWalkClicked" FontAttributes="Bold"/>
+                            </VerticalStackLayout>
+                        </Border>
+
+                        <Label Text="Güvenli Yürüyüş Ayarları ▼" TextColor="Gray" FontSize="14" FontAttributes="Bold" HorizontalOptions="Center" TextDecorations="Underline" Margin="0,15,0,10">
+                            <Label.GestureRecognizers>
+                                <TapGestureRecognizer Tapped="OnOpenTimerSettingsTapped" />
+                            </Label.GestureRecognizers>
+                        </Label>
+
+                        <Border Margin="0, 0, 0, 0" WidthRequest="200" HeightRequest="45" StrokeShape="RoundRectangle 20" BackgroundColor="Transparent" Stroke="#333333" StrokeThickness="1">
+                            <Grid>
+                                <BoxView x:Name="FakeCallFillBar" BackgroundColor="#333333" HorizontalOptions="Start" WidthRequest="0" />
+                                <Button x:Name="FakeCallBtn" Text="📞 Sahte Arama Başlat" BackgroundColor="Transparent" TextColor="Gray" Clicked="OnFakeCallTriggered" />
+                            </Grid>
+                        </Border>
+
                     </VerticalStackLayout>
                 </ScrollView>
 
                 <Grid x:Name="ContactsView" IsVisible="False" Padding="20">
                     <VerticalStackLayout Spacing="15">
                         <Label Text="Yakınlarım" FontSize="24" FontAttributes="Bold" TextColor="White"/>
-
-                        <CollectionView x:Name="ContactsCollection" SelectionMode="Single" SelectionChanged="OnContactSelected">
+                        <CollectionView x:Name="ContactsCollection" SelectionMode="None">
                             <CollectionView.ItemTemplate>
                                 <DataTemplate>
-                                    <Border StrokeThickness="0" BackgroundColor="#1E1E1E" Padding="15" Margin="0,0,0,10">
-                                        <Border.StrokeShape>
-                                            <RoundRectangle CornerRadius="15"/>
-                                        </Border.StrokeShape>
+                                    <Grid ColumnDefinitions="Auto, *, Auto" ColumnSpacing="15" Margin="0,0,0,15">
+                                        <Grid.GestureRecognizers>
+                                            <TapGestureRecognizer Tapped="OnContactTapped" CommandParameter="{Binding .}" />
+                                        </Grid.GestureRecognizers>
 
-                                        <Grid ColumnDefinitions="Auto, *, Auto" ColumnSpacing="15">
-                                            <Border Grid.Column="0" HeightRequest="50" WidthRequest="50" StrokeShape="RoundRectangle 25" BackgroundColor="#333" HorizontalOptions="Center" VerticalOptions="Center">
-                                                <Label Text="{Binding Name, Converter={StaticResource InitialsConverter}}" TextColor="White" FontSize="18" FontAttributes="Bold" HorizontalOptions="Center" VerticalOptions="Center"/>
-                                            </Border>
+                                        <Border Grid.Column="0" HeightRequest="56" WidthRequest="56" StrokeThickness="3" BackgroundColor="#1E1E1E">
+                                            <Border.StrokeShape>
+                                                <RoundRectangle CornerRadius="28"/>
+                                            </Border.StrokeShape>
+                                            <Border.Triggers>
+                                                <DataTrigger TargetType="Border" Binding="{Binding IsSosActive}" Value="True">
+                                                    <Setter Property="Stroke" Value="#FF3B30" />
+                                                </DataTrigger>
+                                                <DataTrigger TargetType="Border" Binding="{Binding IsSosActive}" Value="False">
+                                                    <Setter Property="Stroke" Value="#34C759" />
+                                                </DataTrigger>
+                                            </Border.Triggers>
+                                            <Label Text="{Binding Name, Converter={StaticResource InitialsConverter}}" 
+                                                   TextColor="White" FontSize="20" FontAttributes="Bold" 
+                                                   HorizontalOptions="Center" VerticalOptions="Center"/>
+                                        </Border>
 
-                                            <VerticalStackLayout Grid.Column="1" VerticalOptions="Center">
-                                                <Label Text="{Binding Name}" TextColor="White" FontSize="16" FontAttributes="Bold"/>
-                                            </VerticalStackLayout>
-
-                                            <Label Grid.Column="2" Text="❯" TextColor="#555" FontSize="20" FontAttributes="Bold" VerticalOptions="Center"/>
-                                        </Grid>
-                                    </Border>
+                                        <VerticalStackLayout Grid.Column="1" VerticalOptions="Center" Spacing="2">
+                                            <Label Text="{Binding Name}" FontSize="18" FontAttributes="Bold" TextColor="White" LineBreakMode="TailTruncation" />
+                                            <Label Text="{Binding PhoneNumber}" FontSize="14" TextColor="#B0B0B0" />
+                                        </VerticalStackLayout>
+                                    </Grid>
                                 </DataTemplate>
                             </CollectionView.ItemTemplate>
                         </CollectionView>
@@ -85,59 +116,39 @@
                     <Border.StrokeShape>
                         <RoundRectangle CornerRadius="35"/>
                     </Border.StrokeShape>
-
                     <Grid ColumnDefinitions="*, *, *, *, *">
                         <Grid Grid.Column="0" HorizontalOptions="Center" VerticalOptions="Center">
                             <shapes:Path Data="M10,20V14H14V20H19V12H22L12,3L2,12H5V20H10Z" Fill="White" HeightRequest="24" WidthRequest="24" Aspect="Uniform" InputTransparent="True"/>
                             <Button BackgroundColor="Transparent" Clicked="OnHomeClicked" HeightRequest="50" WidthRequest="50"/>
                         </Grid>
-
                         <Grid Grid.Column="1" HorizontalOptions="Center" VerticalOptions="Center">
                             <shapes:Path Data="M16 11c1.66 0 2.99-1.34 2.99-3S17.66 5 16 5c-1.66 0-3 1.34-3 3s1.34 3 3 3zm-8 0c1.66 0 2.99-1.34 2.99-3S9.66 5 8 5C6.34 5 5 6.34 5 8s1.34 3 3 3zm0 2c-2.33 0-7 1.17-7 3.5V19h14v-2.5c0-2.33-4.67-3.5-7-3.5zm8 0c-.29 0-.62.02-.97.05 1.16.84 1.97 1.97 1.97 3.45V19h6v-2.5c0-2.33-4.67-3.5-7-3.5z" Fill="White" HeightRequest="26" WidthRequest="26" Aspect="Uniform" InputTransparent="True"/>
                             <Button BackgroundColor="Transparent" Clicked="OnMyContactsClicked" HeightRequest="50" WidthRequest="50"/>
                         </Grid>
-
                         <Grid Grid.Column="2" HorizontalOptions="Center" VerticalOptions="Center">
                             <shapes:Path Data="M15,14C12.33,14 7,15.33 7,18V20H23V18C23,15.33 17.67,14 15,14M6,10V7H4V10H1V12H4V15H6V12H9V10M15,12A4,4 0 0,0 19,8A4,4 0 0,0 15,4A4,4 0 0,0 11,8A4,4 0 0,0 15,12Z" Fill="White" HeightRequest="28" WidthRequest="28" Aspect="Uniform" InputTransparent="True"/>
                             <Button BackgroundColor="Transparent" Clicked="OnAddFriendClicked" HeightRequest="50" WidthRequest="50"/>
                         </Grid>
-
                         <Grid Grid.Column="3" HorizontalOptions="Center" VerticalOptions="Center">
-                            <shapes:Path Data="M12,22A2,2 0 0,0 14,20H10A2,2 0 0,0 12,22M18,16V11C18,7.93 16.36,5.36 13.5,4.68V4A1.5,1.5 0 0,0 12,2.5A1.5,1.5 0 0,0 10.5,4V4.68C7.63,5.36 6,7.92 6,11V16L4,18V19H20V18L18,16Z" 
-                                         Fill="White" HeightRequest="24" WidthRequest="24" Aspect="Uniform" InputTransparent="True"/>
-
-                            <Border x:Name="BadgeContainer" BackgroundColor="#FF3B30" StrokeThickness="0"
-                                    HeightRequest="16" WidthRequest="16" HorizontalOptions="End" VerticalOptions="Start"
-                                    Margin="12,6,0,0" IsVisible="False" InputTransparent="True">
+                            <shapes:Path Data="M12,22A2,2 0 0,0 14,20H10A2,2 0 0,0 12,22M18,16V11C18,7.93 16.36,5.36 13.5,4.68V4A1.5,1.5 0 0,0 12,2.5A1.5,1.5 0 0,0 10.5,4V4.68C7.63,5.36 6,7.92 6,11V16L4,18V19H20V18L18,16Z" Fill="White" HeightRequest="24" WidthRequest="24" Aspect="Uniform" InputTransparent="True"/>
+                            <Border x:Name="BadgeContainer" BackgroundColor="#FF3B30" StrokeThickness="0" HeightRequest="16" WidthRequest="16" HorizontalOptions="End" VerticalOptions="Start" Margin="12,6,0,0" IsVisible="False" InputTransparent="True">
                                 <Border.StrokeShape>
                                     <RoundRectangle CornerRadius="8"/>
                                 </Border.StrokeShape>
-                                <Label x:Name="BadgeLabel" Text="0" TextColor="White" FontSize="10" FontAttributes="Bold"
-                                       HorizontalOptions="Center" VerticalOptions="Center"/>
+                                <Label x:Name="BadgeLabel" Text="0" TextColor="White" FontSize="10" FontAttributes="Bold" HorizontalOptions="Center" VerticalOptions="Center"/>
                             </Border>
-
                             <Button BackgroundColor="Transparent" Clicked="OnRequestsClicked" HeightRequest="50" WidthRequest="50"/>
                         </Grid>
-
                         <VerticalStackLayout Grid.Column="4" Spacing="2" VerticalOptions="Center">
                             <VerticalStackLayout.GestureRecognizers>
                                 <TapGestureRecognizer Tapped="OnSettingsClicked"/>
                             </VerticalStackLayout.GestureRecognizers>
-
-                            <Border Stroke="#2196F3" StrokeThickness="2" 
-                                    HeightRequest="30" WidthRequest="30" 
-                                    StrokeShape="RoundRectangle 15"
-                                    HorizontalOptions="Center"
-                                    BackgroundColor="Transparent">
+                            <Border Stroke="#2196F3" StrokeThickness="2" HeightRequest="30" WidthRequest="30" StrokeShape="RoundRectangle 15" HorizontalOptions="Center" BackgroundColor="Transparent">
                                 <Grid>
                                     <Image x:Name="BottomProfileImage" Aspect="AspectFill"/>
-
-                                    <Label x:Name="BottomInitialsLabel" Text="BEN" 
-                                           FontSize="9" FontAttributes="Bold" TextColor="#2196F3"
-                                           HorizontalOptions="Center" VerticalOptions="Center"/>
+                                    <Label x:Name="BottomInitialsLabel" Text="BEN" FontSize="9" FontAttributes="Bold" TextColor="#2196F3" HorizontalOptions="Center" VerticalOptions="Center"/>
                                 </Grid>
                             </Border>
-
                             <Label Text="Ben" FontSize="10" TextColor="Gray" HorizontalOptions="Center"/>
                         </VerticalStackLayout>
                     </Grid>
@@ -145,32 +156,79 @@
             </Border>
         </Grid>
 
-        <Grid x:Name="MapOverlayGrid" IsVisible="False" BackgroundColor="White" InputTransparent="False" ZIndex="100">
+        <Grid x:Name="BottomSheetGrid" IsVisible="False" BackgroundColor="#CC000000" ZIndex="50">
+            <Grid.GestureRecognizers>
+                <TapGestureRecognizer Tapped="OnCloseBottomSheetTapped"/>
+            </Grid.GestureRecognizers>
+            <Border VerticalOptions="End" BackgroundColor="#1E1E1E" StrokeThickness="0" Padding="20,30,20,40">
+                <Border.StrokeShape>
+                    <RoundRectangle CornerRadius="25,25,0,0"/>
+                </Border.StrokeShape>
+                <VerticalStackLayout Spacing="15">
+                    <Grid ColumnDefinitions="40, *, Auto" Margin="0,0,0,5">
+                        <Label x:Name="SheetNameLabel" Grid.Column="1" Text="İsim Soyisim" FontSize="24" FontAttributes="Bold" TextColor="White" HorizontalOptions="Center" VerticalOptions="Center"/>
 
-            <maps:Map x:Name="EmergencyMap" IsShowingUser="True" />
+                        <Button Grid.Column="2" 
+            Text="Sil" 
+            BackgroundColor="#33FF3B30" 
+            TextColor="#FF3B30" 
+            FontSize="14" 
+            FontAttributes="Bold"
+            CornerRadius="8"
+            HeightRequest="32"
+            Padding="15,0"
+            Clicked="OnDeleteContactClicked" 
+            HorizontalOptions="End" 
+            VerticalOptions="Center"/>
+                    </Grid>
 
-            <Button Text="⬅ Kapat" 
-                    Clicked="OnCloseMapClicked"
-                    HorizontalOptions="Start" 
-                    VerticalOptions="Start" 
-                    Margin="15,40,0,0"
-                    BackgroundColor="#333333"
-                    TextColor="White"
-                    CornerRadius="20"
-                    HeightRequest="40"
-                    FontAttributes="Bold"/>
+                    <Border BackgroundColor="#2A2A2A" StrokeThickness="0" Padding="15">
+                        <Border.StrokeShape>
+                            <RoundRectangle CornerRadius="10"/>
+                        </Border.StrokeShape>
+                        <VerticalStackLayout Spacing="10" HorizontalOptions="Center">
+                            <Label x:Name="SheetStatusLabel" Text="🚨 DURUM: SOS AKTİF" TextColor="#FF3B30" FontAttributes="Bold" FontSize="16" HorizontalOptions="Center"/>
+                            <Label x:Name="SheetDateLabel" Text="Tarih: Bekleniyor" TextColor="#B0B0B0" FontSize="14" HorizontalOptions="Center"/>
+                        </VerticalStackLayout>
+                    </Border>
+                    <Border BackgroundColor="#1C1C1E" Stroke="#2A2A2A" StrokeThickness="1" Margin="0,15,0,15" Padding="15">
+                        <Border.StrokeShape>
+                            <RoundRectangle CornerRadius="12"/>
+                        </Border.StrokeShape>
+                        <Grid ColumnDefinitions="*, Auto" RowDefinitions="Auto, Auto" ColumnSpacing="15">
+                            <Label Grid.Row="0" Grid.Column="0" Text="Tıbbi Kimlik Görünürlüğü" FontSize="15" TextColor="White" FontAttributes="Bold" />
+                            <Label Grid.Row="1" Grid.Column="0" Text="Bu kişinin, acil bir durum olmasa dahi tıbbi bilgilerinizi (hastalık, ilaç vb.) görüntülemesine izin verin." FontSize="12" TextColor="#8E8E93" LineBreakMode="WordWrap" Margin="0,4,0,0" />
+                            <Switch x:Name="SheetPermissionSwitch" Grid.RowSpan="2" Grid.Column="1" VerticalOptions="Center" OnColor="#34C759" Toggled="OnSheetPermissionToggled"/>
+                        </Grid>
+                    </Border>
+                    <Button x:Name="ShowMedicalIdBtn" Text="🩺 TIBBİ KİMLİĞİ GÖSTER" Clicked="OnShowMedicalIdClicked" BackgroundColor="Transparent" TextColor="#FF9800" BorderColor="#FF9800" BorderWidth="1.5" FontAttributes="Bold" CornerRadius="12" HeightRequest="50"/>
+                    <Button x:Name="TrackLocationBtn" Text="📍 KONUMUNU TAKİP ET" Clicked="OnTrackLocationClicked" BackgroundColor="#2196F3" TextColor="White" FontAttributes="Bold" CornerRadius="12" HeightRequest="55" Margin="0,10,0,0"/>
+                </VerticalStackLayout>
+            </Border>
+        </Grid>
 
-            <Button Text="🚨 112'Yİ ARA" 
-                    Clicked="OnCall112Clicked"
-                    HorizontalOptions="End" 
-                    VerticalOptions="End" 
-                    Margin="0,0,15,30"
-                    BackgroundColor="#D32F2F"
-                    TextColor="White"
-                    CornerRadius="25"
-                    HeightRequest="50"
-                    WidthRequest="140"
-                    FontAttributes="Bold"/>
+        <Grid x:Name="TimerBottomSheetGrid" IsVisible="False" BackgroundColor="#CC000000" ZIndex="60">
+            <Grid.GestureRecognizers>
+                <TapGestureRecognizer Tapped="OnCloseTimerSettingsTapped"/>
+            </Grid.GestureRecognizers>
+            <Border VerticalOptions="End" BackgroundColor="#1E1E1E" StrokeThickness="0" Padding="20,30,20,40">
+                <Border.StrokeShape>
+                    <RoundRectangle CornerRadius="25,25,0,0"/>
+                </Border.StrokeShape>
+                <VerticalStackLayout Spacing="15">
+                    <Label Text="Güvenli Yürüyüş Süresi" FontSize="20" FontAttributes="Bold" TextColor="White" HorizontalOptions="Center"/>
+
+                    <Label x:Name="MinuteLabel" Text="5 Dakika" FontSize="16" FontAttributes="Bold" TextColor="#B0B0B0" />
+                    <Slider x:Name="MinuteSlider" Minimum="0" Maximum="59" Value="5" ValueChanged="OnTimerSliderValueChanged" MinimumTrackColor="#FF9800" />
+
+                    <Label x:Name="SecondLabel" Text="0 Saniye" FontSize="16" FontAttributes="Bold" TextColor="#B0B0B0" />
+                    <Slider x:Name="SecondSlider" Minimum="0" Maximum="59" Value="0" ValueChanged="OnTimerSliderValueChanged" MinimumTrackColor="#FF9800" />
+
+                    <Label x:Name="TotalTimeLabel" Text="Toplam: 5 Dakika 0 Saniye" TextColor="#FF9800" HorizontalOptions="Center" FontSize="18" FontAttributes="Bold" Margin="0,10,0,0"/>
+
+                    <Button Text="SAYACI BAŞLAT" BackgroundColor="#FF9800" TextColor="White" Clicked="OnStartSafeWalkClicked" CornerRadius="12" HeightRequest="50" FontAttributes="Bold" Margin="0,10,0,0"/>
+                </VerticalStackLayout>
+            </Border>
         </Grid>
 
     </Grid>

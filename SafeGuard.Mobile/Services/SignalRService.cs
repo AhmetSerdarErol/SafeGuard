@@ -6,8 +6,7 @@ namespace SafeGuard.Mobile.Services
     {
         private HubConnection _hubConnection;
 
-        // Emülatör için 10.241.192.15, telefon için bilgisayarın IP'sini kullan
-        private const string HubUrl = "http://10.241.192.15:5161/sosHub";
+        private const string HubUrl = "https://wql5wj50-5161.euw.devtunnels.ms/sosHub";
 
         // --- OLAYLAR (Events) ---
         public event Action<string, string, double, double> OnSosReceived;

@@ -2,40 +2,119 @@
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="SafeGuard.Mobile.Views.AddFriendPage"
-             Title="Yakınlarım">
+             Title="Yakın Ekle"
+             BackgroundColor="#121212"
+             NavigationPage.HasNavigationBar="False">
 
-    <Grid RowDefinitions="Auto, *" BackgroundColor="#F5F7FA">
+    <Grid RowDefinitions="Auto, *">
 
-        <Frame Grid.Row="0" Margin="15" Padding="15" CornerRadius="15" HasShadow="True" BorderColor="Transparent" BackgroundColor="White">
-            <VerticalStackLayout Spacing="10">
-                <Label Text="Yeni Acil Durum Kişisi Ekle" FontAttributes="Bold" FontSize="16" TextColor="#333"/>
-                <Entry x:Name="PhoneEntry" Placeholder="Telefon Numarası (Örn: 05...)" Keyboard="Telephone" BackgroundColor="#F0F0F0" TextColor="Black"/>
-                <Button Text="İstek Gönder" BackgroundColor="#007ACC" TextColor="White" CornerRadius="10" Clicked="OnSendRequestClicked" FontAttributes="Bold"/>
+        <Grid Grid.Row="0" ColumnDefinitions="Auto, *, Auto" VerticalOptions="Center" Padding="20,20,20,0">
+            <Label Grid.Column="0" Text="⬅" TextColor="White" FontSize="26" FontAttributes="Bold" VerticalOptions="Center" Padding="0,0,15,0">
+                <Label.GestureRecognizers>
+                    <TapGestureRecognizer Tapped="OnBackClicked"/>
+                </Label.GestureRecognizers>
+            </Label>
+            <Label Grid.Column="1" Text="Yakın Ekle" TextColor="White" FontSize="20" FontAttributes="Bold" HorizontalOptions="Center" VerticalOptions="Center"/>
+            <Label Grid.Column="2" WidthRequest="30" />
+        </Grid>
+
+        <Grid Grid.Row="1" RowDefinitions="Auto, *, Auto, *" Padding="24, 32, 24, 32">
+
+            <VerticalStackLayout Grid.Row="0" Spacing="16" HorizontalOptions="Center" Margin="0,0,0,40">
+                <Border StrokeShape="RoundRectangle 40" 
+                        HeightRequest="80" 
+                        WidthRequest="80" 
+                        BackgroundColor="#1E1E1E" 
+                        Stroke="#333333"
+                        HorizontalOptions="Center">
+                    <Label Text="🛡️" FontSize="36" HorizontalOptions="Center" VerticalOptions="Center" />
+                </Border>
+
+                <Label Text="Güvenilir Kişi Ekle" 
+                       FontSize="26" 
+                       FontAttributes="Bold" 
+                       TextColor="#FFFFFF" 
+                       HorizontalTextAlignment="Center" />
+
+                <Label Text="Acil durumlarda konumunuzun anında SMS ve bildirim olarak iletileceği kişiyi belirleyin."
+                       FontSize="15" 
+                       TextColor="#A0A0A0" 
+                       HorizontalTextAlignment="Center" 
+                       LineHeight="1.4" />
             </VerticalStackLayout>
-        </Frame>
 
-        <CollectionView x:Name="ContactsList" Grid.Row="1" Margin="15,0,15,15">
-            <CollectionView.ItemTemplate>
-                <DataTemplate>
-                    <Frame Margin="0,0,0,10" Padding="15" CornerRadius="15" HasShadow="True" BorderColor="#E0E0E0" BackgroundColor="White">
-                        <Grid ColumnDefinitions="50, *, Auto" RowDefinitions="Auto, Auto, Auto" ColumnSpacing="15">
+            <VerticalStackLayout Grid.Row="1" Spacing="10">
+                <Label Text="TELEFON NUMARASI" 
+                       FontSize="12" 
+                       FontAttributes="Bold" 
+                       TextColor="#A0A0A0" 
+                       Margin="4,0,0,0" />
 
-                            <Frame Grid.RowSpan="3" Grid.Column="0" WidthRequest="50" HeightRequest="50" CornerRadius="25" BackgroundColor="#E8F4F8" Padding="0" HasShadow="False">
-                                <Label Text="{Binding Initials}" HorizontalOptions="Center" VerticalOptions="Center" FontAttributes="Bold" TextColor="#007ACC" FontSize="20"/>
-                            </Frame>
+                <Border StrokeShape="RoundRectangle 12" 
+                        Stroke="#333333" 
+                        StrokeThickness="1.5" 
+                        BackgroundColor="#1E1E1E" 
+                        HeightRequest="60" 
+                        Padding="16,0">
+                    <Grid ColumnDefinitions="Auto, Auto, *">
+                        <Label Text="🇹🇷" 
+                               Grid.Column="0" 
+                               FontSize="22" 
+                               VerticalOptions="Center" 
+                               Margin="0,0,8,0" />
 
-                            <StackLayout Grid.Column="1" Grid.Row="0" Orientation="Horizontal" Spacing="5">
-                                <Label Text="{Binding Name}" FontAttributes="Bold" FontSize="16" TextColor="Black" />
-                                <Label Text="{Binding StatusText}" FontSize="12" TextColor="{Binding StatusColor}" VerticalOptions="Center" />
-                            </StackLayout>
+                        <Label Text="+90" 
+                               Grid.Column="1" 
+                               FontSize="16" 
+                               FontAttributes="Bold" 
+                               TextColor="#FFFFFF" 
+                               VerticalOptions="Center" 
+                               Margin="0,0,12,0" />
 
-                            <Label Grid.Column="1" Grid.Row="1" Text="{Binding PhoneNumber}" FontSize="13" TextColor="#555" Margin="0,2,0,0" />
+                        <BoxView Grid.Column="1" 
+                                 Color="#444444" 
+                                 WidthRequest="1" 
+                                 HeightRequest="24" 
+                                 HorizontalOptions="End" 
+                                 VerticalOptions="Center" 
+                                 Margin="0,0,-8,0" />
 
-                            <Button Grid.Column="2" Grid.RowSpan="3" Text="📞" BackgroundColor="#E8F4F8" TextColor="#007ACC" WidthRequest="45" HeightRequest="45" CornerRadius="22" VerticalOptions="Center" Clicked="OnCallClicked" CommandParameter="{Binding PhoneNumber}"/>
-                        </Grid>
-                    </Frame>
-                </DataTemplate>
-            </CollectionView.ItemTemplate>
-        </CollectionView>
+                        <Entry x:Name="PhoneEntry"
+                               Grid.Column="2" 
+                               Placeholder="5XX XXX XX XX" 
+                               PlaceholderColor="#666666"
+                               Keyboard="Telephone" 
+                               MaxLength="10" 
+                               BackgroundColor="Transparent" 
+                               TextColor="#FFFFFF"
+                               FontSize="18"
+                               VerticalOptions="Center"
+                               Margin="12,0,0,0" />
+                    </Grid>
+                </Border>
+            </VerticalStackLayout>
+
+            <Button x:Name="SendRequestBtn"
+                    Grid.Row="2"
+                    Text="Kaydet ve Ekle" 
+                    BackgroundColor="#D32F2F" 
+                    TextColor="White" 
+                    FontAttributes="Bold" 
+                    FontSize="16"
+                    CornerRadius="14" 
+                    HeightRequest="56" 
+                    Clicked="OnSendRequestClicked" />
+
+            <CollectionView x:Name="ContactsList" Grid.Row="3" Margin="0,20,0,0">
+                <CollectionView.ItemTemplate>
+                    <DataTemplate>
+                        <Border Stroke="#333333" BackgroundColor="#1E1E1E" StrokeThickness="1" StrokeShape="RoundRectangle 8" Padding="15" Margin="0,5">
+                            <Label Text="{Binding Name}" TextColor="#FFFFFF" FontSize="16" FontAttributes="Bold" />
+                        </Border>
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+            </CollectionView>
+
+        </Grid>
     </Grid>
 </ContentPage>

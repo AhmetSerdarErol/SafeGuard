@@ -13,5 +13,7 @@
         public string? Habits { get; set; } = string.Empty;
         public bool Smoker { get; set; }
         public bool AlcoholConsumption { get; set; }
+        public double Latitude { get; set; }
+        public double Longitude { get; set; }
     }
 }

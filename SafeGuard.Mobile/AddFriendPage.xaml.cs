@@ -7,8 +7,6 @@ public partial class AddFriendPage : ContentPage
 {
     private readonly AuthService _authService = new AuthService();
     private int currentUserId;
-
-    // HATA 1 ÇÖZÜLDÜ: Modelin adını FriendUIModel yaptık ki seninkiyle çakışmasın
     public ObservableCollection<FriendUIModel> MyContacts { get; set; } = new ObservableCollection<FriendUIModel>();
 
     public AddFriendPage()
@@ -24,7 +22,6 @@ public partial class AddFriendPage : ContentPage
         await LoadContacts();
     }
 
-    // VERİTABANINDAN GERÇEK KİŞİLERİ ÇEKME
     private async Task LoadContacts()
     {
         MyContacts.Clear();
@@ -34,18 +31,15 @@ public partial class AddFriendPage : ContentPage
         {
             foreach (var req in requests)
             {
-                // HATA 2 ÇÖZÜLDÜ: Senin modelindeki gerçek isimleri (SenderName, SenderPhone) kullandık
                 MyContacts.Add(new FriendUIModel
                 {
                     Name = string.IsNullOrEmpty(req.SenderName) ? "Bilinmeyen Kişi" : req.SenderName,
                     PhoneNumber = req.SenderPhone,
-                    IsApproved = true // RequestModel'de onay durumu olmadığı için şimdilik hepsini onaylı (true) gösteriyoruz
+                    IsApproved = true 
                 });
             }
         }
     }
-
-    // YENİ KİŞİYE İSTEK GÖNDERME
     private async void OnSendRequestClicked(object sender, EventArgs e)
     {
         string phone = PhoneEntry.Text;
@@ -68,7 +62,6 @@ public partial class AddFriendPage : ContentPage
         }
     }
 
-    // 📞 ARAMA BUTONU
     private void OnCallClicked(object sender, EventArgs e)
     {
         var button = sender as Button;
@@ -79,9 +72,22 @@ public partial class AddFriendPage : ContentPage
             PhoneDialer.Default.Open(phoneNumber);
         }
     }
+    private async void OnBackClicked(object sender, EventArgs e)
+    {
+        try
+        {
+            if (Navigation.ModalStack.Count > 0)
+                await Navigation.PopModalAsync();
+            else
+                await Navigation.PopAsync();
+        }
+        catch (Exception ex)
+        {
+            System.Diagnostics.Debug.WriteLine($"Geri dönme hatası: {ex.Message}");
+        }
+    }
 }
 
-// Arayüz için yardımcı model (İsmini FriendUIModel yaptık)
 public class FriendUIModel
 {
     public string Name { get; set; }

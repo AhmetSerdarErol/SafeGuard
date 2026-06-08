@@ -17,7 +17,7 @@ namespace SafeGuard.Mobile
             {
                 new OnboardingItem { Title = "SafeGuard'a Hoş Geldiniz", Description = "Acil durumlarda sizin ve sevdiklerinizin en hızlı kurtarıcısı.", ImageName = "koruma.png" },
                 new OnboardingItem { Title = "Temel Erişimler", Description = "Konumunuzu belirlemek, acil SMS gönderebilmek ve bildirimleri alabilmek için ekrandaki uyarılara izin verin.", ImageName = "konum.png" },
-                new OnboardingItem { Title = "Arka Plan Çalışması", Description = "Uygulamanın uyku moduna girmemesi için Pil Optimizasyonunu kapatmalısınız.", ImageName = "pil.png" },
+                new OnboardingItem {Title = "Arka Plan Çalışması",Description = "Telefon kilitliyken bile ses tuşlarıyla SOS fırlatabilmeniz ve konum takibi için Pil Optimizasyonunu kapatmalısınız.",ImageName = "pil.png"},
                 new OnboardingItem { Title = "Acil Durum Ekranı", Description = "Telefon kilitliyken bile kırmızı alarmı görebilmek için 'Diğer uygulamaların üzerinde göster' izni gereklidir.", ImageName = "app_logo.jpg" },
                 new OnboardingItem { Title = "Her Şey Hazır!", Description = "Sisteminiz başarıyla kuruldu. Artık güvendesiniz.", ImageName = "koruma.png" }
             };
@@ -47,22 +47,18 @@ namespace SafeGuard.Mobile
 
                 if (currentIndex == 0)
                 {
-                    // ÇÖKERTEN 'Position = 1' YERİNE GÜVENLİ KAYDIRMA KODU
                     OnboardingCarousel.ScrollTo(1, position: ScrollToPosition.Center, animate: true);
                 }
                 else if (currentIndex == 1)
                 {
                     try
                     {
-                        // 1. KONUM İZNİ
                         var locStatus = await Permissions.CheckStatusAsync<Permissions.LocationWhenInUse>();
                         if (locStatus != PermissionStatus.Granted) await Permissions.RequestAsync<Permissions.LocationWhenInUse>();
 
-                        // 2. SMS İZNİ
                         var smsStatus = await Permissions.CheckStatusAsync<Permissions.Sms>();
                         if (smsStatus != PermissionStatus.Granted) await Permissions.RequestAsync<Permissions.Sms>();
 
-                        // 3. YENİ EKLENEN: BİLDİRİM İZNİ (Sadece Android 13 ve üzeri için)
                         if (DeviceInfo.Platform == DevicePlatform.Android && DeviceInfo.Version.Major >= 13)
                         {
                             var notificationStatus = await Permissions.CheckStatusAsync<Permissions.PostNotifications>();
@@ -73,7 +69,6 @@ namespace SafeGuard.Mobile
 
                                 if (notificationStatus != PermissionStatus.Granted)
                                 {
-                                    // Kullanıcı reddederse uyaralım
                                     await Application.Current.MainPage.DisplayAlert("Uyarı", "Bildirim izni vermezseniz acil durum çağrılarını alamazsınız!", "Anladım");
                                 }
                             }
@@ -91,11 +86,22 @@ namespace SafeGuard.Mobile
 #if ANDROID
                     try
                     {
-                        var intent = new Android.Content.Intent(Android.Provider.Settings.ActionIgnoreBatteryOptimizationSettings);
-                        intent.AddFlags(Android.Content.ActivityFlags.NewTask);
-                        Microsoft.Maui.ApplicationModel.Platform.CurrentActivity?.StartActivity(intent);
+                        var context = Android.App.Application.Context;
+                        var packageName = AppInfo.Current.PackageName;
+                        var pm = (Android.OS.PowerManager)context.GetSystemService(Android.Content.Context.PowerService);
+
+                        if (!pm.IsIgnoringBatteryOptimizations(packageName))
+                        {
+                            var intent = new Android.Content.Intent(Android.Provider.Settings.ActionRequestIgnoreBatteryOptimizations);
+                            intent.SetData(Android.Net.Uri.Parse("package:" + packageName));
+                            intent.AddFlags(Android.Content.ActivityFlags.NewTask);
+                            context.StartActivity(intent);
+                        }
                     }
-                    catch { }
+                    catch (Exception ex)
+                    {
+                        System.Diagnostics.Debug.WriteLine($"Pil izni istenirken hata: {ex.Message}");
+                    }
 #endif
                     OnboardingCarousel.ScrollTo(3, position: ScrollToPosition.Center, animate: true);
                 }
@@ -115,6 +121,8 @@ namespace SafeGuard.Mobile
                 }
                 else if (currentIndex == 4)
                 {
+                    await RequestAccessibilityPermission();
+
                     Preferences.Set("OnboardingComplete", true);
                     Page targetPage = Preferences.ContainsKey("CurrentUserId") ? new DashboardPage() : new MainPage();
                     await Navigation.PushAsync(targetPage);
@@ -130,6 +138,42 @@ namespace SafeGuard.Mobile
                 await Task.Delay(500);
                 _isProcessing = false;
             }
+        }
+        private async Task RequestAccessibilityPermission()
+        {
+#if ANDROID
+            try
+            {
+                var context = Android.App.Application.Context;
+                var packageName = AppInfo.Current.PackageName;
+
+                string enabledServices = Android.Provider.Settings.Secure.GetString(context.ContentResolver, Android.Provider.Settings.Secure.EnabledAccessibilityServices);
+
+                if (enabledServices == null || !enabledServices.Contains(packageName))
+                {
+                    bool answer = await DisplayAlert(
+                        "Kritik Güvenlik Ayarı",
+                        "Fiziksel ses tuşlarıyla acil durum SOS'i fırlatabilmeniz için 'Erişilebilirlik' izni vermeniz gerekmektedir.\n\nAyarlara gidip 'SafeGuard SOS Servisi'ni bulun ve aktifleştirin.",
+                        "Ayarlara Git",
+                        "İptal");
+
+                    if (answer)
+                    {
+                        var intent = new Android.Content.Intent(Android.Provider.Settings.ActionAccessibilitySettings);
+                        intent.AddFlags(Android.Content.ActivityFlags.NewTask);
+                        context.StartActivity(intent);
+                    }
+                }
+                else
+                {
+                    await DisplayAlert("Harika!", "Fiziksel tuşla SOS özelliği zaten aktif. Arka planda güvenliğiniz sağlanıyor.", "Tamam");
+                }
+            }
+            catch (Exception ex)
+            {
+                System.Diagnostics.Debug.WriteLine($"Erişilebilirlik izni istenirken hata: {ex.Message}");
+            }
+#endif
         }
     }
 

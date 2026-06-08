@@ -1,5 +1,9 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿    using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
+using System.IdentityModel.Tokens.Jwt;
+using System.Security.Claims;
+using System.Text;
 using SafeGuard.Backend.DTOs;
 using SafeGuard.Data;
 using SafeGuard.Dtos;
@@ -13,25 +17,22 @@ namespace SafeGuard.Controllers
     public class UsersController : ControllerBase
     {
         private readonly AppDbContext _context;
+        private readonly IConfiguration _configuration; 
 
-        public UsersController(AppDbContext context)
+        public UsersController(AppDbContext context, IConfiguration configuration) 
         {
             _context = context;
+            _configuration = configuration;
         }
 
         [HttpPost("update-fcm-token")]
         public async Task<IActionResult> UpdateFcmToken([FromBody] UpdateTokenDto request)
         {
-            // 1. Veritabanında bu id'ye sahip kullanıcıyı bul
             var user = await _context.Users.FindAsync(request.UserId);
 
             if (user == null)
-                return NotFound("Kullanıcı bulunamadı.");
-
-            // 2. Kullanıcının adresini (Token) yeni gelen adresle değiştir
+                return NotFound("Kullanıcı bulunamadı.");      
             user.FcmToken = request.Token;
-
-            // 3. Değişiklikleri veritabanına kaydet
             await _context.SaveChangesAsync();
 
             return Ok(new { message = "Postacının adresi (Token) başarıyla veritabanına işlendi!" });
@@ -46,10 +47,16 @@ namespace SafeGuard.Controllers
             if (targetUser == null || string.IsNullOrEmpty(targetUser.FcmToken))
                 return BadRequest("Hedef kullanıcının cihaz adresi bulunamadı!");
 
+            if (senderUser != null)
+            {
+                senderUser.IsSosActive = true;             
+                senderUser.LastStatusUpdate = DateTime.Now; 
+                await _context.SaveChangesAsync();          
+            }
+
             var message = new Message()
             {
                 Token = targetUser.FcmToken,
-
                 Data = new Dictionary<string, string>()
                 {
                     { "senderName", senderUser?.FullName ?? "Bir arkadaşın" },
@@ -65,7 +72,7 @@ namespace SafeGuard.Controllers
             try
             {
                 string response = await FirebaseMessaging.DefaultInstance.SendAsync(message);
-                return Ok(new { success = true, info = "Füze hedefi vurdu!", details = response });
+                return Ok(new { success = true, info = "Füze hedefi vurdu ve Veritabanı güncellendi!", details = response });
             }
             catch (Exception ex)
             {
@@ -133,8 +140,26 @@ namespace SafeGuard.Controllers
                 return BadRequest("Eski/Güvensiz bir hesapla giriş yapmaya çalışıyorsunuz. Lütfen yeni hesap açın.");
             }
 
-            // Giriş başarılıysa
-            return Ok(user);
+            var secretKey = _configuration["JwtSettings:SecretKey"] ?? "SafeGuard_Cok_Gizli_Ve_Uzun_Bir_Sifre_12345!!";
+            var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(secretKey));
+            var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
+
+            var claims = new[]
+            {
+                new Claim(ClaimTypes.NameIdentifier, user.Id.ToString()),
+                new Claim(ClaimTypes.Name, user.FullName ?? "")
+            };
+
+            var token = new JwtSecurityToken(
+                claims: claims,
+                expires: DateTime.Now.AddDays(30), // Bilet 30 gün geçerli
+                signingCredentials: creds
+            );
+
+            var tokenString = new JwtSecurityTokenHandler().WriteToken(token);
+
+            // 🚀 ARTIK HEM KULLANICIYI HEM DE BİLETİ TELEFONA YOLLUYORUZ
+            return Ok(new { user = user, token = tokenString });
         }
 
         [HttpPut("update-info/{id}")]
@@ -188,6 +213,21 @@ namespace SafeGuard.Controllers
 
             return Ok(new { Path = user.ProfilePhotoUrl });
         }
+        
+        [HttpPost("cancel-sos/{userId}")]
+        public async Task<IActionResult> CancelSosAlert(int userId)
+        {
+            var user = await _context.Users.FindAsync(userId);
+            if (user == null)
+                return NotFound("Kullanıcı bulunamadı.");
+
+            user.IsSosActive = false;
+            user.LastStatusUpdate = DateTime.Now;
+            await _context.SaveChangesAsync();
+
+            return Ok(new { success = true, message = "Kullanıcı güvende olarak işaretlendi." });
+        }
+        
         public class UpdateTokenDto
         {
             public int UserId { get; set; }

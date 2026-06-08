@@ -32,7 +32,7 @@ namespace SafeGuard.Mobile
             {
                 Preferences.Set("UserFullName", result.FullName);
                 Preferences.Set("CurrentUserId", result.UserId);
-
+                
                 try
                 {
                     string deviceToken = Preferences.Get("FcmToken", "");

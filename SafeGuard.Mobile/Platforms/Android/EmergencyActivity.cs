@@ -13,7 +13,6 @@ using MyResource = SafeGuard.Mobile.Resource;
 
 namespace SafeGuard.Mobile.Platforms.Android
 {
-    // Ekranda üst barı (saat, şarj vs.) gizleyip tam sayfa yapıyoruz
     [Activity(Label = "Acil Durum", Theme = "@style/Maui.SplashTheme", ScreenOrientation = AScreenOrientation.Portrait)]
     public class EmergencyActivity : Activity
     {
@@ -39,30 +38,27 @@ namespace SafeGuard.Mobile.Platforms.Android
                                 global::Android.Views.WindowManagerFlags.DismissKeyguard);
             }
 
-            // Gelen ismi alıyoruz (Eğer isim gelmezse "BİR YAKININIZ" yazacak)
             string senderName = Intent.GetStringExtra("senderName") ?? "BİR YAKININIZ";
 
-            // --- ANA EKRAN TASARIMI (Kan Kırmızısı, Ciddi ve Temiz) ---
             var mainLayout = new LinearLayout(this)
             {
-                Orientation = AOrientation.Vertical, // Çakışma önlendi
+                Orientation = AOrientation.Vertical,
                 LayoutParameters = new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MatchParent, ViewGroup.LayoutParams.MatchParent)
             };
-            mainLayout.SetBackgroundColor(AColor.ParseColor("#B71C1C")); // Çakışma önlendi
+            mainLayout.SetBackgroundColor(AColor.ParseColor("#B71C1C"));
             mainLayout.SetGravity(GravityFlags.Center);
             mainLayout.SetPadding(50, 50, 50, 50);
 
-            senderName = Intent.GetStringExtra("YardimIsteyenKisi") ?? "BİR YAKININIZ";  
+            senderName = Intent.GetStringExtra("YardimIsteyenKisi") ?? "BİR YAKININIZ";
             var nameText = new TextView(this)
             {
                 Text = senderName.ToUpper(),
                 TextSize = 42f
             };
-            nameText.SetTextColor(AColor.White); // Çakışma önlendi
-            nameText.SetTypeface(null, ATypefaceStyle.Bold); // Çakışma önlendi
+            nameText.SetTextColor(AColor.White);
+            nameText.SetTypeface(null, ATypefaceStyle.Bold);
             nameText.Gravity = GravityFlags.Center;
 
-            // 2. UYARI METNİ
             var alertText = new TextView(this)
             {
                 Text = "SİZDEN ACİL YARDIM İSTİYOR!",
@@ -73,8 +69,7 @@ namespace SafeGuard.Mobile.Platforms.Android
             alertText.Gravity = GravityFlags.Center;
             alertText.SetPadding(0, 20, 0, 120);
 
-            // 3. SUSTURMA BUTONU (Bembeyaz, dikkat çekici)
-            var stopButton = new AButton(this) // Çakışma önlendi
+            var stopButton = new AButton(this)
             {
                 Text = "SESİ SUSTUR VE KONUMA GİT",
                 TextSize = 16f
@@ -83,7 +78,6 @@ namespace SafeGuard.Mobile.Platforms.Android
             stopButton.SetTextColor(AColor.ParseColor("#B71C1C"));
             stopButton.SetPadding(40, 50, 40, 50);
 
-            // Ekrana ekliyoruz
             mainLayout.AddView(nameText);
             mainLayout.AddView(alertText);
             mainLayout.AddView(stopButton);
@@ -97,10 +91,15 @@ namespace SafeGuard.Mobile.Platforms.Android
                 mediaPlayer.Start();
             }
 
-            stopButton.Click += (sender, e) => {
+            stopButton.Click += (sender, e) =>
+            {
 
                 string myName = Microsoft.Maui.Storage.Preferences.Get("UserFullName", "Bir Yardımsever");
                 string targetUserId = Intent.GetStringExtra("YardimIsteyenId") ?? "";
+
+                string latStr = Intent.GetStringExtra("latitude") ?? "0";
+                string lngStr = Intent.GetStringExtra("longitude") ?? "0";
+                string senderName = Intent.GetStringExtra("YardimIsteyenKisi") ?? "BİR YAKININIZ";
 
                 if (!string.IsNullOrEmpty(targetUserId))
                 {
@@ -117,6 +116,7 @@ namespace SafeGuard.Mobile.Platforms.Android
                         }
                     });
                 }
+
                 if (mediaPlayer != null)
                 {
                     mediaPlayer.Stop();
@@ -124,17 +124,20 @@ namespace SafeGuard.Mobile.Platforms.Android
                     mediaPlayer = null;
                 }
 
-                
                 try
                 {
                     var context = global::Android.App.Application.Context;
-                    // Uygulamanın orijinal başlatıcı kargocusunu (Intent) buluyoruz
                     var appIntent = context.PackageManager.GetLaunchIntentForPackage(context.PackageName);
 
                     if (appIntent != null)
                     {
-                        
                         appIntent.AddFlags(ActivityFlags.NewTask | ActivityFlags.ClearTop | ActivityFlags.SingleTop);
+                        appIntent.PutExtra("openMap", true);
+                        appIntent.PutExtra("targetUserId", targetUserId);
+                        appIntent.PutExtra("targetUserName", senderName);
+                        appIntent.PutExtra("latitude", latStr);
+                        appIntent.PutExtra("longitude", lngStr);
+
                         StartActivity(appIntent);
                     }
                 }
@@ -142,7 +145,7 @@ namespace SafeGuard.Mobile.Platforms.Android
                 {
                     System.Diagnostics.Debug.WriteLine("Uygulama açılırken hata: " + ex.Message);
                 }
-                
+
                 Finish();
             };
         }

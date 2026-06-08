@@ -1,3 +1,4 @@
+<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="SafeGuard.Mobile.RegisterPage"
@@ -6,29 +7,16 @@
 
     <Grid BackgroundColor="{StaticResource AppBackground}">
         <Grid>
-            <BoxView Color="{StaticResource PoliceBlue}" CornerRadius="500" 
-                     WidthRequest="600" HeightRequest="600" Opacity="0.1"
-                     HorizontalOptions="Start" VerticalOptions="Start" TranslationX="-250" TranslationY="-250"/>
-
-            <BoxView Color="{StaticResource EmergencyRed}" CornerRadius="500" 
-                     WidthRequest="600" HeightRequest="600" Opacity="0.08"
-                     HorizontalOptions="End" VerticalOptions="End" TranslationX="250" TranslationY="250"/>
+            <BoxView Color="{StaticResource PoliceBlue}" CornerRadius="500" WidthRequest="600" HeightRequest="600" Opacity="0.1" HorizontalOptions="Start" VerticalOptions="Start" TranslationX="-250" TranslationY="-250"/>
+            <BoxView Color="{StaticResource EmergencyRed}" CornerRadius="500" WidthRequest="600" HeightRequest="600" Opacity="0.08" HorizontalOptions="End" VerticalOptions="End" TranslationX="250" TranslationY="250"/>
         </Grid>
 
         <ScrollView>
             <VerticalStackLayout Spacing="25" Padding="30, 50, 30, 30">
 
                 <VerticalStackLayout Spacing="5">
-                    <Label Text="KULLANICI KAYDI" 
-                           FontSize="28" 
-                           FontAttributes="Bold" 
-                           TextColor="White"
-                           HorizontalOptions="Center"/>
-
-                    <Label Text="Sisteme yeni kullanıcı tanımlama protokolü" 
-                           FontSize="14" 
-                           TextColor="#607080" 
-                           HorizontalOptions="Center"/>
+                    <Label Text="KULLANICI KAYDI" FontSize="28" FontAttributes="Bold" TextColor="White" HorizontalOptions="Center"/>
+                    <Label Text="Sisteme yeni kullanıcı tanımlama protokolü" FontSize="14" TextColor="#607080" HorizontalOptions="Center"/>
                 </VerticalStackLayout>
 
                 <VerticalStackLayout x:Name="Step1Layout" Spacing="20" IsVisible="True">
@@ -59,32 +47,21 @@
                                 <Entry x:Name="PasswordEntry" IsPassword="True" Placeholder="******" Style="{StaticResource KonseptEntry}"/>
                                 <BoxView HeightRequest="1" Color="#304050"/>
                             </VerticalStackLayout>
-                            <VerticalStackLayout Spacing="15" Margin="0,10,0,10">
 
+                            <VerticalStackLayout Spacing="15" Margin="0,10,0,10">
                                 <Border StrokeThickness="0" BackgroundColor="#F0F0F0" Padding="15,0" HeightRequest="50">
                                     <Border.StrokeShape>
                                         <RoundRectangle CornerRadius="10"/>
                                     </Border.StrokeShape>
-
                                     <Grid ColumnDefinitions="*, Auto">
-                                        <DatePicker x:Name="BirthDatePicker" 
-                        Format="dd/MM/yyyy" 
-                        TextColor="Black" 
-                        BackgroundColor="Transparent"
-                        VerticalOptions="Center" 
-                        Grid.Column="0"/>
+                                        <DatePicker x:Name="BirthDatePicker" Format="dd/MM/yyyy" TextColor="Black" BackgroundColor="Transparent" VerticalOptions="Center" Grid.Column="0"/>
                                         <Label Text="📅" VerticalOptions="Center" Grid.Column="1" Margin="0,0,5,0" FontSize="18"/>
                                     </Grid>
                                 </Border>
-
                             </VerticalStackLayout>
                         </VerticalStackLayout>
                     </Border>
-
-                    <Button Text="SONRAKİ ADIMA GEÇ ➔" 
-                            Style="{StaticResource EmergencyButtonStyle}"
-                            BackgroundColor="{StaticResource PoliceBlue}"
-                            Clicked="OnNextStepClicked"/>
+                    <Button Text="SONRAKİ ADIMA GEÇ ➔" Style="{StaticResource EmergencyButtonStyle}" BackgroundColor="{StaticResource PoliceBlue}" Clicked="OnNextStepClicked"/>
                 </VerticalStackLayout>
 
                 <VerticalStackLayout x:Name="Step2Layout" Spacing="20" IsVisible="False">
@@ -94,16 +71,11 @@
 
                             <VerticalStackLayout Spacing="5">
                                 <Label Text="KAN GRUBU" TextColor="White" FontSize="11" FontAttributes="Bold"/>
-
                                 <Border Stroke="#3A3A3C" StrokeThickness="1" BackgroundColor="Transparent" Padding="10,0" HeightRequest="50">
                                     <Border.StrokeShape>
                                         <RoundRectangle CornerRadius="10"/>
                                     </Border.StrokeShape>
-
-                                    <Picker x:Name="BloodTypePicker" 
-                            Title="Seçiniz" 
-                            TitleColor="#607080"
-                            TextColor="White">
+                                    <Picker x:Name="BloodTypePicker" Title="Seçiniz" TitleColor="#607080" TextColor="White">
                                         <Picker.ItemsSource>
                                             <x:Array Type="{x:Type x:String}">
                                                 <x:String>A Rh+</x:String>
@@ -120,27 +92,35 @@
                                 </Border>
                             </VerticalStackLayout>
 
+                            <Grid ColumnDefinitions="*, *" ColumnSpacing="15" Margin="0,5,0,5">
+                                <VerticalStackLayout Grid.Column="0" Spacing="5">
+                                    <Label Text="BOY (CM)" TextColor="White" FontSize="11" FontAttributes="Bold"/>
+                                    <Entry x:Name="HeightEntry" Keyboard="Numeric" Placeholder="180" Style="{StaticResource KonseptEntry}"/>
+                                    <BoxView HeightRequest="1" Color="#304050"/>
+                                </VerticalStackLayout>
+                                <VerticalStackLayout Grid.Column="1" Spacing="5">
+                                    <Label Text="KİLO (KG)" TextColor="White" FontSize="11" FontAttributes="Bold"/>
+                                    <Entry x:Name="WeightEntry" Keyboard="Numeric" Placeholder="75" Style="{StaticResource KonseptEntry}"/>
+                                    <BoxView HeightRequest="1" Color="#304050"/>
+                                </VerticalStackLayout>
+                            </Grid>
+
                             <VerticalStackLayout Spacing="10">
                                 <Label Text="ALIŞKANLIKLAR" TextColor="White" FontSize="11" FontAttributes="Bold"/>
-
                                 <HorizontalStackLayout Spacing="20">
                                     <Label Text="Sigara:" TextColor="White" VerticalOptions="Center" WidthRequest="60"/>
                                     <RadioButton x:Name="SmokeYes" Content="Var" GroupName="Smoke" TextColor="White"/>
                                     <RadioButton x:Name="SmokeNo" Content="Yok" GroupName="Smoke" IsChecked="True" TextColor="White"/>
                                 </HorizontalStackLayout>
-
                                 <HorizontalStackLayout Spacing="20">
                                     <Label Text="Alkol:" TextColor="White" VerticalOptions="Center" WidthRequest="60"/>
                                     <RadioButton x:Name="AlcoholYes" Content="Var" GroupName="Alcohol" TextColor="White"/>
                                     <RadioButton x:Name="AlcoholNo" Content="Yok" GroupName="Alcohol" IsChecked="True" TextColor="White"/>
                                 </HorizontalStackLayout>
                             </VerticalStackLayout>
+
                             <Label Text="Organ Nakli / Bağışı Durumu" TextColor="White" FontSize="12" Margin="0,10,0,0"/>
-                            <Picker x:Name="OrganStatusPicker" 
-        Title="Seçiniz" 
-        TitleColor="#607080"
-        TextColor="White" 
-        SelectedIndexChanged="OnOrganStatusChanged">
+                            <Picker x:Name="OrganStatusPicker" Title="Seçiniz" TitleColor="#607080" TextColor="White" SelectedIndexChanged="OnOrganStatusChanged">
                                 <Picker.Items>
                                     <x:String>Yok</x:String>
                                     <x:String>Nakil Aldım (Alıcı)</x:String>
@@ -148,10 +128,8 @@
                                 </Picker.Items>
                             </Picker>
 
-                            <Entry x:Name="OrganDetailsEntry" 
-       Placeholder="Hangi organ? (Örn: Böbrek)" 
-       TextColor="White" 
-       IsVisible="False"/>
+                            <Entry x:Name="OrganDetailsEntry" Placeholder="Hangi organ? (Örn: Böbrek)" TextColor="White" IsVisible="False"/>
+
                             <VerticalStackLayout Spacing="5">
                                 <Label Text="ALERJENLER" TextColor="White" FontSize="11" FontAttributes="Bold"/>
                                 <Entry x:Name="AllergiesEntry" Placeholder="İlaç veya Gıda Alerjileri" Style="{StaticResource KonseptEntry}"/>
@@ -161,6 +139,12 @@
                             <VerticalStackLayout Spacing="5">
                                 <Label Text="GEÇİRİLEN HASTALIKLAR" TextColor="White" FontSize="11" FontAttributes="Bold"/>
                                 <Entry x:Name="DiseasesEntry" Placeholder="Kronik Rahatsızlıklar" Style="{StaticResource KonseptEntry}"/>
+                                <BoxView HeightRequest="1" Color="#304050"/>
+                            </VerticalStackLayout>
+
+                            <VerticalStackLayout Spacing="5">
+                                <Label Text="DÜZENLİ KULLANILAN İLAÇLAR" TextColor="White" FontSize="11" FontAttributes="Bold"/>
+                                <Entry x:Name="MedicationsEntry" Placeholder="Varsa Kullandığınız İlaçlar" Style="{StaticResource KonseptEntry}"/>
                                 <BoxView HeightRequest="1" Color="#304050"/>
                             </VerticalStackLayout>
 
@@ -179,13 +163,7 @@
 
                 <ActivityIndicator x:Name="LoadingSpinner" IsRunning="False" Color="{StaticResource EmergencyRed}"/>
 
-                <Label Text="Zaten üye misiniz? Giriş Yapın" 
-                       TextColor="{StaticResource EmergencyRed}" 
-                       FontAttributes="Bold"
-                       HorizontalOptions="Center" 
-                       FontSize="14"
-                       TextDecorations="Underline"
-                       Margin="0,0,0,20">
+                <Label Text="Zaten üye misiniz? Giriş Yapın" TextColor="{StaticResource EmergencyRed}" FontAttributes="Bold" HorizontalOptions="Center" FontSize="14" TextDecorations="Underline" Margin="0,0,0,20">
                     <Label.GestureRecognizers>
                         <TapGestureRecognizer Tapped="OnLoginTapped"/>
                     </Label.GestureRecognizers>

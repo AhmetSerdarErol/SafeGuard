@@ -13,12 +13,9 @@ namespace SafeGuard.Mobile
             _authService = new AuthService();
         }
 
-        // --- SENİN 2 AŞAMALI GEÇİŞ KODLARIN (KORUNDU) ---
         private void OnNextStepClicked(object sender, EventArgs e)
         {
-            if (string.IsNullOrWhiteSpace(NameEntry.Text) ||
-                string.IsNullOrWhiteSpace(EmailEntry.Text) ||
-                string.IsNullOrWhiteSpace(PasswordEntry.Text))
+            if (string.IsNullOrWhiteSpace(NameEntry.Text) || string.IsNullOrWhiteSpace(EmailEntry.Text) || string.IsNullOrWhiteSpace(PasswordEntry.Text))
             {
                 DisplayAlert("Eksik Bilgi", "Lütfen kişisel bilgileri (Ad, E-posta, Şifre) doldurun.", "Tamam");
                 return;
@@ -33,9 +30,10 @@ namespace SafeGuard.Mobile
             Step2Layout.IsVisible = false;
             Step1Layout.IsVisible = true;
         }
+
         private void OnOrganStatusChanged(object sender, EventArgs e)
         {
-            if (OrganStatusPicker.SelectedIndex > 0) // "Yok" harici bir şey seçilirse
+            if (OrganStatusPicker.SelectedIndex > 0)
             {
                 OrganDetailsEntry.IsVisible = true;
             }
@@ -45,6 +43,7 @@ namespace SafeGuard.Mobile
                 OrganDetailsEntry.Text = "";
             }
         }
+
         private async void OnRegisterClicked(object sender, EventArgs e)
         {
             LoadingSpinner.IsRunning = true;
@@ -52,37 +51,34 @@ namespace SafeGuard.Mobile
 
             try
             {
-                // UI verilerini toparla
-                
                 string smokeStatus = SmokeYes.IsChecked ? "Kullanıyorum" : "Kullanmıyorum";
                 string alcoholStatus = AlcoholYes.IsChecked ? "Düzenli" : "Kullanmıyorum";
                 string birthDate = string.Format("{0:dd/MM/yyyy}", BirthDatePicker.Date);
                 string bloodType = BloodTypePicker.SelectedItem?.ToString() ?? "Belirtilmemiş";
-                
-                // YENİ DTO KUTUMUZU EKRANDAKİ VERİLERLE DOLDURUYORUZ
+
+                int? heightValue = int.TryParse(HeightEntry?.Text, out int h) ? h : null;
+                int? weightValue = int.TryParse(WeightEntry?.Text, out int w) ? w : null;
+
                 var registerDto = new UserRegisterDto
                 {
                     FullName = NameEntry.Text,
                     Email = EmailEntry.Text,
                     PhoneNumber = PhoneEntry.Text ?? "",
                     Password = PasswordEntry.Text,
-
                     BloodType = bloodType,
                     BirthDate = birthDate,
+                    Height = heightValue,
+                    Weight = weightValue,
                     MedicalConditions = DiseasesEntry?.Text ?? "",
                     Allergies = AllergiesEntry?.Text ?? "",
-
+                    Medications = MedicationsEntry?.Text ?? "",
+                    Surgeries = SurgeriesEntry?.Text ?? "", 
+                    OrganStatus = OrganStatusPicker.SelectedItem?.ToString() ?? "Yok",
+                    OrganDetails = OrganDetailsEntry?.Text ?? "",
                     SmokingHabit = smokeStatus,
-                    AlcoholUse = alcoholStatus,
-
-                    // Eğer ekranda boy/kilo girdisi yoksa null bırakıyoruz
-                    Height = null,
-                    Weight = null,
-                    OrganStatus = "Yok",
-                    OrganDetails = ""
+                    AlcoholUse = alcoholStatus
                 };
 
-                // Servise gönder (Artık sadece true/false dönüyor)
                 bool isSuccess = await _authService.RegisterAsync(registerDto);
 
                 if (isSuccess)

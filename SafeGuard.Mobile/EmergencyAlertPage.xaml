@@ -8,12 +8,19 @@
     <Grid>
         <BoxView>
             <BoxView.Background>
-                <LinearGradientBrush StartPoint="0,0" EndPoint="0,1">
-                    <GradientStop Color="#200000" Offset="0.0" />
+                <RadialGradientBrush Center="0.5,0.4" Radius="0.8">
+                    <GradientStop Color="#A01D1D" Offset="0.1" />
                     <GradientStop Color="#000000" Offset="1.0" />
-                </LinearGradientBrush>
+                </RadialGradientBrush>
             </BoxView.Background>
         </BoxView>
+
+        <Image Source="hex_pattern.png" 
+               Aspect="AspectFill" 
+               Opacity="0.05" 
+               HorizontalOptions="FillAndExpand" 
+               VerticalOptions="FillAndExpand"
+               InputTransparent="True"/>
 
         <BoxView x:Name="PulseRing1" Color="#FF0000" CornerRadius="150" 
                  HeightRequest="300" WidthRequest="300" 
@@ -25,39 +32,36 @@
                  HorizontalOptions="Center" VerticalOptions="Center" 
                  Opacity="0" InputTransparent="True"/>
 
-        <Grid RowDefinitions="*, Auto" Padding="20,40,20,20">
+        <Grid RowDefinitions="*, Auto" Padding="20">
 
-            <VerticalStackLayout Grid.Row="0" VerticalOptions="Center" Spacing="20">
+            <Border x:Name="SosIconBorder" 
+                    Grid.Row="0"
+                    WidthRequest="160" HeightRequest="160"
+                    StrokeShape="RoundRectangle 80"
+                    BackgroundColor="#AA0000"
+                    Stroke="#FF3333" StrokeThickness="3"
+                    HorizontalOptions="Center" VerticalOptions="Center">
 
-                <Border x:Name="SosIconBorder"
-                        Stroke="Transparent"
-                        HeightRequest="120" WidthRequest="120"
-                        StrokeShape="RoundRectangle 60"
-                        HorizontalOptions="Center"
-                        BackgroundColor="#D50000">
-                    <Border.Shadow>
-                        <Shadow Brush="#FF0000" Offset="0,0" Radius="40" Opacity="0.9"/>
-                    </Border.Shadow>
+                <Border.Shadow>
+                    <Shadow Brush="Red" Offset="0,0" Radius="100" Opacity="1" />
+                </Border.Shadow>
 
-                    <Label Text="SOS" TextColor="White" FontSize="36" FontAttributes="Bold"
-                           HorizontalOptions="Center" VerticalOptions="Center"/>
-                </Border>
-
-                <Label Text="ACİL YARDIM" 
-                       TextColor="#FF5252" FontSize="28" FontAttributes="Bold" 
-                       HorizontalTextAlignment="Center" CharacterSpacing="4"/>
-
-                <Label Text="Aşağıdaki kişi tehlikede!" 
-                       TextColor="#888" FontSize="16" HorizontalTextAlignment="Center"/>
-            </VerticalStackLayout>
+                <Image Source="sos_icon.png" 
+                       WidthRequest="80" HeightRequest="80" 
+                       HorizontalOptions="Center" VerticalOptions="Center"/>
+            </Border>
 
             <Border Grid.Row="1" 
-                    Stroke="#33FFFFFF" 
-                    StrokeThickness="1"
-                    BackgroundColor="#CC111111" 
-                    StrokeShape="RoundRectangle 25,25,25,25"
+                    BackgroundColor="#1A1A1A" 
+                    Stroke="#333" StrokeThickness="1"
+                    StrokeShape="RoundRectangle 20"
                     Padding="20">
+                <Border.Shadow>
+                    <Shadow Brush="Black" Offset="0,5" Radius="10" Opacity="0.5"/>
+                </Border.Shadow>
+
                 <VerticalStackLayout Spacing="15">
+
                     <VerticalStackLayout Spacing="5">
                         <Label x:Name="SenderNameLabel" 
                                Text="YÜKLENİYOR..." 
@@ -73,17 +77,25 @@
 
                     <Button Text="🗺️  HARİTADA GÖSTER" 
                             Clicked="OnMapClicked"
-                            BackgroundColor="#2962FF" TextColor="White" FontAttributes="Bold"
-                            HeightRequest="55" CornerRadius="12"/>
+                            BackgroundColor="#0A0A0A" 
+                            TextColor="White" 
+                            BorderColor="#E01111" BorderWidth="1.5"
+                            FontAttributes="Bold"
+                            HeightRequest="55" CornerRadius="12">
+                        <Button.Shadow>
+                            <Shadow Brush="Red" Offset="0,0" Radius="15" Opacity="0.3" />
+                        </Button.Shadow>
+                    </Button>
 
                     <Button Text="✅  KABUL ET / GİDİYORUM" 
                             Clicked="OnHelpClicked"
-                            BackgroundColor="#00C853" TextColor="White" FontAttributes="Bold"
+                            BackgroundColor="#00C853" 
+                            TextColor="White" FontAttributes="Bold"
                             HeightRequest="55" CornerRadius="12"/>
 
                     <Button Text="Kapat" 
                             Clicked="OnIgnoreClicked"
-                            BackgroundColor="Transparent" TextColor="#666" FontSize="12"/>
+                            BackgroundColor="Transparent" TextColor="#666" FontSize="14"/>
                 </VerticalStackLayout>
             </Border>
         </Grid>

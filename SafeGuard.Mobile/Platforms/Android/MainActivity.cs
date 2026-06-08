@@ -1,26 +1,50 @@
 ﻿using Android.App;
+using Android.Content;
 using Android.Content.PM;
 using Android.OS;
-using Plugin.Firebase.CloudMessaging;
+using SafeGuard.Mobile;
+using System.Globalization;
 
-namespace SafeGuard.Mobile;
-
-[Activity(Theme = "@style/Maui.SplashTheme", MainLauncher = true, LaunchMode = LaunchMode.SingleTop, ConfigurationChanges = ConfigChanges.ScreenSize | ConfigChanges.Orientation | ConfigChanges.UiMode | ConfigChanges.ScreenLayout | ConfigChanges.SmallestScreenSize | ConfigChanges.Density)]
-public class MainActivity : MauiAppCompatActivity
+namespace SafeGuard.Mobile.Platforms.Android
 {
-    protected override void OnCreate(Bundle savedInstanceState)
+    [Activity(Theme = "@style/Maui.SplashTheme", MainLauncher = true, ConfigurationChanges = ConfigChanges.ScreenSize | ConfigChanges.Orientation | ConfigChanges.UiMode | ConfigChanges.ScreenLayout | ConfigChanges.SmallestScreenSize | ConfigChanges.Density)]
+    public class MainActivity : MauiAppCompatActivity
     {
-        base.OnCreate(savedInstanceState);
+        protected override void OnCreate(Bundle savedInstanceState)
+        {
+            base.OnCreate(savedInstanceState);
+            CheckIntentForMap(Intent);
+        }
 
-        // Uygulama ilk açıldığında veya kapalıyken bildirime tıklandığında çalışır
-        FirebaseCloudMessagingImplementation.OnNewIntent(Intent);
-    }
+        protected override void OnNewIntent(Intent intent)
+        {
+            base.OnNewIntent(intent);
+            CheckIntentForMap(intent);
+        }
 
-    protected override void OnNewIntent(Android.Content.Intent intent)
-    {
-        base.OnNewIntent(intent);
+        private void CheckIntentForMap(Intent intent)
+        {
+            if (intent?.GetBooleanExtra("openMap", false) == true)
+            {
+                string targetUserId = intent.GetStringExtra("targetUserId") ?? "";
+                string targetUserName = intent.GetStringExtra("targetUserName") ?? "";
+                string latStr = intent.GetStringExtra("latitude") ?? "0";
+                string lngStr = intent.GetStringExtra("longitude") ?? "0";
 
-        // Uygulama açıkken (arka planda çalışırken) bildirim geldiğinde çalışır
-        FirebaseCloudMessagingImplementation.OnNewIntent(intent);
+                double lat = Convert.ToDouble(latStr.Replace(",", "."), CultureInfo.InvariantCulture);
+                double lng = Convert.ToDouble(lngStr.Replace(",", "."), CultureInfo.InvariantCulture);
+
+                Task.Run(async () =>
+                {
+                    await Task.Delay(1500); 
+                    MainThread.BeginInvokeOnMainThread(() =>
+                    {
+                        DashboardPage.OpenOrUpdateEmergencyMap(targetUserId, targetUserName, lat, lng);
+                    });
+                });
+
+                intent.RemoveExtra("openMap");
+            }
+        }
     }
 }

@@ -1,0 +1,138 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="SafeGuard.Mobile.MedicalIdPage"
+             BackgroundColor="#121212"
+             NavigationPage.HasNavigationBar="False">
+
+    <Grid RowDefinitions="Auto, *, Auto" Padding="20,40,20,20">
+
+        <VerticalStackLayout Grid.Row="0" Spacing="10" HorizontalOptions="Center" Margin="0,0,0,20">
+            <Label Text="⚕️" FontSize="50" HorizontalOptions="Center"/>
+            <Label Text="ACİL TIBBİ KİMLİK" TextColor="#FF3B30" FontSize="28" FontAttributes="Bold" HorizontalOptions="Center"/>
+            <Label Text="İlk müdahale edenler ve doktorlar içindir." TextColor="#B0B0B0" FontSize="14" HorizontalOptions="Center"/>
+        </VerticalStackLayout>
+
+        <ScrollView Grid.Row="1" VerticalScrollBarVisibility="Never">
+            <VerticalStackLayout Spacing="20">
+
+                <Border BackgroundColor="#1E1E1E" StrokeThickness="0" Padding="20">
+                    <Border.StrokeShape>
+                        <RoundRectangle CornerRadius="15"/>
+                    </Border.StrokeShape>
+                    <VerticalStackLayout Spacing="5">
+                        <Label Text="Ad Soyad" TextColor="Gray" FontSize="14"/>
+                        <Label x:Name="IdNameLabel" Text="İsim Bekleniyor..." TextColor="White" FontSize="22" FontAttributes="Bold"/>
+                    </VerticalStackLayout>
+                </Border>
+
+                <Grid ColumnDefinitions="*, *" ColumnSpacing="15">
+                    <Border Grid.Column="0" BackgroundColor="#2A1212" Stroke="#FF3B30" StrokeThickness="1" Padding="15">
+                        <Border.StrokeShape>
+                            <RoundRectangle CornerRadius="15"/>
+                        </Border.StrokeShape>
+                        <VerticalStackLayout Spacing="5" HorizontalOptions="Center">
+                            <Label Text="Kan Grubu" TextColor="#FF3B30" FontSize="14" FontAttributes="Bold" HorizontalOptions="Center"/>
+                            <Label x:Name="IdBloodLabel" Text="-" TextColor="White" FontSize="26" FontAttributes="Bold" HorizontalOptions="Center"/>
+                        </VerticalStackLayout>
+                    </Border>
+                    <Border Grid.Column="1" BackgroundColor="#1E1E1E" StrokeThickness="0" Padding="15">
+                        <Border.StrokeShape>
+                            <RoundRectangle CornerRadius="15"/>
+                        </Border.StrokeShape>
+                        <VerticalStackLayout Spacing="5" HorizontalOptions="Center">
+                            <Label Text="Doğum Tarihi" TextColor="Gray" FontSize="14" HorizontalOptions="Center"/>
+                            <Label x:Name="IdBirthLabel" Text="-" TextColor="White" FontSize="18" FontAttributes="Bold" HorizontalOptions="Center"/>
+                        </VerticalStackLayout>
+                    </Border>
+                </Grid>
+
+                <Grid ColumnDefinitions="*, *" ColumnSpacing="15">
+                    <Border Grid.Column="0" BackgroundColor="#1E1E1E" StrokeThickness="0" Padding="15">
+                        <Border.StrokeShape>
+                            <RoundRectangle CornerRadius="15"/>
+                        </Border.StrokeShape>
+                        <VerticalStackLayout Spacing="5" HorizontalOptions="Center">
+                            <Label Text="Boy" TextColor="Gray" FontSize="14" HorizontalOptions="Center"/>
+                            <Label x:Name="IdHeightLabel" Text="-" TextColor="White" FontSize="18" FontAttributes="Bold" HorizontalOptions="Center"/>
+                        </VerticalStackLayout>
+                    </Border>
+                    <Border Grid.Column="1" BackgroundColor="#1E1E1E" StrokeThickness="0" Padding="15">
+                        <Border.StrokeShape>
+                            <RoundRectangle CornerRadius="15"/>
+                        </Border.StrokeShape>
+                        <VerticalStackLayout Spacing="5" HorizontalOptions="Center">
+                            <Label Text="Kilo" TextColor="Gray" FontSize="14" HorizontalOptions="Center"/>
+                            <Label x:Name="IdWeightLabel" Text="-" TextColor="White" FontSize="18" FontAttributes="Bold" HorizontalOptions="Center"/>
+                        </VerticalStackLayout>
+                    </Border>
+                </Grid>
+
+                <Border BackgroundColor="#1E1E1E" StrokeThickness="0" Padding="20">
+                    <Border.StrokeShape>
+                        <RoundRectangle CornerRadius="15"/>
+                    </Border.StrokeShape>
+                    <VerticalStackLayout Spacing="10">
+                        <Label Text="🩺 KRONİK HASTALIKLAR" TextColor="#2196F3" FontSize="16" FontAttributes="Bold"/>
+                        <Label x:Name="IdMedicalLabel" Text="Sisteme Kayıtlı Değil" TextColor="White" FontSize="18"/>
+                    </VerticalStackLayout>
+                </Border>
+
+                <Border BackgroundColor="#1E1E1E" StrokeThickness="0" Padding="20">
+                    <Border.StrokeShape>
+                        <RoundRectangle CornerRadius="15"/>
+                    </Border.StrokeShape>
+                    <VerticalStackLayout Spacing="10">
+                        <Label Text="🤧 ALERJİLER" TextColor="#FF9800" FontSize="16" FontAttributes="Bold"/>
+                        <Label x:Name="IdAllergyLabel" Text="Sisteme Kayıtlı Değil" TextColor="White" FontSize="18"/>
+                    </VerticalStackLayout>
+                </Border>
+
+                <Border BackgroundColor="#1E1E1E" StrokeThickness="0" Padding="20">
+                    <Border.StrokeShape>
+                        <RoundRectangle CornerRadius="15"/>
+                    </Border.StrokeShape>
+                    <VerticalStackLayout Spacing="10">
+                        <Label Text="💊 DÜZENLİ KULLANILAN İLAÇLAR" TextColor="#E91E63" FontSize="16" FontAttributes="Bold"/>
+                        <Label x:Name="IdMedicationsLabel" Text="Sisteme Kayıtlı Değil" TextColor="White" FontSize="18"/>
+                    </VerticalStackLayout>
+                </Border>
+
+                <Border BackgroundColor="#1E1E1E" StrokeThickness="0" Padding="20">
+                    <Border.StrokeShape>
+                        <RoundRectangle CornerRadius="15"/>
+                    </Border.StrokeShape>
+                    <VerticalStackLayout Spacing="10">
+                        <Label Text="✂️ GEÇİRİLEN AMELİYATLAR" TextColor="#9C27B0" FontSize="16" FontAttributes="Bold"/>
+                        <Label x:Name="IdSurgeriesLabel" Text="Sisteme Kayıtlı Değil" TextColor="White" FontSize="18"/>
+                    </VerticalStackLayout>
+                </Border>
+
+                <Border BackgroundColor="#1E1E1E" StrokeThickness="0" Padding="20">
+                    <Border.StrokeShape>
+                        <RoundRectangle CornerRadius="15"/>
+                    </Border.StrokeShape>
+                    <VerticalStackLayout Spacing="10">
+                        <Label Text="⚠️ ALIŞKANLIKLAR" TextColor="#FFC107" FontSize="16" FontAttributes="Bold"/>
+                        <Grid ColumnDefinitions="*, *" ColumnSpacing="10">
+                            <VerticalStackLayout Grid.Column="0" Spacing="5">
+                                <Label Text="Sigara" TextColor="Gray" FontSize="14"/>
+                                <Label x:Name="IdSmokeLabel" Text="-" TextColor="White" FontSize="18" FontAttributes="Bold"/>
+                            </VerticalStackLayout>
+                            <VerticalStackLayout Grid.Column="1" Spacing="5">
+                                <Label Text="Alkol" TextColor="Gray" FontSize="14"/>
+                                <Label x:Name="IdAlcoholLabel" Text="-" TextColor="White" FontSize="18" FontAttributes="Bold"/>
+                            </VerticalStackLayout>
+                        </Grid>
+                        <Label Text="Organ Bağışı Durumu:" TextColor="Gray" FontSize="14" Margin="0,10,0,0"/>
+                        <Label x:Name="IdHabitsLabel" Text="Belirtilmemiş" TextColor="White" FontSize="16"/>
+                    </VerticalStackLayout>
+                </Border>
+
+            </VerticalStackLayout>
+        </ScrollView>
+
+        <Button Grid.Row="2" Text="KAPAT" Clicked="OnCloseClicked" BackgroundColor="#333333" TextColor="White" FontAttributes="Bold" CornerRadius="12" HeightRequest="55" Margin="0,20,0,0"/>
+
+    </Grid>
+</ContentPage>

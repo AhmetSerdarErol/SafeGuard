@@ -42,7 +42,7 @@ public partial class ProfilePage : ContentPage
         string photoUrl = Preferences.Get("UserPhotoUrl", "");
         if (!string.IsNullOrEmpty(photoUrl))
         {
-            ProfileImage.Source = $"http://10.241.192.15:5161/{photoUrl}";
+            ProfileImage.Source = $"https://wql5wj50-5161.euw.devtunnels.ms/{photoUrl}";
             InitialsLabel.IsVisible = false;
         }
         else
@@ -56,7 +56,6 @@ public partial class ProfilePage : ContentPage
 
     private void OnOrganStatusChanged(object sender, EventArgs e)
     {
-        // Eğer "Yok" seçilmediyse (yani Nakil aldıysa veya bağışladıysa) detay kutusunu göster
         if (OrganStatusPicker.SelectedIndex == 1 || OrganStatusPicker.SelectedIndex == 2)
         {
             OrganDetailsEntry.IsVisible = true;
@@ -64,15 +63,13 @@ public partial class ProfilePage : ContentPage
         else
         {
             OrganDetailsEntry.IsVisible = false;
-            OrganDetailsEntry.Text = ""; // Kapatılırsa içini temizle
+            OrganDetailsEntry.Text = ""; 
         }
     }
 
     private void OnEditClicked(object sender, EventArgs e)
     {
         isEditMode = !isEditMode;
-
-        // 1. Kutuların Kilidini Aç / Kapat
         NameEntry.IsReadOnly = !isEditMode;
         PhoneEntry.IsReadOnly = !isEditMode;
         HeightEntry.IsReadOnly = !isEditMode;
@@ -82,12 +79,11 @@ public partial class ProfilePage : ContentPage
         MedicationsEntry.IsReadOnly = !isEditMode;
         OrganStatusPicker.IsEnabled = isEditMode;
         OrganDetailsEntry.IsReadOnly = !isEditMode;
-        // 2. Seçicilerin Kilidini Aç / Kapat
         BloodPicker.IsEnabled = isEditMode;
         AlcoholPicker.IsEnabled = isEditMode;
         SmokingPicker.IsEnabled = isEditMode;
 
-        // 3. Görünümü Değiştir
+        
         if (isEditMode)
         {
             EditButton.Text = "İptal Et ✖";
@@ -103,14 +99,12 @@ public partial class ProfilePage : ContentPage
             SaveContainer.IsVisible = false;
             LogoutButton.IsVisible = true;
             PhotoChangeHint.IsVisible = false;
-            LoadUserData(); // Kullanıcı iptale basarsa değişiklikleri sil, orijinali geri getir
+            LoadUserData(); 
         }
     }
 
-    // KAYDET BUTONUNA BASILINCA (Gerçek Backend Bağlantısı)
     private async void OnSaveClicked(object sender, EventArgs e)
     {
-        // AuthService içindeki metodu çağırıyoruz
         bool success = await _authService.UpdateFullProfileInfoAsync(
             currentUserId,
             NameEntry.Text,
@@ -121,15 +115,14 @@ public partial class ProfilePage : ContentPage
             ConditionsEntry.Text,
             AllergiesEntry.Text,
             MedicationsEntry.Text,
-            OrganStatusPicker.SelectedItem?.ToString(), // YENİ
-            OrganDetailsEntry.Text,                     // YENİ
+            OrganStatusPicker.SelectedItem?.ToString(), 
+            OrganDetailsEntry.Text,                     
             AlcoholPicker.SelectedItem?.ToString(),
             SmokingPicker.SelectedItem?.ToString()
         );
 
         if (success)
         {
-            // Veritabanı güncellendi, şimdi telefon hafızasını güncelleyelim
             Preferences.Set("UserFullName", NameEntry.Text);
             Preferences.Set("UserPhone", PhoneEntry.Text);
             Preferences.Set("UserHeight", HeightEntry.Text);
@@ -145,7 +138,6 @@ public partial class ProfilePage : ContentPage
 
             await DisplayAlert("Başarılı", "Tıbbi kimlik ve profil bilgileriniz güvenle kaydedildi.", "Tamam");
 
-            // Kaydettikten sonra kilitli (görüntüleme) moduna geri dön
             isEditMode = true;
             OnEditClicked(null, null);
         }
@@ -154,11 +146,9 @@ public partial class ProfilePage : ContentPage
             await DisplayAlert("Hata", "Bilgiler sunucuya kaydedilirken bir sorun oluştu.", "Tamam");
         }
     }
-
-    // FOTOĞRAF DEĞİŞTİRME (Sadece düzenleme modunda çalışır)
     private async void OnChangePhotoClicked(object sender, EventArgs e)
     {
-        if (!isEditMode) return; // Kilitliyse işlem yapma
+        if (!isEditMode) return; 
 
         bool anladim = await DisplayAlert(
             "⚠️ GÜVENLİK UYARISI",
@@ -173,12 +163,10 @@ public partial class ProfilePage : ContentPage
                 var result = await MediaPicker.PickPhotoAsync();
                 if (result != null)
                 {
-                    // Seçilen resmi anında ekranda göster
                     var stream = await result.OpenReadAsync();
                     ProfileImage.Source = ImageSource.FromStream(() => stream);
                     InitialsLabel.IsVisible = false;
 
-                    // Arka planda sunucuya fırlat
                     string status = await _authService.UploadProfilePhotoAsync(currentUserId, result);
 
                     if (status == "OK")
@@ -188,7 +176,7 @@ public partial class ProfilePage : ContentPage
                     else
                     {
                         await DisplayAlert("Hata", "Sunucuya yüklenemedi.", "Tamam");
-                        LoadUserData(); // Hata verirse eski fotoğrafa geri dön
+                        LoadUserData(); 
                     }
                 }
             }
@@ -199,14 +187,27 @@ public partial class ProfilePage : ContentPage
         }
     }
 
-    // ÇIKIŞ YAP (Oturumu kapatır, her şeyi temizler)
     private async void OnLogoutClicked(object sender, EventArgs e)
     {
         bool answer = await DisplayAlert("Çıkış Yap", "Sistemden çıkış yapmak istediğinize emin misiniz?", "Evet", "Hayır");
         if (answer)
         {
-            Preferences.Clear(); // Telefon hafızasını tamamen siler
-            Application.Current.MainPage = new NavigationPage(new MainPage()); // Veya LoginPage
+            Preferences.Clear(); 
+            Application.Current.MainPage = new NavigationPage(new MainPage()); 
+        }
+    }
+    private async void OnBackClicked(object sender, EventArgs e)
+    {
+        try
+        {
+            if (Navigation.ModalStack.Count > 0)
+                await Navigation.PopModalAsync();
+            else
+                await Navigation.PopAsync();
+        }
+        catch (Exception ex)
+        {
+            System.Diagnostics.Debug.WriteLine($"Geri dönme hatası: {ex.Message}");
         }
     }
 }

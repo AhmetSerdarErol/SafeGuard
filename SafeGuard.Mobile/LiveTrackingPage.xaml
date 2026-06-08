@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:maps="clr-namespace:Microsoft.Maui.Controls.Maps;assembly=Microsoft.Maui.Controls.Maps"
+             xmlns:sensors="clr-namespace:Microsoft.Maui.Devices.Sensors;assembly=Microsoft.Maui.Essentials"
+             x:Class="SafeGuard.Mobile.Views.LiveTrackingPage"
+             Title="Canlı Takip"
+             BackgroundColor="#121212">
+
+    <Grid RowDefinitions="*, Auto">
+
+        <maps:Map x:Name="TrackingMap" Grid.Row="0" MapType="Street" IsShowingUser="False" />
+
+        <Button Grid.Row="0" Text="X" VerticalOptions="Start" HorizontalOptions="End" Margin="0,40,20,0" 
+                WidthRequest="40" HeightRequest="40" CornerRadius="20" BackgroundColor="#80000000" 
+                TextColor="White" FontAttributes="Bold" Clicked="OnCloseClicked" />
+
+        <Border Grid.Row="1" BackgroundColor="#1E1E1E" StrokeThickness="0" Margin="0,-20,0,0">
+            <Border.StrokeShape>
+                <RoundRectangle CornerRadius="30,30,0,0" />
+            </Border.StrokeShape>
+
+            <Grid Padding="20" RowDefinitions="Auto, Auto, Auto, Auto" RowSpacing="15">
+
+                <Label Grid.Row="0" Text="ACİL DURUM MÜDAHALESİ" TextColor="#FF3B30" 
+                       FontAttributes="Bold" FontSize="16" HorizontalOptions="Center" />
+
+                <Grid Grid.Row="1" ColumnDefinitions="*,*,*" ColumnSpacing="10">
+                    <Button x:Name="BtnCall112" Grid.Column="0" Text="📞 112 Ara" 
+                            BackgroundColor="#FF3B30" TextColor="White" FontAttributes="Bold" 
+                            CornerRadius="10" Padding="0" HeightRequest="50" Clicked="OnCall112Clicked"/>
+
+                    <Button x:Name="BtnGoScene" Grid.Column="1" Text="🏃 Yola Çık" 
+                            BackgroundColor="#FF9500" TextColor="White" FontAttributes="Bold" 
+                            CornerRadius="10" Padding="0" HeightRequest="50" Clicked="OnGoToSceneClicked"/>
+
+                    <Button x:Name="BtnResolved" Grid.Column="2" Text="✅ Çözüldü" 
+                            BackgroundColor="#34C759" TextColor="White" FontAttributes="Bold" 
+                            CornerRadius="10" Padding="0" HeightRequest="50" Clicked="OnResolvedClicked"/>
+                </Grid>
+
+                <Frame Grid.Row="2" BackgroundColor="#2C2C2C" CornerRadius="10" Padding="10" HasShadow="False" HeightRequest="90">
+                    <ScrollView x:Name="LogScrollView">
+                        <StackLayout x:Name="ActionLogsStack" Spacing="8">
+                            <Label Text="📍 Sistem: Bağlantı kuruldu, aksiyon logları bekleniyor..." TextColor="#A0A0A0" FontSize="13" />
+                        </StackLayout>
+                    </ScrollView>
+                </Frame>
+
+                <Button Grid.Row="3" Text="Takibi Sonlandır" BackgroundColor="#333333" 
+                        TextColor="White" FontAttributes="Bold" CornerRadius="12" 
+                        HeightRequest="50" Clicked="OnCloseClicked" />
+            </Grid>
+        </Border>
+    </Grid>
+</ContentPage>

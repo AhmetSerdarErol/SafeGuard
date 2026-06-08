@@ -13,11 +13,10 @@ namespace SafeGuard.Mobile.Platforms.Android
         public override void OnNewToken(string token)
         {
             base.OnNewToken(token);
-
             Preferences.Set("FcmToken", token);
-
             System.Diagnostics.Debug.WriteLine($"🚨 YENİ TOKEN ALINDI VE ÇEKMECEYE KONDU: {token}");
         }
+
         public override void OnMessageReceived(RemoteMessage message)
         {
             base.OnMessageReceived(message);
@@ -33,23 +32,28 @@ namespace SafeGuard.Mobile.Platforms.Android
                 wakeLock.Acquire(5000);
             }
 
-            string channelId = "siren_kanali_v7";
             var notificationManager = (NotificationManager)GetSystemService(NotificationService);
 
-            var soundUri = global::Android.Net.Uri.Parse($"android.resource://{PackageName}/{Resource.Raw.siren}");
+
+            var soundUri = global::Android.Net.Uri.Parse($"android.resource://{PackageName}/raw/siren");
+            string channelId = "sos_acil_kanal_v3";
+
 
             if (global::Android.OS.Build.VERSION.SdkInt >= global::Android.OS.BuildVersionCodes.O)
             {
-                var channel = new NotificationChannel(channelId, "Acil Durum Alarmı", NotificationImportance.High);
-                channel.LockscreenVisibility = NotificationVisibility.Public;
-                channel.EnableVibration(true);
+                var channel = new NotificationChannel(channelId, "VIP Acil Durum SOS", NotificationImportance.High)
+                {
+                    Description = "Acil durum ve SOS bildirimleri için kullanılır.",
+                    LockscreenVisibility = NotificationVisibility.Public
+                };
 
                 var audioAttributes = new global::Android.Media.AudioAttributes.Builder()
                     .SetContentType(global::Android.Media.AudioContentType.Sonification)
                     .SetUsage(global::Android.Media.AudioUsageKind.Alarm)
                     .Build();
-                channel.SetSound(soundUri, audioAttributes);
 
+                channel.SetSound(soundUri, audioAttributes);
+                channel.SetBypassDnd(true);
                 notificationManager.CreateNotificationChannel(channel);
             }
 
@@ -59,7 +63,12 @@ namespace SafeGuard.Mobile.Platforms.Android
 
             string gonderenId = message.Data.ContainsKey("senderId") ? message.Data["senderId"] : "";
             intent.PutExtra("YardimIsteyenId", gonderenId);
+            string latStr = message.Data.ContainsKey("latitude") ? message.Data["latitude"] : "0";
+            string lngStr = message.Data.ContainsKey("longitude") ? message.Data["longitude"] : "0";
+            intent.PutExtra("latitude", latStr);
+            intent.PutExtra("longitude", lngStr);
             intent.AddFlags(ActivityFlags.NewTask | ActivityFlags.ClearTask | ActivityFlags.ClearTop);
+
             var pendingIntentFlags = (global::Android.OS.Build.VERSION.SdkInt >= global::Android.OS.BuildVersionCodes.S)
                 ? PendingIntentFlags.Immutable | PendingIntentFlags.UpdateCurrent
                 : PendingIntentFlags.UpdateCurrent;
@@ -67,11 +76,11 @@ namespace SafeGuard.Mobile.Platforms.Android
             var pendingIntent = PendingIntent.GetActivity(this, 0, intent, pendingIntentFlags);
 
             var notificationBuilder = new NotificationCompat.Builder(this, channelId)
-                .SetSmallIcon(Resource.Drawable.navigation_empty_icon)
+                .SetSmallIcon(global::Android.Resource.Drawable.IcDialogAlert)
                 .SetContentTitle("🚨 ACİL DURUM ÇAĞRISI!")
                 .SetContentText($"{gonderenKisi} acil yardım bekliyor!")
                 .SetPriority(NotificationCompat.PriorityHigh)
-                .SetCategory(NotificationCompat.CategoryCall)
+                .SetCategory(NotificationCompat.CategoryAlarm)
                 .SetSound(soundUri)
                 .SetFullScreenIntent(pendingIntent, true)
                 .SetAutoCancel(true);

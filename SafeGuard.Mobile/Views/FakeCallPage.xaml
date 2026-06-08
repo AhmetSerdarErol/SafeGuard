@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="SafeGuard.Mobile.Views.FakeCallPage"
+             BackgroundColor="#121212"
+             NavigationPage.HasNavigationBar="False">
+
+    <Grid RowDefinitions="*, Auto, 200">
+        <StackLayout Grid.Row="0" HorizontalOptions="Center" VerticalOptions="Center" Spacing="5" Margin="0, 50, 0, 0">
+            <Label x:Name="CallerNameLabel" Text="Babam" FontSize="42" TextColor="White" HorizontalOptions="Center" FontAttributes="Bold"/>
+            <Label x:Name="CallerNumberLabel" Text="+90 532 841 92 47" FontSize="18" TextColor="#A0A0A0" HorizontalOptions="Center"/>
+            <Label x:Name="TimerLabel" Text="00:00" FontSize="18" TextColor="#A0A0A0" HorizontalOptions="Center" IsVisible="False"/>
+        </StackLayout>
+
+        <Grid Grid.Row="2" ColumnDefinitions="*, *" Margin="20,0,20,50">
+
+            <VerticalStackLayout Grid.Column="0" Spacing="10" HorizontalOptions="Center" VerticalOptions="Center">
+                <ImageButton Source="decline_icon.png" BackgroundColor="Transparent" Padding="0" WidthRequest="80" HeightRequest="80" Clicked="OnDeclineClicked"/>
+                <Label Text="Reddet" FontSize="16" TextColor="White" HorizontalOptions="Center"/>
+            </VerticalStackLayout>
+
+            <VerticalStackLayout x:Name="AcceptContainer" Grid.Column="1" Spacing="10" HorizontalOptions="Center" VerticalOptions="Center">
+                <ImageButton x:Name="AcceptBtn" Source="accept_icon.png" BackgroundColor="Transparent" Padding="0" WidthRequest="80" HeightRequest="80" Clicked="OnAcceptClicked"/>
+                <Label Text="Kabul Et" FontSize="16" TextColor="White" HorizontalOptions="Center"/>
+            </VerticalStackLayout>
+        </Grid>
+    </Grid>
+</ContentPage>
